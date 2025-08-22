@@ -1,7 +1,8 @@
 export function DashboardPage() {
   return (
     <div>
-      <p>Dashboard</p>
+      <h1>Dashboard</h1>
+      <p className="text-primary">Description</p>
     </div>
   )
 }
