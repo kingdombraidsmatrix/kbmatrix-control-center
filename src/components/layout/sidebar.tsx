@@ -1,5 +1,5 @@
-import { Link, useLocation } from '@tanstack/react-router'
-import { useCallback } from 'react'
+import { Link, useLocation } from '@tanstack/react-router';
+import { useCallback } from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -10,26 +10,28 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar.tsx'
-import { NavList } from '@/components/layout/navlist.constant.ts'
-import { SidebarUser } from '@/components/layout/sidebar-user.tsx'
-import { cn } from '@/lib/utils.ts'
+} from '@/components/ui/sidebar.tsx';
+import { NavList } from '@/components/layout/navlist.constant.ts';
+import { SidebarUser } from '@/components/layout/sidebar-user.tsx';
+import { cn } from '@/lib/utils.ts';
 
 export function AppSidebar() {
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const isActive = useCallback(
     (path: string) => {
-      if (path === pathname) return true
-      return path !== '/' && pathname.startsWith(path)
+      if (path === pathname) return true;
+      return path !== '/' && pathname.startsWith(path);
     },
     [pathname],
-  )
+  );
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <h3 className="font-black text-primary py-4">KBMatrix</h3>
+        <div className="p-4 pb-0">
+          <img src="/images/kbmatrix-logo.svg" alt="kbmatrix-logo" className="size-10" />
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -60,5 +62,5 @@ export function AppSidebar() {
         <SidebarUser />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
