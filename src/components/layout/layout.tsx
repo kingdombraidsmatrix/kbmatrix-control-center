@@ -6,8 +6,10 @@ export function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <Outlet />
+      <main className="flex-1">
+        <div className="w-full max-w-8xl mx-auto p-6">
+          <Outlet />
+        </div>
       </main>
     </SidebarProvider>
   )

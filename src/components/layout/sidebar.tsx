@@ -1,38 +1,64 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
+import { useCallback } from 'react'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar.tsx'
+import { NavList } from '@/components/layout/navlist.constant.ts'
+import { SidebarUser } from '@/components/layout/sidebar-user.tsx'
+import { cn } from '@/lib/utils.ts'
 
 export function AppSidebar() {
+  const { pathname } = useLocation()
+
+  const isActive = useCallback(
+    (path: string) => {
+      if (path === pathname) return true
+      return path !== '/' && pathname.startsWith(path)
+    },
+    [pathname],
+  )
+
   return (
     <Sidebar>
       <SidebarHeader>
-        <h1>KBMatrix</h1>
+        <h3 className="font-black text-primary py-4">KBMatrix</h3>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/">Dashboard</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {NavList.map((item) => (
+                <SidebarMenuItem key={item.key}>
+                  <SidebarMenuButton
+                    className={cn(
+                      isActive(item.path ?? '/') &&
+                        'bg-primary/10 hover:bg-primary/20 text-primary! font-semibold',
+                      'h-10',
+                    )}
+                    asChild
+                  >
+                    <Link to={item.path}>
+                      <item.icon />
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter></SidebarFooter>
+      <SidebarFooter>
+        <SidebarUser />
+      </SidebarFooter>
     </Sidebar>
   )
 }

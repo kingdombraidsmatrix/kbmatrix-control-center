@@ -29,7 +29,7 @@ code {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 
 
-    --background: oklch(1 0 0);
+    --background: oklch(0.985 0 0);
     --foreground: oklch(0.141 0.005 285.823);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.141 0.005 285.823);
@@ -54,7 +54,7 @@ code {
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
+    --sidebar: oklch(1 0 0);
     --sidebar-foreground: oklch(0.141 0.005 285.823);
     --sidebar-primary: oklch(0.21 0.006 285.885);
     --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -66,6 +66,7 @@ code {
 
 .dark {
     --background: oklch(0.141 0.005 285.823);
+    --body-background: oklch(0 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.141 0.005 285.823);
     --card-foreground: oklch(0.985 0 0);
@@ -136,6 +137,8 @@ code {
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --container-8xl: 100rem;
 }
 
 @layer base {

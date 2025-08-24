@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "April Hairs",
+    "tag": "april",
+    "description": "Something nice",
+    "contact": null,
+    "cover": null,
+    "logo": null,
+    "deliveryTypes": [
+      "SALON"
+    ],
+    "averageRating": {
+      "rating": 2.43,
+      "r1": 43,
+      "r2": 43553,
+      "r3": 234,
+      "r4": 324,
+      "r5": 18298
+    },
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "fullName": "John Doe",
+    "email": "johndoe@mail.com",
+    "login": "string",
+    "image": "string",
+    "enabled": true,
+    "status": "ACTIVE",
+    "signupType": "PASSWORD",
+    "authorities": [
+      "ROLE_USER"
+    ],
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  },
+  {
+    "id": 2,
+    "fullName": "John Doe",
+    "email": "johndoe@mail.com",
+    "login": "string",
+    "image": "string",
+    "enabled": true,
+    "status": "SUSPENDED",
+    "signupType": "PASSWORD",
+    "authorities": [
+      "ROLE_USER"
+    ],
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  },
+  {
+    "id": 3,
+    "fullName": "John Doe",
+    "email": "johndoe@mail.com",
+    "login": "string",
+    "image": "string",
+    "enabled": true,
+    "status": "IN_REVIEW",
+    "signupType": "PASSWORD",
+    "authorities": [
+      "ROLE_USER"
+    ],
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  },
+  {
+    "id": 3,
+    "fullName": "John Doe",
+    "email": "johndoe@mail.com",
+    "login": "string",
+    "image": "string",
+    "enabled": true,
+    "status": "SCHEDULED_FOR_DELETION",
+    "signupType": "PASSWORD",
+    "authorities": [
+      "ROLE_USER"
+    ],
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  },
+  {
+    "id": 3,
+    "fullName": "John Doe",
+    "email": "johndoe@mail.com",
+    "login": "string",
+    "image": "string",
+    "enabled": false,
+    "status": "DELETED",
+    "signupType": "PASSWORD",
+    "authorities": [
+      "ROLE_USER"
+    ],
+    "createdAt": "2025-08-23T12:11:58.987Z"
+  }
+]

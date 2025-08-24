@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as ExternalLoginRouteImport } from './routes/_external/login'
+import { Route as AuthStylistsRouteImport } from './routes/_auth/stylists'
+import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -27,27 +29,49 @@ const ExternalLoginRoute = ExternalLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthStylistsRoute = AuthStylistsRouteImport.update({
+  id: '/stylists',
+  path: '/stylists',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCustomersRoute = AuthCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/customers': typeof AuthCustomersRoute
+  '/stylists': typeof AuthStylistsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
 }
 export interface FileRoutesByTo {
+  '/customers': typeof AuthCustomersRoute
+  '/stylists': typeof AuthStylistsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
+  '/_auth/customers': typeof AuthCustomersRoute
+  '/_auth/stylists': typeof AuthStylistsRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/'
+  fullPaths: '/customers' | '/stylists' | '/login' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/_auth' | '/_external/login' | '/_auth/'
+  to: '/customers' | '/stylists' | '/login' | '/'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/_auth/customers'
+    | '/_auth/stylists'
+    | '/_external/login'
+    | '/_auth/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,14 +102,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExternalLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/stylists': {
+      id: '/_auth/stylists'
+      path: '/stylists'
+      fullPath: '/stylists'
+      preLoaderRoute: typeof AuthStylistsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/customers': {
+      id: '/_auth/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof AuthCustomersRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
+  AuthCustomersRoute: typeof AuthCustomersRoute
+  AuthStylistsRoute: typeof AuthStylistsRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthCustomersRoute: AuthCustomersRoute,
+  AuthStylistsRoute: AuthStylistsRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 
