@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import type { AxiosError, AxiosResponse } from 'axios';
 import { useApiInstance } from '@/services/http/api.ts';
 
-interface UseGetHttpServiceOptions {
+interface UseGetHttpServiceOptions<TParams, TResponse>
+  extends Omit<UseQueryOptions<TResponse, AxiosError>, 'queryFn'> {
   url: string;
-  method: 'GET';
-  queryKey: Array<string>;
-  params?: any;
+  params?: TParams;
 }
 
 interface UseOtherHttpServiceOptions {
@@ -14,20 +14,31 @@ interface UseOtherHttpServiceOptions {
   method: 'POST' | 'PUT' | 'DELETE';
 }
 
-type UseHttpServiceOptions = UseGetHttpServiceOptions | UseOtherHttpServiceOptions;
-
-export function useHttpService<TRequestData, TResponse>(options: UseHttpServiceOptions) {
+export function useHttpQueryService<TResponse = unknown, TParams = {}>({
+  url,
+  params,
+  ...options
+}: UseGetHttpServiceOptions<TParams, TResponse>) {
   const apiInstance = useApiInstance();
 
-  if (options.method === 'GET') {
-    return useQuery({
-      queryKey: options.queryKey,
-      queryFn: () =>
-        apiInstance.get<unknown, AxiosResponse<TResponse>, AxiosError>(options.url, {
-          params: options.params ?? {},
-        }),
-    });
-  }
+  return useQuery({
+    queryFn: () =>
+      apiInstance
+        .get<TParams, AxiosResponse<TResponse>, AxiosError>(url, {
+          params: params ?? {},
+        })
+        .then((res) => res.data),
+    refetchOnWindowFocus: false,
+    retry: 3,
+    staleTime: 60_000,
+    ...options,
+  });
+}
+
+export function useHttpMutationService<TRequestData, TResponse>(
+  options: UseOtherHttpServiceOptions,
+) {
+  const apiInstance = useApiInstance();
 
   return useMutation({
     mutationFn: (data?: TRequestData): Promise<AxiosResponse<TResponse, AxiosError>> =>

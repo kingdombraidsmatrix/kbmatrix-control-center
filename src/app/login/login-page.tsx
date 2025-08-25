@@ -5,16 +5,16 @@ import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import type { LoginRequest } from '@/types/auth.types.ts';
+import type { AxiosError } from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { Form } from '@/components/ui/form.tsx';
 import { TextInput } from '@/components/text-input';
 import { Button } from '@/components/ui/button.tsx';
-import { useAuthService } from '@/services/auth/use-auth-service.ts';
+import { useAuthService } from '@/services/auth';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 import { handleHttpError } from '@/lib/utils.ts';
 import { UserSignupType } from '@/types';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import type { AxiosError } from 'axios';
 
 export function LoginPage() {
   const { setToken } = useAuthStore();

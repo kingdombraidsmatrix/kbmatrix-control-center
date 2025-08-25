@@ -1,8 +1,8 @@
 import type { LoginRequest, LoginResponse } from '@/types/auth.types.ts';
-import { useHttpService } from '@/services/http/use-http-service.ts';
+import { useHttpMutationService } from '@/services/http';
 
 export function useAuthService() {
-  return useHttpService<LoginRequest, LoginResponse>({
+  return useHttpMutationService<LoginRequest, LoginResponse>({
     url: '/api/v1/auth/login',
     method: 'POST',
   });

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu.tsx';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
-import { useGetUserDetails } from '@/services/auth/use-get-user-details.ts';
+import { useGetUserDetails } from '@/services/auth';
 
 export function SidebarUser() {
   const { clearToken, user, setUser } = useAuthStore();
@@ -19,7 +19,7 @@ export function SidebarUser() {
 
   useEffect(() => {
     if (data) {
-      setUser(data.data);
+      setUser(data);
     }
   }, [data, setUser]);
 

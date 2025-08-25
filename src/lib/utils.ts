@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import type { ClassValue } from 'clsx';
 import type { UseFormReturn } from 'react-hook-form';
+import type { SortingState } from '@tanstack/react-table';
 
 export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs));
@@ -35,4 +36,8 @@ export function handleHttpError(error: any, form?: UseFormReturn<any>) {
   }
 
   toast.error('Something went wrong');
+}
+
+export function transformSorting(sorting: SortingState) {
+  return sorting.map((item) => `${item.id},${item.desc ? 'DESC' : 'ASC'}`).join(',');
 }

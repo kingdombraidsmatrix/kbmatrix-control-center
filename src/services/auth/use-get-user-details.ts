@@ -1,10 +1,9 @@
 import type { User } from '@/types';
-import { useHttpService } from '@/services/http/use-http-service.ts';
+import { useHttpQueryService } from '@/services/http';
 
 export function useGetUserDetails() {
-  return useHttpService<unknown, User>({
+  return useHttpQueryService<User>({
     url: '/api/v1/user/user-details',
-    method: 'GET',
     queryKey: ['userDetails'],
   });
 }
