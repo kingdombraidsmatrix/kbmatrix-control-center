@@ -1,15 +1,15 @@
-import { cva } from 'class-variance-authority'
-import type { LucideIcon } from 'lucide-react'
-import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority';
+import type { LucideIcon } from 'lucide-react';
+import type { VariantProps } from 'class-variance-authority';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card.tsx'
-import { cn, formatNumber } from '@/lib/utils.ts'
-import { Skeleton } from '@/components/ui/skeleton.tsx'
+} from '@/components/ui/card.tsx';
+import { cn, formatNumber } from '@/lib/utils.ts';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 const statCardVariants = cva('', {
   variants: {
@@ -24,31 +24,22 @@ const statCardVariants = cva('', {
   defaultVariants: {
     color: 'primary',
   },
-})
+});
 
 interface StatCardProps extends VariantProps<typeof statCardVariants> {
-  title: string
-  icon?: LucideIcon
-  subtitle?: string
-  value?: number
-  isLoading?: boolean
+  title: string;
+  icon?: LucideIcon;
+  subtitle?: string;
+  value?: number;
+  isLoading?: boolean;
 }
-export function StatCard({
-  color,
-  title,
-  subtitle,
-  value,
-  isLoading,
-  icon: Icon,
-}: StatCardProps) {
+export function StatCard({ color, title, subtitle, value, isLoading, icon: Icon }: StatCardProps) {
   return (
     <Card className="gap-0 flex-row px-6 shadow-none">
       <div className="flex-1">
         <CardHeader className="p-0 gap-0">
           <CardTitle className="text-sm">{title}</CardTitle>
-          {!!subtitle && (
-            <CardDescription className="text-xs">{subtitle}</CardDescription>
-          )}
+          {!!subtitle && <CardDescription className="text-xs">{subtitle}</CardDescription>}
         </CardHeader>
         <CardContent className="p-0 pt-2">
           <div>
@@ -56,7 +47,7 @@ export function StatCard({
               <Skeleton className="w-full max-w-20 h-8" />
             ) : (
               <h1 className="leading-none font-semibold">
-                {value ? formatNumber(value) : '...'}
+                {typeof value === 'number' ? formatNumber(value) : '...'}
               </h1>
             )}
           </div>
@@ -73,5 +64,5 @@ export function StatCard({
         </div>
       )}
     </Card>
-  )
+  );
 }

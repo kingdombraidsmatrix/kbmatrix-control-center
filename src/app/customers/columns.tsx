@@ -2,6 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type {User} from '@/types';
 import { formatDate } from '@/lib/utils.ts';
 import { Badge, BadgeContext } from '@/components/badge';
+import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 
 export const CustomersColumns: Array<ColumnDef<User>> = [
   {
@@ -28,7 +29,7 @@ export const CustomersColumns: Array<ColumnDef<User>> = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
     enableSorting: true,
     cell: ({ getValue }) => formatDate(getValue() as string),
   },

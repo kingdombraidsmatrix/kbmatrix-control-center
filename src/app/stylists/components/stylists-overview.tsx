@@ -1,7 +1,10 @@
 import { Briefcase, BriefcaseBusiness, CircleX } from 'lucide-react';
 import { StatCard } from '@/components/stat-card';
+import { useGetStylistsOverview } from '@/services/stylists/use-get-stylists-overview.ts';
 
 export function StylistsOverview() {
+  const { data, isLoading } = useGetStylistsOverview();
+
   return (
     <div className="grid grid-cols-4 gap-4">
       <StatCard
@@ -9,20 +12,23 @@ export function StylistsOverview() {
         subtitle="This Month"
         color="emerald"
         icon={BriefcaseBusiness}
-        value={46283}
+        value={data?.newStylists}
+        isLoading={isLoading}
       />
       <StatCard
         title="Active Stylists"
         subtitle="Users actively making bookings"
         icon={Briefcase}
-        value={82342}
+        value={data?.activeStylists}
+        isLoading={isLoading}
       />
       <StatCard
         title="Inactive Stylists"
         subtitle="Disabled/Suspended/Deleted Users"
         color="rose"
         icon={CircleX}
-        value={2637}
+        value={data?.inactiveStylists}
+        isLoading={isLoading}
       />
     </div>
   );

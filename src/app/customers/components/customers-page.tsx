@@ -1,6 +1,6 @@
-import { PageHeader } from '@/components/page-header'
-import { CustomersOverview } from '@/app/customers/components/customers-overview.tsx'
-import { CustomersTable } from '@/app/customers/components/customers-table.tsx'
+import { PageHeader } from '@/components/page-header';
+import { CustomersOverview } from '@/app/customers/components/customers-overview.tsx';
+import { CustomersTable } from '@/app/customers/components/customers-table.tsx';
 
 export function CustomersPage() {
   return (
@@ -13,5 +13,5 @@ export function CustomersPage() {
 
       <CustomersTable />
     </div>
-  )
+  );
 }

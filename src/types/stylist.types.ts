@@ -56,3 +56,10 @@ export interface AverageRating {
   r4: number;
   r5: number;
 }
+
+export interface StylistsOverview {
+  newStylists: number;
+  activeStylists: number;
+  inactiveStylists: number;
+  allStylists: number;
+}

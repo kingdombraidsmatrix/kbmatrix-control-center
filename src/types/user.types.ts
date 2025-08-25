@@ -14,14 +14,21 @@ export enum UserSignupType {
 }
 
 export interface User {
-  id: number
-  fullName: string
-  email: string
-  login: string
-  image: string
-  enabled: boolean
-  status: UserStatus
-  signupType: UserSignupType
-  authorities: Array<string>
-  createdAt: string
+  id: number;
+  fullName: string;
+  email: string;
+  login: string;
+  image: string;
+  enabled: boolean;
+  status: UserStatus;
+  signupType: UserSignupType;
+  authorities: Array<string>;
+  createdAt: string;
+}
+
+export interface UsersOverview {
+  newUsers: number;
+  activeUsers: number;
+  inactiveUsers: number;
+  allUsers: number;
 }
