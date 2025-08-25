@@ -13,7 +13,14 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as ExternalLoginRouteImport } from './routes/_external/login'
 import { Route as AuthStylistsRouteImport } from './routes/_auth/stylists'
+import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
+import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
+import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_auth/settings.service-categories'
+import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
+import { Route as AuthSettingsPlansRouteImport } from './routes/_auth/settings.plans'
+import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settings.countries'
+import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -34,44 +41,129 @@ const AuthStylistsRoute = AuthStylistsRouteImport.update({
   path: '/stylists',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthSettingsRoute = AuthSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthCustomersRoute = AuthCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthSettingsIndexRoute = AuthSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
+const AuthSettingsServiceCategoriesRoute =
+  AuthSettingsServiceCategoriesRouteImport.update({
+    id: '/service-categories',
+    path: '/service-categories',
+    getParentRoute: () => AuthSettingsRoute,
+  } as any)
+const AuthSettingsProvidersRoute = AuthSettingsProvidersRouteImport.update({
+  id: '/providers',
+  path: '/providers',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
+const AuthSettingsPlansRoute = AuthSettingsPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
+const AuthSettingsCountriesRoute = AuthSettingsCountriesRouteImport.update({
+  id: '/countries',
+  path: '/countries',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
+const AuthSettingsConfigurationRoute =
+  AuthSettingsConfigurationRouteImport.update({
+    id: '/configuration',
+    path: '/configuration',
+    getParentRoute: () => AuthSettingsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/customers': typeof AuthCustomersRoute
+  '/settings': typeof AuthSettingsRouteWithChildren
   '/stylists': typeof AuthStylistsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/settings/configuration': typeof AuthSettingsConfigurationRoute
+  '/settings/countries': typeof AuthSettingsCountriesRoute
+  '/settings/plans': typeof AuthSettingsPlansRoute
+  '/settings/providers': typeof AuthSettingsProvidersRoute
+  '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/settings/': typeof AuthSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/customers': typeof AuthCustomersRoute
   '/stylists': typeof AuthStylistsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/settings/configuration': typeof AuthSettingsConfigurationRoute
+  '/settings/countries': typeof AuthSettingsCountriesRoute
+  '/settings/plans': typeof AuthSettingsPlansRoute
+  '/settings/providers': typeof AuthSettingsProvidersRoute
+  '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/settings': typeof AuthSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/customers': typeof AuthCustomersRoute
+  '/_auth/settings': typeof AuthSettingsRouteWithChildren
   '/_auth/stylists': typeof AuthStylistsRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/settings/configuration': typeof AuthSettingsConfigurationRoute
+  '/_auth/settings/countries': typeof AuthSettingsCountriesRoute
+  '/_auth/settings/plans': typeof AuthSettingsPlansRoute
+  '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
+  '/_auth/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/_auth/settings/': typeof AuthSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/customers' | '/stylists' | '/login' | '/'
+  fullPaths:
+    | '/customers'
+    | '/settings'
+    | '/stylists'
+    | '/login'
+    | '/'
+    | '/settings/configuration'
+    | '/settings/countries'
+    | '/settings/plans'
+    | '/settings/providers'
+    | '/settings/service-categories'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/customers' | '/stylists' | '/login' | '/'
+  to:
+    | '/customers'
+    | '/stylists'
+    | '/login'
+    | '/'
+    | '/settings/configuration'
+    | '/settings/countries'
+    | '/settings/plans'
+    | '/settings/providers'
+    | '/settings/service-categories'
+    | '/settings'
   id:
     | '__root__'
     | '/_auth'
     | '/_auth/customers'
+    | '/_auth/settings'
     | '/_auth/stylists'
     | '/_external/login'
     | '/_auth/'
+    | '/_auth/settings/configuration'
+    | '/_auth/settings/countries'
+    | '/_auth/settings/plans'
+    | '/_auth/settings/providers'
+    | '/_auth/settings/service-categories'
+    | '/_auth/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -109,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthStylistsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/settings': {
+      id: '/_auth/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthSettingsRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/customers': {
       id: '/_auth/customers'
       path: '/customers'
@@ -116,17 +215,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCustomersRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/settings/': {
+      id: '/_auth/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AuthSettingsIndexRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/settings/service-categories': {
+      id: '/_auth/settings/service-categories'
+      path: '/service-categories'
+      fullPath: '/settings/service-categories'
+      preLoaderRoute: typeof AuthSettingsServiceCategoriesRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/settings/providers': {
+      id: '/_auth/settings/providers'
+      path: '/providers'
+      fullPath: '/settings/providers'
+      preLoaderRoute: typeof AuthSettingsProvidersRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/settings/plans': {
+      id: '/_auth/settings/plans'
+      path: '/plans'
+      fullPath: '/settings/plans'
+      preLoaderRoute: typeof AuthSettingsPlansRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/settings/countries': {
+      id: '/_auth/settings/countries'
+      path: '/countries'
+      fullPath: '/settings/countries'
+      preLoaderRoute: typeof AuthSettingsCountriesRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/settings/configuration': {
+      id: '/_auth/settings/configuration'
+      path: '/configuration'
+      fullPath: '/settings/configuration'
+      preLoaderRoute: typeof AuthSettingsConfigurationRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
   }
 }
 
+interface AuthSettingsRouteChildren {
+  AuthSettingsConfigurationRoute: typeof AuthSettingsConfigurationRoute
+  AuthSettingsCountriesRoute: typeof AuthSettingsCountriesRoute
+  AuthSettingsPlansRoute: typeof AuthSettingsPlansRoute
+  AuthSettingsProvidersRoute: typeof AuthSettingsProvidersRoute
+  AuthSettingsServiceCategoriesRoute: typeof AuthSettingsServiceCategoriesRoute
+  AuthSettingsIndexRoute: typeof AuthSettingsIndexRoute
+}
+
+const AuthSettingsRouteChildren: AuthSettingsRouteChildren = {
+  AuthSettingsConfigurationRoute: AuthSettingsConfigurationRoute,
+  AuthSettingsCountriesRoute: AuthSettingsCountriesRoute,
+  AuthSettingsPlansRoute: AuthSettingsPlansRoute,
+  AuthSettingsProvidersRoute: AuthSettingsProvidersRoute,
+  AuthSettingsServiceCategoriesRoute: AuthSettingsServiceCategoriesRoute,
+  AuthSettingsIndexRoute: AuthSettingsIndexRoute,
+}
+
+const AuthSettingsRouteWithChildren = AuthSettingsRoute._addFileChildren(
+  AuthSettingsRouteChildren,
+)
+
 interface AuthRouteChildren {
   AuthCustomersRoute: typeof AuthCustomersRoute
+  AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
   AuthStylistsRoute: typeof AuthStylistsRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthCustomersRoute: AuthCustomersRoute,
+  AuthSettingsRoute: AuthSettingsRouteWithChildren,
   AuthStylistsRoute: AuthStylistsRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
