@@ -1,4 +1,4 @@
-import { UserPlus, UserStar, UserX2 } from 'lucide-react';
+import { UserPlus, Users2, UserStar, UserX2 } from 'lucide-react';
 import { StatCard } from '@/components/stat-card';
 import { useGetCustomersOverview } from '@/services/customers';
 
@@ -28,6 +28,14 @@ export function CustomersOverview() {
         color="rose"
         icon={UserX2}
         value={data?.activeUsers}
+        isLoading={isLoading}
+      />
+      <StatCard
+        title="All Customers"
+        subtitle="All time"
+        color="amber"
+        icon={Users2}
+        value={data?.allUsers}
         isLoading={isLoading}
       />
     </div>

@@ -1,4 +1,4 @@
-import { Briefcase, BriefcaseBusiness, CircleX } from 'lucide-react';
+import { Briefcase, BriefcaseBusiness, Building, CircleX } from 'lucide-react';
 import { StatCard } from '@/components/stat-card';
 import { useGetStylistsOverview } from '@/services/stylists/use-get-stylists-overview.ts';
 
@@ -24,10 +24,18 @@ export function StylistsOverview() {
       />
       <StatCard
         title="Inactive Stylists"
-        subtitle="Disabled/Suspended/Deleted Users"
+        subtitle="Stylists not taking bookings"
         color="rose"
         icon={CircleX}
         value={data?.inactiveStylists}
+        isLoading={isLoading}
+      />
+      <StatCard
+        title="All Stylists"
+        subtitle="All time"
+        color="amber"
+        icon={Building}
+        value={data?.allStylists}
         isLoading={isLoading}
       />
     </div>
