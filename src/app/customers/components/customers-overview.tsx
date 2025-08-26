@@ -1,4 +1,4 @@
-import { UserPlus, Users2, UserStar, UserX2 } from 'lucide-react';
+import { UserPlus, UserStar, UserX2, Users2 } from 'lucide-react';
 import { StatCard } from '@/components/stat-card';
 import { useGetCustomersOverview } from '@/services/customers';
 
