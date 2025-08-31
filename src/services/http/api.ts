@@ -56,7 +56,7 @@ export function useApiInstance() {
           if (!refreshToken) throw new Error('Refresh token is missing');
 
           const { data } = await axios.post<string, AxiosResponse<LoginResponse>>(
-            `${baseURL}/auth/refresh`,
+            `${baseURL}/api/v1/auth/refresh`,
             refreshToken,
           );
 
