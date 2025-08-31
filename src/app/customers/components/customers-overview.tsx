@@ -27,7 +27,7 @@ export function CustomersOverview() {
         subtitle="Disabled/Suspended/Deleted Users"
         color="rose"
         icon={UserX2}
-        value={data?.activeUsers}
+        value={data?.inactiveUsers}
         isLoading={isLoading}
       />
       <StatCard

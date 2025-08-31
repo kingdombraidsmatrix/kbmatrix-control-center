@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { ConfigurationPage } from '@/app/configuration';
 
 export const Route = createFileRoute('/_auth/settings/configuration')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/_auth/settings/configuration"!</div>
-}
+  component: ConfigurationPage,
+});

@@ -6,5 +6,5 @@ export interface SettingsMenu {
   title: string;
   subtitle?: string;
   icon: LucideIcon;
-  path: LinkProps['to'];
+  path: NonNullable<LinkProps['to']>;
 }

@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { SupportedCountiesPage } from '@/app/countries';
 
 export const Route = createFileRoute('/_auth/settings/countries')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/_auth/settings/countries"!</div>
-}
+  component: SupportedCountiesPage,
+});

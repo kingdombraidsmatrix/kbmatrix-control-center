@@ -16,5 +16,6 @@ export enum TokenType {
 
 export interface LoginResponse {
   token: string;
+  refreshToken?: string;
   type: TokenType;
 }

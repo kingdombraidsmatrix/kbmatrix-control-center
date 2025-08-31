@@ -38,7 +38,7 @@ export function LoginPage() {
     (values: LoginRequest) => {
       mutateAsync({ ...values, userType: 'CUSTOMER', signupType: UserSignupType.PASSWORD })
         .then((response) => {
-          setToken({ authToken: response.data.token });
+          setToken({ authToken: response.data.token, refreshToken: response.data.refreshToken });
           navigate({ to: '/', replace: true });
         })
         .catch((error) => {
