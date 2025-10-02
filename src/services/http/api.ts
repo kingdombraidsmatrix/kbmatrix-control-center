@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type {AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import type { LoginResponse } from '@/types/auth.types.ts';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 
@@ -65,9 +65,10 @@ export function useApiInstance() {
             refreshToken: data.refreshToken,
           });
 
-          isRefreshing = false;
           onRefreshed(data.token);
+          isRefreshing = false;
 
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
           originalRequest.headers.Authorization = `Bearer ${data.token}`;
           return axiosInstance(originalRequest);
         } catch (err) {
