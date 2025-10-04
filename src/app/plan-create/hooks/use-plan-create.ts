@@ -28,8 +28,8 @@ export function usePlanCreate() {
         description: z.string().min(1, 'Feature description is required'),
         value: z
           .string()
-          .or(z.coerce.number())
           .or(z.boolean())
+          .or(z.coerce.number())
           .or(
             z.object({
               feeType: z.enum([FeeType.FLAT, FeeType.PERCENTAGE]),

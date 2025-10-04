@@ -42,7 +42,7 @@ function BooleanInput({ form, name }: FeatureInputProps) {
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <Switch checked={field.value as boolean} onCheckedChange={field.onChange} />
+            <Switch checked={!!field.value} onCheckedChange={field.onChange} />
           </FormControl>
           <FormMessage />
         </FormItem>
