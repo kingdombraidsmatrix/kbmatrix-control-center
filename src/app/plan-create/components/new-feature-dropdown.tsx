@@ -31,7 +31,7 @@ export function NewFeatureDropdown({ append, form: { watch } }: NewFeatureDropDo
           Add new feature
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-60">
         <DropdownMenuLabel>All Features</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {isLoading || !data ? (
@@ -39,22 +39,25 @@ export function NewFeatureDropdown({ append, form: { watch } }: NewFeatureDropDo
             Full App Access
           </DropdownMenuCheckboxItem>
         ) : (
-          data.map((feature) => (
-            <DropdownMenuCheckboxItem
-              key={feature.key}
-              checked={selectedFeatures.has(feature.key)}
-              disabled={selectedFeatures.has(feature.key)}
-              onClick={() =>
-                append({
-                  feature: feature.key,
-                  description: feature.description,
-                  value: feature.defaultValue,
-                })
-              }
-            >
-              {feature.name}
-            </DropdownMenuCheckboxItem>
-          ))
+          data
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
+            .map((feature) => (
+              <DropdownMenuCheckboxItem
+                className="py-2"
+                key={feature.key}
+                checked={selectedFeatures.has(feature.key)}
+                disabled={selectedFeatures.has(feature.key)}
+                onClick={() =>
+                  append({
+                    feature: feature.key,
+                    description: feature.description,
+                    value: feature.defaultValue,
+                  })
+                }
+              >
+                {feature.name}
+              </DropdownMenuCheckboxItem>
+            ))
         )}
       </DropdownMenuContent>
     </DropdownMenu>

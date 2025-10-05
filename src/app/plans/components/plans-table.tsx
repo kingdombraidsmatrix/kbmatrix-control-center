@@ -5,6 +5,7 @@ import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-ki
 import { DndContext } from '@dnd-kit/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
 import type { DragEndEvent } from '@dnd-kit/core';
 import type { Plan } from '@/types/plans.ts';
 import { useRearrangePlansService } from '@/services/plans';
@@ -18,7 +19,7 @@ import {
 } from '@/components/ui/table.tsx';
 import { formatMoney } from '@/lib/utils.ts';
 import { ActivatePlanToggle } from '@/app/plans/components/activate-plan-toggle.tsx';
-import { useNavigate } from '@tanstack/react-router';
+import { PublishPlanToggle } from '@/app/plans/components/publish-plan-toggle.tsx';
 
 interface PlansTableProps {
   plans: Array<Plan>;
@@ -113,7 +114,9 @@ export function PlansTable({ plans }: PlansTableProps) {
                   <TableCell onClick={(e) => e.stopPropagation()}>
                     <ActivatePlanToggle plan={plan} />
                   </TableCell>
-                  <TableCell></TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
+                    <PublishPlanToggle plan={plan} />
+                  </TableCell>
                   <TableCell className="w-10">
                     <ChevronRight className="size-4 text-muted-foreground" />
                   </TableCell>

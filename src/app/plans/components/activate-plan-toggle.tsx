@@ -23,7 +23,7 @@ export function ActivatePlanToggle({ plan }: ActivatePlanToggleProps) {
         toast.error(`Unable to ${checked ? 'activate' : 'deactivate'} "${plan.name}"`);
       }
     },
-    [plan.name, mutateAsync],
+    [plan.name, mutateAsync, queryClient],
   );
 
   return <Switch checked={plan.active} onCheckedChange={togglePlan} disabled={isPending} />;

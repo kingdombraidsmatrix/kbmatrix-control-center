@@ -93,7 +93,7 @@ export function usePlanCreate() {
         await queryClient.invalidateQueries({ queryKey: ['plan', response.data.id] });
 
         await navigate({ to: '/settings/plans', replace: true });
-        toast.success('Successfully.', {
+        toast.success('Successful', {
           description: `"${response.data.name}" ${isEdit ? 'updated' : 'created'} successfully`,
         });
       } catch (err) {
