@@ -26,6 +26,7 @@ export function useHttpQueryService<TResponse = unknown, TParams = {}>({
       apiInstance
         .get<TParams, AxiosResponse<TResponse>, AxiosError>(url, {
           params: params ?? {},
+          paramsSerializer: { indexes: null },
         })
         .then((res) => res.data),
     refetchOnWindowFocus: false,

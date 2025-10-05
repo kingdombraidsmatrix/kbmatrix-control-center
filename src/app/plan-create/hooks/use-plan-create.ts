@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 import type { PlanRequest } from '@/types/plans.ts';
 import { FeeType } from '@/types/plans.ts';
 import { useCreatePlanService } from '@/services/plans/use-create-plan-service.ts';
@@ -63,11 +64,13 @@ export function usePlanCreate() {
 
   const { mutateAsync } = useCreatePlanService();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const onSubmit = useCallback(
     async (value: PlanRequest) => {
       try {
         await mutateAsync(value);
+        await queryClient.invalidateQueries({ queryKey: ['plans'] });
         await navigate({ to: '/settings/plans', replace: true });
         toast.success('Plan created successfully.', { description: 'Successfully created' });
       } catch (err) {
