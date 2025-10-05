@@ -11,7 +11,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <Outlet />
-      <Toaster position="top-center" richColors theme="light" />
+      <Toaster position="top-center" richColors theme="light" duration={6_000} />
     </>
   ),
 });

@@ -1,6 +1,9 @@
 import * as React from 'react';
 
+import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
 import { cn } from '@/lib/utils';
+import { GripVertical } from 'lucide-react';
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
@@ -38,16 +41,44 @@ function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
   );
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
+function TableRow({
+  className,
+  id,
+  hasGripHandle,
+  children,
+  ...props
+}: React.ComponentProps<'tr'> & { hasGripHandle?: boolean }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: id ?? '',
+  });
+
+  const style = {
+    ...props.style,
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
     <tr
       data-slot="table-row"
       className={cn(
         'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
+        isDragging && 'relative z-[9999] cursor-grabbing active:bg-primary/10',
         className,
       )}
       {...props}
-    />
+      style={style}
+      ref={setNodeRef}
+      {...attributes}
+    >
+      {hasGripHandle && (
+        <TableCell {...listeners} className="cursor-grab active:cursor-grabbing w-5">
+          <GripVertical className="size-3" />
+        </TableCell>
+      )}
+
+      {children}
+    </tr>
   );
 }
 
