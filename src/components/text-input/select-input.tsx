@@ -40,7 +40,12 @@ export function SelectInput({
       render={({ field }) => (
         <FormItem>
           {!!label && <FormLabel>{label}</FormLabel>}
-          <Select {...props} {...field} onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            {...props}
+            {...field}
+            onValueChange={props.disabled ? undefined : field.onChange}
+            defaultValue={field.value}
+          >
             <FormControl>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />

@@ -1,16 +1,24 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback } from 'react';
-import { useNavigate } from '@tanstack/react-router';
+import { type BaseSyntheticEvent, useCallback, useEffect, useMemo } from 'react';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import type { PlanRequest } from '@/types/plans.ts';
 import { FeeType } from '@/types/plans.ts';
 import { useCreatePlanService } from '@/services/plans/use-create-plan-service.ts';
+import { useGetPlanService } from '@/services/plans/use-get-plan-service.ts';
+import { transformPlanToPlanRequest } from '@/app/plan-create/util.ts';
+import { useUpdatePlanService } from '@/services/plans';
 
 export function usePlanCreate() {
+  const { planId } = useParams({ from: '/_auth/settings/plans/$planId' });
+  const isEdit = useMemo(() => planId !== 'new' && !isNaN(Number(planId)), [planId]);
+  const { data: existingPlan, isLoading } = useGetPlanService(isEdit ? Number(planId) : undefined);
+
   const formSchema = z.object({
+    id: z.number().optional(),
     name: z.string().min(1, 'Plan name is required'),
     description: z
       .string()
@@ -62,27 +70,44 @@ export function usePlanCreate() {
     },
   });
 
-  const { mutateAsync } = useCreatePlanService();
+  useEffect(() => {
+    if (isEdit && existingPlan) {
+      form.reset(transformPlanToPlanRequest(existingPlan));
+    }
+  }, [isEdit, existingPlan, form]);
+
+  const { mutateAsync: createPlan } = useCreatePlanService();
+  const { mutateAsync: updatePlan } = useUpdatePlanService();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const onSubmit = useCallback(
-    async (value: PlanRequest) => {
+    async (value: PlanRequest, event?: BaseSyntheticEvent) => {
       try {
-        await mutateAsync(value);
+        const isPublish = (event?.nativeEvent as any).submitter?.name === 'publish';
+
+        const fn = isEdit ? updatePlan : createPlan;
+        const response = await fn({ ...value, public: isPublish });
+
         await queryClient.invalidateQueries({ queryKey: ['plans'] });
+        await queryClient.invalidateQueries({ queryKey: ['plan', response.data.id] });
+
         await navigate({ to: '/settings/plans', replace: true });
-        toast.success('Plan created successfully.', { description: 'Successfully created' });
+        toast.success('Successfully.', {
+          description: `"${response.data.name}" ${isEdit ? 'updated' : 'created'} successfully`,
+        });
       } catch (err) {
-        toast.error('Error creating Plan');
+        toast.error(`Error ${isEdit ? 'creating' : 'updating'} Plan`);
         console.error(err);
       }
     },
-    [mutateAsync],
+    [createPlan, updatePlan, isEdit],
   );
 
   return {
     form,
     onSubmit,
+    isLoading: isEdit && isLoading,
+    isEdit,
   };
 }

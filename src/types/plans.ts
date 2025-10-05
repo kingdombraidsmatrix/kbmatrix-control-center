@@ -55,6 +55,7 @@ export interface PlanFeature {
 }
 
 export interface PlanRequest {
+  id?: number;
   name: string;
   description: string;
   trialDays?: number;

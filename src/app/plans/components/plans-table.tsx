@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { DndContext } from '@dnd-kit/core';
 import { useQueryClient } from '@tanstack/react-query';
+import { ChevronRight } from 'lucide-react';
 import type { DragEndEvent } from '@dnd-kit/core';
 import type { Plan } from '@/types/plans.ts';
 import { useRearrangePlansService } from '@/services/plans';
@@ -15,6 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table.tsx';
+import { formatMoney } from '@/lib/utils.ts';
+import { ActivatePlanToggle } from '@/app/plans/components/activate-plan-toggle.tsx';
+import { useNavigate } from '@tanstack/react-router';
 
 interface PlansTableProps {
   plans: Array<Plan>;
@@ -23,6 +27,7 @@ export function PlansTable({ plans }: PlansTableProps) {
   const [state, setState] = useState<Array<Plan>>(plans);
   const { mutateAsync: saveRearrangement } = useRearrangePlansService();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setState(plans);
@@ -77,12 +82,41 @@ export function PlansTable({ plans }: PlansTableProps) {
               <TableRow>
                 <TableHead></TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Monthly Price</TableHead>
+                <TableHead>Yearly Price</TableHead>
+                <TableHead>Active</TableHead>
+                <TableHead>Public</TableHead>
+                <TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {state.map((plan) => (
-                <TableRow id={plan.id.toString()} key={plan.id} hasGripHandle>
+                <TableRow
+                  id={plan.id.toString()}
+                  key={plan.id}
+                  onClick={() =>
+                    navigate({
+                      to: '/settings/plans/$planId',
+                      params: { planId: plan.id.toString() },
+                    })
+                  }
+                  className="cursor-pointer"
+                  hasGripHandle
+                >
                   <TableCell className="py-4">{plan.name}</TableCell>
+                  <TableCell className="py-4">
+                    {formatMoney(plan.monthlyPrice, plan.country.currency.symbol)}
+                  </TableCell>
+                  <TableCell className="py-4">
+                    {formatMoney(plan.annualPrice, plan.country.currency.symbol)}
+                  </TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
+                    <ActivatePlanToggle plan={plan} />
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell className="w-10">
+                    <ChevronRight className="size-4 text-muted-foreground" />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

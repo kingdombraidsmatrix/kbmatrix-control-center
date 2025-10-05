@@ -21,7 +21,7 @@ import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settin
 import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settings.countries'
 import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
 import { Route as AuthSettingsPlansIndexRouteImport } from './routes/_auth/settings.plans.index'
-import { Route as AuthSettingsPlansCountryCodeRouteImport } from './routes/_auth/settings.plans.$countryCode'
+import { Route as AuthSettingsPlansPlanIdRouteImport } from './routes/_auth/settings.plans.$planId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -84,12 +84,11 @@ const AuthSettingsPlansIndexRoute = AuthSettingsPlansIndexRouteImport.update({
   path: '/plans/',
   getParentRoute: () => AuthSettingsRoute,
 } as any)
-const AuthSettingsPlansCountryCodeRoute =
-  AuthSettingsPlansCountryCodeRouteImport.update({
-    id: '/plans/$countryCode',
-    path: '/plans/$countryCode',
-    getParentRoute: () => AuthSettingsRoute,
-  } as any)
+const AuthSettingsPlansPlanIdRoute = AuthSettingsPlansPlanIdRouteImport.update({
+  id: '/plans/$planId',
+  path: '/plans/$planId',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/customers': typeof AuthCustomersRoute
@@ -102,7 +101,7 @@ export interface FileRoutesByFullPath {
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/settings/': typeof AuthSettingsIndexRoute
-  '/settings/plans/$countryCode': typeof AuthSettingsPlansCountryCodeRoute
+  '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/settings/plans': typeof AuthSettingsPlansIndexRoute
 }
 export interface FileRoutesByTo {
@@ -115,7 +114,7 @@ export interface FileRoutesByTo {
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/settings': typeof AuthSettingsIndexRoute
-  '/settings/plans/$countryCode': typeof AuthSettingsPlansCountryCodeRoute
+  '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/settings/plans': typeof AuthSettingsPlansIndexRoute
 }
 export interface FileRoutesById {
@@ -131,7 +130,7 @@ export interface FileRoutesById {
   '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
   '/_auth/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/_auth/settings/': typeof AuthSettingsIndexRoute
-  '/_auth/settings/plans/$countryCode': typeof AuthSettingsPlansCountryCodeRoute
+  '/_auth/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/_auth/settings/plans/': typeof AuthSettingsPlansIndexRoute
 }
 export interface FileRouteTypes {
@@ -147,7 +146,7 @@ export interface FileRouteTypes {
     | '/settings/providers'
     | '/settings/service-categories'
     | '/settings/'
-    | '/settings/plans/$countryCode'
+    | '/settings/plans/$planId'
     | '/settings/plans'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -160,7 +159,7 @@ export interface FileRouteTypes {
     | '/settings/providers'
     | '/settings/service-categories'
     | '/settings'
-    | '/settings/plans/$countryCode'
+    | '/settings/plans/$planId'
     | '/settings/plans'
   id:
     | '__root__'
@@ -175,7 +174,7 @@ export interface FileRouteTypes {
     | '/_auth/settings/providers'
     | '/_auth/settings/service-categories'
     | '/_auth/settings/'
-    | '/_auth/settings/plans/$countryCode'
+    | '/_auth/settings/plans/$planId'
     | '/_auth/settings/plans/'
   fileRoutesById: FileRoutesById
 }
@@ -270,11 +269,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsPlansIndexRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
-    '/_auth/settings/plans/$countryCode': {
-      id: '/_auth/settings/plans/$countryCode'
-      path: '/plans/$countryCode'
-      fullPath: '/settings/plans/$countryCode'
-      preLoaderRoute: typeof AuthSettingsPlansCountryCodeRouteImport
+    '/_auth/settings/plans/$planId': {
+      id: '/_auth/settings/plans/$planId'
+      path: '/plans/$planId'
+      fullPath: '/settings/plans/$planId'
+      preLoaderRoute: typeof AuthSettingsPlansPlanIdRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
   }
@@ -286,7 +285,7 @@ interface AuthSettingsRouteChildren {
   AuthSettingsProvidersRoute: typeof AuthSettingsProvidersRoute
   AuthSettingsServiceCategoriesRoute: typeof AuthSettingsServiceCategoriesRoute
   AuthSettingsIndexRoute: typeof AuthSettingsIndexRoute
-  AuthSettingsPlansCountryCodeRoute: typeof AuthSettingsPlansCountryCodeRoute
+  AuthSettingsPlansPlanIdRoute: typeof AuthSettingsPlansPlanIdRoute
   AuthSettingsPlansIndexRoute: typeof AuthSettingsPlansIndexRoute
 }
 
@@ -296,7 +295,7 @@ const AuthSettingsRouteChildren: AuthSettingsRouteChildren = {
   AuthSettingsProvidersRoute: AuthSettingsProvidersRoute,
   AuthSettingsServiceCategoriesRoute: AuthSettingsServiceCategoriesRoute,
   AuthSettingsIndexRoute: AuthSettingsIndexRoute,
-  AuthSettingsPlansCountryCodeRoute: AuthSettingsPlansCountryCodeRoute,
+  AuthSettingsPlansPlanIdRoute: AuthSettingsPlansPlanIdRoute,
   AuthSettingsPlansIndexRoute: AuthSettingsPlansIndexRoute,
 }
 

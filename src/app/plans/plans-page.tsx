@@ -14,7 +14,7 @@ export function PlansPage() {
     <div>
       <div className="flex items-center gap-5">
         <h3 className="font-semibold flex-1">Subscription Plans</h3>
-        <Link to="/settings/plans/$countryCode" params={{ countryCode: 'new' }}>
+        <Link to="/settings/plans/$planId" params={{ planId: 'new' }}>
           <Button>Add New</Button>
         </Link>
       </div>
@@ -26,7 +26,7 @@ export function PlansPage() {
             <p>Loading plans...</p>
           </div>
         ) : (
-          <div>
+          <div className="space-y-12">
             {Object.entries(groupedPlans).map(([key, value]) => (
               <div key={key} className="space-y-4">
                 <div className="flex items-center gap-2">

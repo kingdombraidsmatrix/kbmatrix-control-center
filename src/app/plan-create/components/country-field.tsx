@@ -5,8 +5,9 @@ import { useGetCountries } from '@/services/geo';
 
 interface CountryFieldProps {
   form: UseFormReturn<PlanRequest>;
+  disabled?: boolean;
 }
-export function CountryField({ form }: CountryFieldProps) {
+export function CountryField({ form, disabled }: CountryFieldProps) {
   const { data, isLoading } = useGetCountries();
 
   return (
@@ -16,7 +17,7 @@ export function CountryField({ form }: CountryFieldProps) {
       placeholder="Select Country"
       name="countryCode"
       options={data?.content.map((c) => ({ label: c.name, value: c.code })) ?? []}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     />
   );
 }

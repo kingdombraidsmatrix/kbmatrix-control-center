@@ -18,6 +18,15 @@ export function formatNumber(value: number | string) {
   }).format(Number(value));
 }
 
+export function formatMoney(amount: number, currency: string) {
+  const formatNumber = Intl.NumberFormat('en-US', {
+    notation: 'standard',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+  return `${currency} ${formatNumber}`;
+}
+
 export function formatDate(date: Date | string) {
   return format(new Date(date), 'dd MMM. yy, hh:mm:ss a');
 }
