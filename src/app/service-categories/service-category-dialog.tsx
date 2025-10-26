@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 import type { CreateServiceCategory, ServiceCategory, UpdateServiceCategory } from '@/types';
 import {
   Dialog,
@@ -20,7 +21,6 @@ import { useCreateServiceCategoryService } from '@/services/services/use-create-
 import { useUpdateServiceCategoryService } from '@/services/services/use-update-service-category.ts';
 import { handleHttpError } from '@/lib/utils.ts';
 import { TextInput, Textarea } from '@/components/text-input';
-import { Loader2 } from 'lucide-react';
 
 interface ServiceCategoryDialogProps {
   action?: 'new' | 'edit';
@@ -124,7 +124,7 @@ function Content({ action = 'new', initialValue, onOpenChange }: ContentProps) {
             type="submit"
             disabled={!form.formState.isValid || isCreatePending || isUpdatePending}
           >
-            {isCreatePending || (isUpdatePending && <Loader2 className="animate-spin" />)}
+            {(isCreatePending || isUpdatePending) && <Loader2 className="animate-spin" />}
             {config.submit}
           </Button>
         </DialogFooter>

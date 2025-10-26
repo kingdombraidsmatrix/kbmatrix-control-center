@@ -62,7 +62,7 @@ function TableRow({
     <tr
       data-slot="table-row"
       className={cn(
-        'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
+        'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors group/row',
         isDragging && 'relative z-[9999] cursor-grabbing active:bg-primary/10',
         className,
       )}
