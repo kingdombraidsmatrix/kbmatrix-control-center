@@ -1,6 +1,6 @@
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
-import type { FeatureInputProps } from '@/app/plan-create/types.ts';
+import type { DynamicInputProps } from '@/components/dynamic-input/dynamic-input.types.ts';
 import { FeeType } from '@/types/plans.ts';
 import { Alert, AlertTitle } from '@/components/ui/alert.tsx';
 import { SelectInput } from '@/components/text-input';
@@ -14,7 +14,7 @@ import {
 import { Switch } from '@/components/ui/switch.tsx';
 import { useSelectedCurrency } from '@/app/plan-create/hooks/use-selected-currency.ts';
 
-export function FeeInput({ form, name }: FeatureInputProps) {
+export function FeeDynamicInput({ form, name }: DynamicInputProps) {
   const { watch, setValue } = form;
   const selectedType: FeeType = watch(`${name}.feeType` as any);
   const capped: boolean = watch(`${name}.capped` as any);

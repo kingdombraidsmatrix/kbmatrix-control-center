@@ -2,7 +2,7 @@ import { CircleMinus, Loader2 } from 'lucide-react';
 import { useMemo } from 'react';
 import type { FieldArrayWithId, UseFormReturn } from 'react-hook-form';
 import type { PlanRequest } from '@/types/plans.ts';
-import type { FeatureInputProps, FieldName } from '@/app/plan-create/types.ts';
+import type { FieldName } from '@/app/plan-create/types.ts';
 import { FeatureValueType } from '@/types/plans.ts';
 import { useGetFeatures } from '@/services/plans';
 import {
@@ -13,49 +13,14 @@ import {
   ItemTitle,
 } from '@/components/ui/item.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { TextInput, Textarea } from '@/components/text-input';
-import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form.tsx';
-import { Switch } from '@/components/ui/switch.tsx';
-import { FeeInput } from '@/app/plan-create/components/fee-feature-field.tsx';
-
-function NumberTextInput({ form, name, feature }: FeatureInputProps) {
-  return (
-    <TextInput
-      control={form.control}
-      name={name}
-      placeholder={feature.name}
-      type="number"
-      min={0}
-    />
-  );
-}
-
-function StringTextInput({ form, name, feature }: FeatureInputProps) {
-  return <TextInput control={form.control} name={name} placeholder={feature.name} />;
-}
-
-function BooleanInput({ form, name }: FeatureInputProps) {
-  return (
-    <FormField
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormControl>
-            <Switch checked={!!field.value} onCheckedChange={field.onChange} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-}
+import { Textarea } from '@/components/text-input';
+import { DynamicInput } from '@/components/dynamic-input';
 
 const ValueTypeMap = {
-  [FeatureValueType.NUMBER]: NumberTextInput,
-  [FeatureValueType.STRING]: StringTextInput,
-  [FeatureValueType.BOOLEAN]: BooleanInput,
-  [FeatureValueType.FEE]: FeeInput,
+  [FeatureValueType.NUMBER]: DynamicInput.NUMBER,
+  [FeatureValueType.STRING]: DynamicInput.STRING,
+  [FeatureValueType.BOOLEAN]: DynamicInput.BOOLEAN,
+  [FeatureValueType.FEE]: DynamicInput.FEE,
 };
 
 interface FeatureFieldProps {
@@ -86,7 +51,11 @@ export function FeatureField({ remove, field, name, form }: FeatureFieldProps) {
                 label="Description"
                 placeholder={feature.description}
               />
-              <ValueTypeField feature={feature} name={`${name}.value` as FieldName} form={form} />
+              <ValueTypeField
+                placeholder={feature.name}
+                name={`${name}.value` as FieldName}
+                form={form}
+              />
             </div>
           </>
         )}
