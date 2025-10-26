@@ -10,6 +10,10 @@ export const TransactionsColumns: Array<ColumnDef<Transaction>> = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Reference" />,
   },
   {
+    accessorKey: 'description',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Description" />,
+  },
+  {
     accessorKey: 'to',
     header: 'User / Stylist',
     cell: ({ row: { original: transaction } }) => (
