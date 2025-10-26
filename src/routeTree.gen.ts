@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as ExternalLoginRouteImport } from './routes/_external/login'
+import { Route as AuthTransactionsRouteImport } from './routes/_auth/transactions'
 import { Route as AuthStylistsRouteImport } from './routes/_auth/stylists'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
+import { Route as AuthBookingsRouteImport } from './routes/_auth/bookings'
 import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
 import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_auth/settings.service-categories'
 import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
@@ -37,6 +39,11 @@ const ExternalLoginRoute = ExternalLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthStylistsRoute = AuthStylistsRouteImport.update({
   id: '/stylists',
   path: '/stylists',
@@ -50,6 +57,11 @@ const AuthSettingsRoute = AuthSettingsRouteImport.update({
 const AuthCustomersRoute = AuthCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthBookingsRoute = AuthBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthSettingsIndexRoute = AuthSettingsIndexRouteImport.update({
@@ -91,9 +103,11 @@ const AuthSettingsPlansPlanIdRoute = AuthSettingsPlansPlanIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/bookings': typeof AuthBookingsRoute
   '/customers': typeof AuthCustomersRoute
   '/settings': typeof AuthSettingsRouteWithChildren
   '/stylists': typeof AuthStylistsRoute
+  '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
@@ -105,8 +119,10 @@ export interface FileRoutesByFullPath {
   '/settings/plans': typeof AuthSettingsPlansIndexRoute
 }
 export interface FileRoutesByTo {
+  '/bookings': typeof AuthBookingsRoute
   '/customers': typeof AuthCustomersRoute
   '/stylists': typeof AuthStylistsRoute
+  '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
@@ -120,9 +136,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
+  '/_auth/bookings': typeof AuthBookingsRoute
   '/_auth/customers': typeof AuthCustomersRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
   '/_auth/stylists': typeof AuthStylistsRoute
+  '/_auth/transactions': typeof AuthTransactionsRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/settings/configuration': typeof AuthSettingsConfigurationRoute
@@ -136,9 +154,11 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/bookings'
     | '/customers'
     | '/settings'
     | '/stylists'
+    | '/transactions'
     | '/login'
     | '/'
     | '/settings/configuration'
@@ -150,8 +170,10 @@ export interface FileRouteTypes {
     | '/settings/plans'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/bookings'
     | '/customers'
     | '/stylists'
+    | '/transactions'
     | '/login'
     | '/'
     | '/settings/configuration'
@@ -164,9 +186,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_auth'
+    | '/_auth/bookings'
     | '/_auth/customers'
     | '/_auth/settings'
     | '/_auth/stylists'
+    | '/_auth/transactions'
     | '/_external/login'
     | '/_auth/'
     | '/_auth/settings/configuration'
@@ -206,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExternalLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/transactions': {
+      id: '/_auth/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof AuthTransactionsRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/stylists': {
       id: '/_auth/stylists'
       path: '/stylists'
@@ -225,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof AuthCustomersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/bookings': {
+      id: '/_auth/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof AuthBookingsRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/settings/': {
@@ -304,16 +342,20 @@ const AuthSettingsRouteWithChildren = AuthSettingsRoute._addFileChildren(
 )
 
 interface AuthRouteChildren {
+  AuthBookingsRoute: typeof AuthBookingsRoute
   AuthCustomersRoute: typeof AuthCustomersRoute
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
   AuthStylistsRoute: typeof AuthStylistsRoute
+  AuthTransactionsRoute: typeof AuthTransactionsRoute
   AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthBookingsRoute: AuthBookingsRoute,
   AuthCustomersRoute: AuthCustomersRoute,
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
   AuthStylistsRoute: AuthStylistsRoute,
+  AuthTransactionsRoute: AuthTransactionsRoute,
   AuthIndexRoute: AuthIndexRoute,
 }
 

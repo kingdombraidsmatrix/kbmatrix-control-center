@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import type { UseQueryOptions } from '@tanstack/react-query';
+import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useApiInstance } from '@/services/http/api.ts';
 
@@ -37,13 +37,15 @@ export function useHttpQueryService<TResponse = unknown, TParams = {}>({
 }
 
 export function useHttpMutationService<TRequestData, TResponse>(
-  options: UseOtherHttpServiceOptions,
+  options: UseOtherHttpServiceOptions &
+    Omit<UseMutationOptions<AxiosResponse<TResponse, AxiosError>, Error, TRequestData>, 'mutationFn'>,
   config: Omit<AxiosRequestConfig<TRequestData>, 'method' | 'data'> = {},
 ) {
   const apiInstance = useApiInstance();
 
   return useMutation({
-    mutationFn: (data?: TRequestData): Promise<AxiosResponse<TResponse, AxiosError>> =>
-      apiInstance(options.url, { method: options.method, data, ...config }),
+    ...options,
+    mutationFn: (data?: TRequestData | void) =>
+      apiInstance<TResponse>(options.url, { method: options.method, data, ...config }),
   });
 }

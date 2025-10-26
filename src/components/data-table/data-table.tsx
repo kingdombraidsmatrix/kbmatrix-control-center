@@ -16,17 +16,24 @@ interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
   table: TanTable<TData>;
   isLoading?: boolean;
+  classNames?: {
+    table?: string;
+    row?: string;
+  };
+  onRowClick?: (row: TData) => void;
 }
 
 export function DataTable<TData, TValue>({
   table,
   columns,
   isLoading,
+  classNames,
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
   return (
     <div className="grid gap-4">
       <div className="overflow-hidden rounded-md border">
-        <Table>
+        <Table className={classNames?.table}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -45,7 +52,13 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} id={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow
+                  key={row.id}
+                  id={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className={classNames?.row}
+                  onClick={() => onRowClick?.(row.original)}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-4">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

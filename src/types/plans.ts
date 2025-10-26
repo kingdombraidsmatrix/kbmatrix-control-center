@@ -1,4 +1,6 @@
 import type { Country } from '@/types/geo.ts';
+import type { Stylist } from '@/types/stylist.types.ts';
+import type { DateString } from '@/types/common.types.ts';
 
 export enum FeatureValueType {
   NUMBER = 'NUMBER',
@@ -10,6 +12,19 @@ export enum FeatureValueType {
 export enum FeeType {
   PERCENTAGE = 'PERCENTAGE',
   FLAT = 'FLAT',
+}
+
+export enum SubscriptionStatus {
+  TRIAL = 'TRIAL',
+  ACTIVE = 'ACTIVE',
+  CANCELLED = 'CANCELLED',
+  CANCELLED_PENDING = 'CANCELLED_PENDING',
+  OVERDUE = 'OVERDUE',
+}
+
+export enum BillingFrequency {
+  MONTHLY = 'MONTHLY',
+  ANNUALLY = 'ANNUALLY',
 }
 
 export interface Fee {
@@ -85,4 +100,17 @@ export interface Plan {
   createdAt: string;
   public: boolean;
   active: boolean;
+}
+
+export interface Subscription {
+  currentPlan: Plan;
+  nextPlan: Plan;
+  stylist: Stylist;
+  startDate: DateString;
+  endDate: DateString;
+  trialStartDate: DateString;
+  trialEndDate: DateString;
+  status: SubscriptionStatus;
+  billingFrequency: BillingFrequency;
+  updatedAt: DateString;
 }
