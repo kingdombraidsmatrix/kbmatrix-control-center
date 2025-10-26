@@ -1,4 +1,11 @@
-import { Briefcase, LayoutDashboard, Settings, Users2 } from 'lucide-react';
+import {
+  BadgePoundSterling,
+  Briefcase,
+  ChartBarBig,
+  LayoutDashboard,
+  Settings,
+  Users2,
+} from 'lucide-react';
 import type { NavItem } from '@/components/layout/layout.types.ts';
 
 export const NavList: Array<NavItem> = [
@@ -19,6 +26,18 @@ export const NavList: Array<NavItem> = [
     path: '/stylists',
     icon: Briefcase,
     title: 'Stylists',
+  },
+  {
+    key: 'bookings',
+    path: '/bookings',
+    icon: BadgePoundSterling,
+    title: 'Bookings',
+  },
+  {
+    key: 'transactions',
+    path: '/transactions',
+    icon: ChartBarBig,
+    title: 'Transactions',
   },
   {
     key: 'settings',

@@ -1,3 +1,5 @@
+import type { Media } from '@/types/common.types.ts';
+
 export interface Stylist {
   id: number;
   name: string;
@@ -30,22 +32,6 @@ export interface Address {
   formattedAddress: string;
   latitude: number;
   longitude: number;
-}
-
-export enum MediaType {
-  IMAGE = 'IMAGE',
-  VIDEO = 'VIDEO',
-  AUDIO = 'AUDIO',
-  DOCUMENT = 'DOCUMENT',
-  UNKNOWN = 'UNKNOWN',
-}
-
-export interface Media {
-  id: number;
-  url: string;
-  type: MediaType;
-  defaultMedia: boolean;
-  createdAt: string;
 }
 
 export interface AverageRating {
