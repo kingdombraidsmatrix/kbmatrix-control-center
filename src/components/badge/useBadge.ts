@@ -4,6 +4,9 @@ import { BadgeContext } from '@/components/badge/badge.type.ts';
 import {
   BookingStatusBadgeConfig,
   BooleanBadgeConfig,
+  TransactionFlowBadgeConfig,
+  TransactionStatusBadgeConfig,
+  TransactionTypeBadgeConfig,
   UserStatusBadgeConfig,
 } from '@/components/badge/badge.config.ts';
 
@@ -13,6 +16,9 @@ export function useBadgeConfig(props: BadgeProps): BadgeConfig {
       [BadgeContext.BOOLEAN]: BooleanBadgeConfig,
       [BadgeContext.USER_STATUS]: UserStatusBadgeConfig,
       [BadgeContext.BOOKING_STATUS]: BookingStatusBadgeConfig,
+      [BadgeContext.TRANSACTION_TYPE]: TransactionTypeBadgeConfig,
+      [BadgeContext.TRANSACTION_STATUS]: TransactionStatusBadgeConfig,
+      [BadgeContext.TRANSACTION_FLOW]: TransactionFlowBadgeConfig,
     };
 
     const value =
