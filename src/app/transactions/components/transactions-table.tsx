@@ -33,7 +33,7 @@ export function TransactionsTable() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>All Bookings</CardTitle>
+        <CardTitle>All Transactions</CardTitle>
       </CardHeader>
       <CardContent>
         <DataTable table={table} columns={TransactionsColumns} isLoading={isLoading} />
