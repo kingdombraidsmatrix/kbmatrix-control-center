@@ -6,6 +6,7 @@ import { CustomersColumns } from '@/app/customers/columns.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
 import { transformSorting } from '@/lib/utils.ts';
 import { useGetCustomersService } from '@/services/customers';
+import { UserStatus } from '@/types';
 
 export function CustomersTable() {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
@@ -14,6 +15,7 @@ export function CustomersTable() {
     page: pageIndex,
     size: pageSize,
     sort: transformSorting(sorting),
+    userStatus: [UserStatus.ACTIVE],
   });
 
   const table = useReactTable({
