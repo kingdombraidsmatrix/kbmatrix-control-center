@@ -20,6 +20,7 @@ export function usePlanCreate() {
   const formSchema = z.object({
     id: z.number().optional(),
     name: z.string().min(1, 'Plan name is required'),
+    productId: z.string().min(1, 'Product ID is required'),
     description: z
       .string()
       .min(10, 'Plan description should be more than 10 characters')
@@ -57,6 +58,7 @@ export function usePlanCreate() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      productId: '',
       description: '',
       trialDays: 0,
       monthlyPrice: 0,
@@ -68,6 +70,7 @@ export function usePlanCreate() {
       features: [],
       public: false,
     },
+    mode: 'all',
   });
 
   useEffect(() => {
