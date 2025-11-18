@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { PlanRequest } from '@/types/plans.ts';
 import {
@@ -15,6 +15,8 @@ interface FreeTrialFieldProps {
   form: UseFormReturn<PlanRequest>;
 }
 export function FreeTrialField({ form }: FreeTrialFieldProps) {
+  const trialDays = form.watch('trialDays');
+
   const [hasFreeTrial, setHasFreeTrial] = useState(false);
 
   const toggleFreeTrial = useCallback(
@@ -26,6 +28,12 @@ export function FreeTrialField({ form }: FreeTrialFieldProps) {
     },
     [form],
   );
+
+  useEffect(() => {
+    if ((trialDays || 0) > 0) {
+      setHasFreeTrial(true);
+    }
+  }, [trialDays]);
 
   return (
     <Item variant="muted" className="items-start">

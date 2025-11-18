@@ -72,6 +72,7 @@ export interface PlanFeature {
 export interface PlanRequest {
   id?: number;
   name: string;
+  productId: string;
   description: string;
   trialDays?: number;
   monthlyPrice: number;
@@ -87,6 +88,7 @@ export interface PlanRequest {
 export interface Plan {
   id: number;
   name: string;
+  productId: string;
   description: string;
   trialDays: number;
   monthlyPrice: number;
