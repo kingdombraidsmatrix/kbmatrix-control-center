@@ -16,7 +16,7 @@ export function StylistHeader({ stylist }: StylistHeaderProps) {
       <div className="flex gap-6">
         <div className="pl-6">
           <div className="size-28 rounded-2xl overflow-hidden ring-8 ring-white ring-offset-white -mt-8">
-            <img src={stylist.logo?.url} alt="" className="size-full object-cover object-center" />
+            <img src={stylist.logo?.url} alt="" className="size-full object-cover object-center bg-secondary" />
           </div>
         </div>
         <div className="flex-1 py-4 space-y-1">

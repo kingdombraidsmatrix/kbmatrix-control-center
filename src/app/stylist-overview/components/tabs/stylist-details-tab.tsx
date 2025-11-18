@@ -2,6 +2,8 @@ import { Mail, MapPin, PhoneCall } from 'lucide-react';
 import type { Stylist } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { formatPhoneNumber } from '@/utils';
+import { StylistAvailabilityCalendar } from '@/app/stylist-overview/components/stylist-availability-calendar.tsx';
+import { cn } from '@/lib/utils.ts';
 
 interface StylistDetailsTabProps {
   stylist: Stylist;
@@ -19,24 +21,36 @@ export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
               <a
                 href="https://maps.google.com"
                 target="_blank"
-                className="flex items-center p-4 gap-6 bg-muted rounded-md border border-transparent hover:border-primary/30"
+                className={cn(
+                  'flex items-center p-4 gap-6 bg-muted rounded-md border border-transparent hover:border-primary/30',
+                  !stylist.contact.address && 'pointer-events-none',
+                )}
               >
                 <MapPin className="size-5" />
                 <div className="flex-1">
-                  <p className="font-medium">{stylist.contact.address?.formattedAddress}</p>
-                  <p className="text-sm text-muted-foreground">
-                    [{stylist.contact.address?.latitude}, {stylist.contact.address?.longitude}]
+                  <p className="font-medium">
+                    {stylist.contact.address?.formattedAddress || 'N/A'}
                   </p>
+                  {!!stylist.contact.address && (
+                    <p className="text-sm text-muted-foreground">
+                      [{stylist.contact.address.latitude}, {stylist.contact.address.longitude}]
+                    </p>
+                  )}
                 </div>
               </a>
               <a
                 href={`tel:${stylist.contact.phoneNumber}`}
                 target="_blank"
-                className="flex items-center p-4 gap-6 bg-muted rounded-md border border-transparent hover:border-primary/30"
+                className={cn(
+                  'flex items-center p-4 gap-6 bg-muted rounded-md border border-transparent hover:border-primary/30',
+                  !stylist.contact.phoneNumber && 'pointer-events-none',
+                )}
               >
                 <PhoneCall className="size-5" />
                 <div className="flex-1">
-                  <p className="font-medium">{formatPhoneNumber(stylist.contact.phoneNumber)}</p>
+                  <p className="font-medium">
+                    {formatPhoneNumber(stylist.contact.phoneNumber) || 'N/A'}
+                  </p>
                   <p className="text-sm text-muted-foreground">Business Phone Number</p>
                 </div>
               </a>
@@ -54,6 +68,8 @@ export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
             </div>
           </CardContent>
         </Card>
+
+        <StylistAvailabilityCalendar stylistId={stylist.id} />
       </div>
     </div>
   );

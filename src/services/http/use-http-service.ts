@@ -3,8 +3,8 @@ import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query'
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useApiInstance } from '@/services/http/api.ts';
 
-interface UseGetHttpServiceOptions<TParams, TResponse>
-  extends Omit<UseQueryOptions<TResponse, AxiosError>, 'queryFn'> {
+interface UseGetHttpServiceOptions<TParams, TResponse, TResponseData = TResponse>
+  extends Omit<UseQueryOptions<TResponse, AxiosError, TResponseData>, 'queryFn'> {
   url: string;
   params?: TParams;
 }
@@ -14,11 +14,11 @@ interface UseOtherHttpServiceOptions {
   method: 'POST' | 'PUT' | 'DELETE';
 }
 
-export function useHttpQueryService<TResponse = unknown, TParams = {}>({
+export function useHttpQueryService<TResponse = unknown, TParams = {}, TResponseData = TResponse>({
   url,
   params,
   ...options
-}: UseGetHttpServiceOptions<TParams, TResponse>) {
+}: UseGetHttpServiceOptions<TParams, TResponse, TResponseData>) {
   const apiInstance = useApiInstance();
 
   return useQuery({
@@ -38,7 +38,10 @@ export function useHttpQueryService<TResponse = unknown, TParams = {}>({
 
 export function useHttpMutationService<TRequestData, TResponse>(
   options: UseOtherHttpServiceOptions &
-    Omit<UseMutationOptions<AxiosResponse<TResponse, AxiosError>, Error, TRequestData>, 'mutationFn'>,
+    Omit<
+      UseMutationOptions<AxiosResponse<TResponse, AxiosError>, Error, TRequestData>,
+      'mutationFn'
+    >,
   config: Omit<AxiosRequestConfig<TRequestData>, 'method' | 'data'> = {},
 ) {
   const apiInstance = useApiInstance();

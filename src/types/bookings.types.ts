@@ -60,3 +60,19 @@ export interface BookingsFilter {
   size?: number;
   sort?: string;
 }
+
+export interface AvailabilityDay {
+  date: string;
+  note: string;
+  closed: boolean;
+  timeSlots: Array<{
+    startTime: string;
+    endTime: string;
+  }>;
+}
+
+export interface AvailabilityDaysFilter {
+  stylistId: number;
+  from: string;
+  to: string;
+}
