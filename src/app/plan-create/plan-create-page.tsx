@@ -8,13 +8,17 @@ import { Button } from '@/components/ui/button.tsx';
 import { PriceField } from '@/app/plan-create/components/price-field.tsx';
 import { usePlanCreate } from '@/app/plan-create/hooks/use-plan-create.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
+import { BackButton } from '@/components/back-button';
 
 export function PlanCreatePage() {
   const { form, onSubmit, isEdit, isLoading } = usePlanCreate();
 
   return (
     <div>
-      <h3 className="font-semibold flex-1">{isEdit ? 'Update plan' : 'Create new plan'}</h3>
+      <div className="flex gap-2 items-center">
+        <BackButton to="/settings/plans" />
+        <h3 className="font-semibold flex-1">{isEdit ? 'Update plan' : 'Create new plan'}</h3>
+      </div>
 
       {isLoading ? (
         <div className="mt-8 grid gap-8 max-w-xl">
@@ -33,6 +37,14 @@ export function PlanCreatePage() {
                 name="name"
                 label="Plan Title"
                 placeholder="Plan Title"
+              />
+
+              <TextInput
+                control={form.control}
+                name="productId"
+                label="Product ID"
+                placeholder="Product ID (e.g. com.kbmatrix.premium)"
+                description="E.g. com.kbmatrix.premium, exclude the last part indicating billing frequency (monthly, annually)"
               />
 
               <Textarea

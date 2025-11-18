@@ -24,6 +24,7 @@ export interface Contact {
   tiktok: string;
   website: string;
   phoneNumber: string;
+  email: string;
   address: Address;
 }
 
