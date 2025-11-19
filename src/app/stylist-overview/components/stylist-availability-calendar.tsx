@@ -65,7 +65,7 @@ export function StylistAvailabilityCalendar({ stylistId }: StylistAvailabilityCa
                       {children}
                     </CalendarDayButton>
                   </HoverCardTrigger>
-                  <HoverCardContent className="max-w-40">
+                  <HoverCardContent className="max-w-fit">
                     {isAvailable ? (
                       <div>
                         <p className="text-xs font-medium">Available</p>

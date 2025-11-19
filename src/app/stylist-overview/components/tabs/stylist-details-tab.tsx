@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 import { formatPhoneNumber } from '@/utils';
 import { StylistAvailabilityCalendar } from '@/app/stylist-overview/components/stylist-availability-calendar.tsx';
 import { cn } from '@/lib/utils.ts';
+import { StylistReviews } from '@/app/stylist-overview/components/stylist-reviews.tsx';
 
 interface StylistDetailsTabProps {
   stylist: Stylist;
@@ -11,7 +12,7 @@ interface StylistDetailsTabProps {
 export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
   return (
     <div className="grid gap-6 pt-2">
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle>Contact Information</CardTitle>
@@ -70,6 +71,8 @@ export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
         </Card>
 
         <StylistAvailabilityCalendar stylistId={stylist.id} />
+
+        <StylistReviews stylist={stylist} />
       </div>
     </div>
   );
