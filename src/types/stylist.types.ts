@@ -13,6 +13,7 @@ export interface Stylist {
   tag: string;
   description: string;
   contact: Contact;
+  countryCode: string;
   cover?: Media;
   logo?: Media;
   deliveryTypes: Array<DeliveryType>;

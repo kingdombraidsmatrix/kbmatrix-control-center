@@ -4,6 +4,7 @@ import { formatDate } from '@/lib/utils.ts';
 import { StarRating } from '@/components/star-rating';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatPhoneNumber } from '@/utils';
+import { CountryFlag } from '@/components/country-flag';
 
 export const StylistsColumns: Array<ColumnDef<Stylist>> = [
   {
@@ -19,6 +20,11 @@ export const StylistsColumns: Array<ColumnDef<Stylist>> = [
     accessorKey: 'contact.phoneNumber',
     header: 'Phone Number',
     accessorFn: (row) => formatPhoneNumber(row.contact.phoneNumber) || '-',
+  },
+  {
+    accessorKey: 'countryCode',
+    header: 'Country',
+    cell: ({ getValue }) => <CountryFlag countryCode={getValue() as string} />,
   },
   {
     accessorKey: 'averageRating',

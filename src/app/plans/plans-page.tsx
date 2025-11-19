@@ -5,6 +5,7 @@ import { groupBy } from 'lodash-es';
 import { Button } from '@/components/ui/button.tsx';
 import { useGetPlansService } from '@/services/plans/use-get-plans-service.ts';
 import { PlansTable } from '@/app/plans/components/plans-table.tsx';
+import { CountryFlag } from '@/components/country-flag';
 
 export function PlansPage() {
   const { data, isLoading } = useGetPlansService();
@@ -30,11 +31,7 @@ export function PlansPage() {
             {Object.entries(groupedPlans).map(([key, value]) => (
               <div key={key} className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <img
-                    src={`https://flagcdn.com/${key.toLowerCase()}.svg`}
-                    className="size-6 object-cover object-center overflow-hidden rounded-full"
-                    alt={key}
-                  />
+                  <CountryFlag countryCode={key} />
                   <h4 className="font-semibold">{value[0].country.name}</h4>
                 </div>
 
