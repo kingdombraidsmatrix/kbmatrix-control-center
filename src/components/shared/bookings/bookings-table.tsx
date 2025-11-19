@@ -1,19 +1,24 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import type { SortingState } from '@tanstack/react-table';
+import type { BookingsFilter } from '@/types/bookings.types.ts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
 import { transformSorting } from '@/lib/utils.ts';
-import { BookingsColumns } from '@/app/bookings/components/columns.tsx';
+import { BookingsColumns } from '@/components/shared/bookings/columns.tsx';
 import { useGetBookings } from '@/services/bookings';
 
-export function BookingsTable() {
+interface BookingsTableProps {
+  filters?: Partial<BookingsFilter>;
+}
+export function BookingsTable({ filters = {} }: BookingsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
   const [{ pageIndex, pageSize }, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const { data, isLoading } = useGetBookings({
     page: pageIndex,
     size: pageSize,
     sort: transformSorting(sorting),
+    ...filters,
   });
 
   const table = useReactTable({
