@@ -1,4 +1,4 @@
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import type { Stylist } from '@/types';
 import { StylistOverviewTab } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
@@ -11,8 +11,10 @@ interface StylistTabsProps {
   stylist: Stylist;
 }
 export function StylistTabs({ stylist }: StylistTabsProps) {
-  const { tab = StylistOverviewTab.DETAILS } = useSearch({ from: '/_auth/stylists/$stylistId' });
-  const navigate = useNavigate({ from: '/stylists/$stylistId' });
+  const { tab = StylistOverviewTab.DETAILS } = useParams({
+    from: '/_auth/stylists/$stylistId/{-$tab}/{-$section}',
+  });
+  const navigate = useNavigate({ from: '/stylists/$stylistId/{-$tab}/{-$section}' });
 
   return (
     <div>
@@ -21,7 +23,7 @@ export function StylistTabs({ stylist }: StylistTabsProps) {
         value={tab}
         onValueChange={(value) =>
           navigate({
-            search: (prev) => ({ ...prev, tab: value as StylistOverviewTab }),
+            params: { tab: value as StylistOverviewTab, section: undefined },
             replace: true,
           })
         }

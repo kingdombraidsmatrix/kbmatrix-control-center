@@ -8,7 +8,7 @@ import { StylistHeader } from '@/app/stylist-overview/components/stylist-header.
 import { StylistTabs } from '@/app/stylist-overview/components/stylist-tabs.tsx';
 
 export function StylistOverviewPage() {
-  const { stylistId } = useParams({ from: '/_auth/stylists/$stylistId' });
+  const { stylistId } = useParams({ from: '/_auth/stylists/$stylistId/{-$tab}/{-$section}' });
   const { isLoading, data, error } = useGetStylistService(stylistId);
 
   const breadcrumbs: Array<BreadcrumbItem> = [
