@@ -10,8 +10,9 @@ import { TransactionsColumns } from '@/components/shared/transactions/columns.ts
 
 interface TransactionsTableProps {
   filters?: Partial<TransactionsFilter>;
+  title?: string;
 }
-export function TransactionsTable({ filters = {} }: TransactionsTableProps) {
+export function TransactionsTable({ filters = {}, title }: TransactionsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
   const [{ pageIndex, pageSize }, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const { data, isLoading } = useGetTransactions({
@@ -38,7 +39,7 @@ export function TransactionsTable({ filters = {} }: TransactionsTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>All Transactions</CardTitle>
+        <CardTitle>{title || 'All Transactions'}</CardTitle>
       </CardHeader>
       <CardContent>
         <DataTable table={table} columns={TransactionsColumns} isLoading={isLoading} />

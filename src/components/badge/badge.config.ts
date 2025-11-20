@@ -2,6 +2,7 @@ import type { BadgeConfig } from '@/components/badge/badge.type.ts';
 import { UserStatus } from '@/types';
 import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
+import { SubscriptionStatus } from '@/types/plans.ts';
 
 export const BooleanBadgeConfig: Record<'true' | 'false', BadgeConfig> = {
   true: {
@@ -134,5 +135,28 @@ export const TransactionTypeBadgeConfig: Record<TransactionType, BadgeConfig> = 
   [TransactionType.SUBSCRIPTION_PAYMENT]: {
     variant: 'success',
     text: 'Subscription Payment',
+  },
+};
+
+export const SubscriptionStatusBadgeConfig: Record<SubscriptionStatus, BadgeConfig> = {
+  [SubscriptionStatus.ACTIVE]: {
+    variant: 'success',
+    text: 'Active',
+  },
+  [SubscriptionStatus.CANCELLED]: {
+    variant: 'destructive',
+    text: 'Cancelled',
+  },
+  [SubscriptionStatus.OVERDUE]: {
+    variant: 'warning',
+    text: 'Overdue',
+  },
+  [SubscriptionStatus.TRIAL]: {
+    variant: 'default',
+    text: 'Trial',
+  },
+  [SubscriptionStatus.CANCELLED_PENDING]: {
+    variant: 'outline',
+    text: 'Cancelling',
   },
 };
