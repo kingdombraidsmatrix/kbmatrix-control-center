@@ -103,3 +103,8 @@ export interface TransactionsFilter {
   size: number;
   sort: string;
 }
+
+export interface WalletBalance {
+  currency: Currency;
+  balance: number;
+}
