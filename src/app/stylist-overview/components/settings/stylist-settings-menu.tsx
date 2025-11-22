@@ -1,7 +1,8 @@
 import { Link, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { type SettingsMenuProps, StylistSettings } from '@/app/stylist-overview/types.ts';
+import type {SettingsMenuProps} from '@/app/stylist-overview/types.ts';
+import {  StylistSettings } from '@/app/stylist-overview/types.ts';
 import { cn } from '@/lib/utils.ts';
 import { settingsMenuItems } from '@/app/stylist-overview/components/settings/stylist-settings.constant.tsx';
 

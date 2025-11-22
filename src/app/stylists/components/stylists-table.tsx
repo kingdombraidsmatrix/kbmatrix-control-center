@@ -45,7 +45,7 @@ export function StylistsTable() {
           isLoading={isLoading}
           classNames={{ row: 'cursor-pointer' }}
           onRowClick={(row) =>
-            navigate({ to: '/stylists/$stylistId', params: { stylistId: String(row.id) } })
+            navigate({ to: '/stylists/$stylistId/{-$tab}/{-$section}', params: { stylistId: String(row.id) } })
           }
         />
       </CardContent>
