@@ -6,7 +6,12 @@ import { formatMoney } from '@/lib/utils.ts';
 import { TransactionsTable } from '@/components/shared/transactions/transactions-table.tsx';
 import { TransactionType } from '@/types/transactions.types.ts';
 import { PaymentMethodCard } from '@/components/payment-method-card';
-import { useGetPaymentMethods, useGetWithdrawalMethods } from '@/services/transactions';
+import {
+  useGetBalance,
+  useGetPaymentMethods,
+  useGetWithdrawalMethods,
+} from '@/services/transactions';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx';
 
 export function StylistSettingsBalance({ stylist }: StylistSettingsComponent) {
   return (
@@ -16,10 +21,7 @@ export function StylistSettingsBalance({ stylist }: StylistSettingsComponent) {
       <div className="mt-6 space-y-4">
         <Card>
           <CardContent className="space-y-6">
-            <div className="bg-secondary p-6 rounded-2xl max-w-sm">
-              <p className="text-muted-foreground">Available Balance</p>
-              <h1 className="font-bold">{formatMoney(3477.6, '$')}</h1>
-            </div>
+            <BalanceSection stylist={stylist} />
 
             <PaymentMethodsSection stylist={stylist} />
 
@@ -33,6 +35,34 @@ export function StylistSettingsBalance({ stylist }: StylistSettingsComponent) {
           exclude={['transactionType', 'to', 'transactionFlow']}
         />
       </div>
+    </div>
+  );
+}
+
+function BalanceSection({ stylist }: { stylist: Stylist }) {
+  const { data, isLoading } = useGetBalance({ stylistId: stylist.id });
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading balance...</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Alert variant="destructive">
+        <AlertTitle>Error!</AlertTitle>
+        <AlertDescription>Unable to load wallet balance</AlertDescription>
+      </Alert>
+    );
+  }
+
+  return (
+    <div className="bg-secondary p-6 rounded-2xl max-w-sm">
+      <p className="text-muted-foreground">Available Balance</p>
+      <h1 className="font-bold">{formatMoney(data.balance, data.currency.symbol)}</h1>
     </div>
   );
 }

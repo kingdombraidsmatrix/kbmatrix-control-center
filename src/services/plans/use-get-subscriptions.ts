@@ -11,7 +11,7 @@ interface SubscriptionFilters {
 export function useGetSubscriptionsService(filters: SubscriptionFilters) {
   return useHttpQueryService<Page<Subscription>>({
     url: '/api/v1/subscriptions',
-    queryKey: ['subscriptions'],
+    queryKey: ['subscriptions', filters],
     params: {
       sort: ['createdAt,desc'],
       ...filters,
