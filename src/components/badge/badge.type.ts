@@ -20,9 +20,10 @@ export enum BadgeContext {
   SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS',
 }
 
-interface BooleanBadge {
+export interface BooleanBadge {
   context: BadgeContext.BOOLEAN;
   value: boolean;
+  valueLabel?: [string, string];
 }
 
 interface UserStatusBadge {

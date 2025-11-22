@@ -55,6 +55,7 @@ export function StylistSettingsSubscriptions({ stylist }: StylistSettingsCompone
         <TransactionsTable
           filters={{ stylistId: stylist.id, transactionType: TransactionType.SUBSCRIPTION_PAYMENT }}
           title="Subscription Transactions"
+          exclude={['to', 'transactionFlow', 'transactionType']}
         />
       </div>
     </div>

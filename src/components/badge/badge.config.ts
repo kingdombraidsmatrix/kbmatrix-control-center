@@ -4,16 +4,18 @@ import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
 
-export const BooleanBadgeConfig: Record<'true' | 'false', BadgeConfig> = {
+export const BooleanBadgeConfig = (
+  valueLabel?: [string, string],
+): Record<'true' | 'false', BadgeConfig> => ({
   true: {
     variant: 'default',
-    text: 'True',
+    text: valueLabel?.[0] || 'True',
   },
   false: {
     variant: 'secondary',
-    text: 'False',
+    text: valueLabel?.[1] || 'False',
   },
-};
+});
 
 export const UserStatusBadgeConfig: Record<UserStatus, BadgeConfig> = {
   [UserStatus.DELETED]: {
@@ -134,6 +136,10 @@ export const TransactionTypeBadgeConfig: Record<TransactionType, BadgeConfig> = 
   },
   [TransactionType.SUBSCRIPTION_PAYMENT]: {
     variant: 'success',
+    text: 'Subscription Payment',
+  },
+  [TransactionType.WITHDRAWAL]: {
+    variant: 'secondary',
     text: 'Subscription Payment',
   },
 };

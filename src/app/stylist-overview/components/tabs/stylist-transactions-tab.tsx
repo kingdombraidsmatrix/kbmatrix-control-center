@@ -5,5 +5,5 @@ interface StylistTransactionsTabProps {
   stylist: Stylist;
 }
 export function StylistTransactionsTab({ stylist }: StylistTransactionsTabProps) {
-  return <TransactionsTable filters={{ stylistId: stylist.id }} />;
+  return <TransactionsTable filters={{ stylistId: stylist.id }} exclude={['to']} />;
 }
