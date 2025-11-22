@@ -12,7 +12,7 @@ interface StylistDetailsTabProps {
 export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
   return (
     <div className="grid gap-6 pt-2">
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(24rem,1fr))]">
         <Card>
           <CardHeader>
             <CardTitle>Contact Information</CardTitle>

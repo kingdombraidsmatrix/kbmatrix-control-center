@@ -51,7 +51,7 @@ function PaymentMethodsSection({ stylist }: { stylist: Stylist }) {
           <p className="text-sm text-muted-foreground">No payment methods</p>
         </div>
       ) : (
-        <div className="grid gap-4 max-w-sm">
+        <div className="grid grid-cols-[repeat(auto-fit,24rem)] gap-4 max-w-sm">
           {data.map((item) => (
             <PaymentMethodCard key={item.id} paymentMethod={item} />
           ))}
