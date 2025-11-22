@@ -11,6 +11,7 @@ export enum TransactionType {
   BOOKING_REMITTANCE = 'BOOKING_REMITTANCE',
   SUBSCRIPTION_PAYMENT = 'SUBSCRIPTION_PAYMENT',
   WALLET_FUNDING = 'WALLET_FUNDING',
+  WITHDRAWAL = 'WITHDRAWAL',
 }
 
 export enum TransactionStatus {
@@ -26,6 +27,7 @@ export enum TransactionFlow {
 
 export enum PaymentMethodType {
   CARD = 'CARD',
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
 }
 
 export interface Transaction {
@@ -58,7 +60,8 @@ export interface PaymentMethod {
   stylist: Stylist;
   paymentMethodType: PaymentMethodType;
   defaultPaymentMethod: boolean;
-  card: PaymentMethodCard;
+  card?: PaymentMethodCard;
+  bankAccount?: PaymentMethodBankAccount;
   updatedAt: DateString;
   createdAt: DateString;
 }
@@ -73,6 +76,15 @@ export interface PaymentMethodCard {
   last4: string;
   threeDSecure: boolean;
   createdAt: DateString;
+}
+
+export interface PaymentMethodBankAccount {
+  id: number;
+  accountType: string;
+  accountHolderName: string;
+  bankName: string;
+  last4: string;
+  routingNumber: string;
 }
 
 export interface TransactionsFilter {

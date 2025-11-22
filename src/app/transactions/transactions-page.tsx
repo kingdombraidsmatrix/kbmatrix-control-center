@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/page-header';
-import { TransactionsTable } from '@/app/transactions/components/transactions-table.tsx';
+import { TransactionsTable } from '@/components/shared/transactions/transactions-table.tsx';
 
 export function TransactionsPage() {
   return (

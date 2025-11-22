@@ -31,6 +31,10 @@ export function formatDate(date: Date | string) {
   return format(new Date(date), 'dd MMM. yy, hh:mm:ss a');
 }
 
+export function formatDateISO(date: Date | string) {
+  return format(new Date(date), 'yyyy-MM-dd');
+}
+
 export function handleHttpError(error: any, form?: UseFormReturn<any>) {
   if (error?.response?.data?.message) {
     if (!!form && Object.keys(error.response.data?.errors).length) {
