@@ -13,10 +13,10 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as ExternalLoginRouteImport } from './routes/_external/login'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth/transactions'
-import { Route as AuthStylistsRouteImport } from './routes/_auth/stylists'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
 import { Route as AuthBookingsRouteImport } from './routes/_auth/bookings'
+import { Route as AuthStylistsIndexRouteImport } from './routes/_auth/stylists.index'
 import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
 import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_auth/settings.service-categories'
 import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
@@ -24,6 +24,7 @@ import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settin
 import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
 import { Route as AuthSettingsPlansIndexRouteImport } from './routes/_auth/settings.plans.index'
 import { Route as AuthSettingsPlansPlanIdRouteImport } from './routes/_auth/settings.plans.$planId'
+import { Route as AuthStylistsStylistIdChar123TabChar125Char123SectionChar125RouteImport } from './routes/_auth/stylists.$stylistId.{-$tab}.{-$section}'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -44,11 +45,6 @@ const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
   path: '/transactions',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthStylistsRoute = AuthStylistsRouteImport.update({
-  id: '/stylists',
-  path: '/stylists',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthSettingsRoute = AuthSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -62,6 +58,11 @@ const AuthCustomersRoute = AuthCustomersRouteImport.update({
 const AuthBookingsRoute = AuthBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthStylistsIndexRoute = AuthStylistsIndexRouteImport.update({
+  id: '/stylists/',
+  path: '/stylists/',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthSettingsIndexRoute = AuthSettingsIndexRouteImport.update({
@@ -101,12 +102,19 @@ const AuthSettingsPlansPlanIdRoute = AuthSettingsPlansPlanIdRouteImport.update({
   path: '/plans/$planId',
   getParentRoute: () => AuthSettingsRoute,
 } as any)
+const AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route =
+  AuthStylistsStylistIdChar123TabChar125Char123SectionChar125RouteImport.update(
+    {
+      id: '/stylists/$stylistId/{-$tab}/{-$section}',
+      path: '/stylists/$stylistId/{-$tab}/{-$section}',
+      getParentRoute: () => AuthRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/bookings': typeof AuthBookingsRoute
   '/customers': typeof AuthCustomersRoute
   '/settings': typeof AuthSettingsRouteWithChildren
-  '/stylists': typeof AuthStylistsRoute
   '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
@@ -115,13 +123,14 @@ export interface FileRoutesByFullPath {
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/settings/': typeof AuthSettingsIndexRoute
+  '/stylists': typeof AuthStylistsIndexRoute
   '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/settings/plans': typeof AuthSettingsPlansIndexRoute
+  '/stylists/$stylistId/{-$tab}/{-$section}': typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 export interface FileRoutesByTo {
   '/bookings': typeof AuthBookingsRoute
   '/customers': typeof AuthCustomersRoute
-  '/stylists': typeof AuthStylistsRoute
   '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
@@ -130,8 +139,10 @@ export interface FileRoutesByTo {
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/settings': typeof AuthSettingsIndexRoute
+  '/stylists': typeof AuthStylistsIndexRoute
   '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/settings/plans': typeof AuthSettingsPlansIndexRoute
+  '/stylists/$stylistId/{-$tab}/{-$section}': typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,7 +150,6 @@ export interface FileRoutesById {
   '/_auth/bookings': typeof AuthBookingsRoute
   '/_auth/customers': typeof AuthCustomersRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
-  '/_auth/stylists': typeof AuthStylistsRoute
   '/_auth/transactions': typeof AuthTransactionsRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
@@ -148,8 +158,10 @@ export interface FileRoutesById {
   '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
   '/_auth/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
   '/_auth/settings/': typeof AuthSettingsIndexRoute
+  '/_auth/stylists/': typeof AuthStylistsIndexRoute
   '/_auth/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
   '/_auth/settings/plans/': typeof AuthSettingsPlansIndexRoute
+  '/_auth/stylists/$stylistId/{-$tab}/{-$section}': typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -157,7 +169,6 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/customers'
     | '/settings'
-    | '/stylists'
     | '/transactions'
     | '/login'
     | '/'
@@ -166,13 +177,14 @@ export interface FileRouteTypes {
     | '/settings/providers'
     | '/settings/service-categories'
     | '/settings/'
+    | '/stylists'
     | '/settings/plans/$planId'
     | '/settings/plans'
+    | '/stylists/$stylistId/{-$tab}/{-$section}'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/bookings'
     | '/customers'
-    | '/stylists'
     | '/transactions'
     | '/login'
     | '/'
@@ -181,15 +193,16 @@ export interface FileRouteTypes {
     | '/settings/providers'
     | '/settings/service-categories'
     | '/settings'
+    | '/stylists'
     | '/settings/plans/$planId'
     | '/settings/plans'
+    | '/stylists/$stylistId/{-$tab}/{-$section}'
   id:
     | '__root__'
     | '/_auth'
     | '/_auth/bookings'
     | '/_auth/customers'
     | '/_auth/settings'
-    | '/_auth/stylists'
     | '/_auth/transactions'
     | '/_external/login'
     | '/_auth/'
@@ -198,8 +211,10 @@ export interface FileRouteTypes {
     | '/_auth/settings/providers'
     | '/_auth/settings/service-categories'
     | '/_auth/settings/'
+    | '/_auth/stylists/'
     | '/_auth/settings/plans/$planId'
     | '/_auth/settings/plans/'
+    | '/_auth/stylists/$stylistId/{-$tab}/{-$section}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,13 +252,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTransactionsRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/stylists': {
-      id: '/_auth/stylists'
-      path: '/stylists'
-      fullPath: '/stylists'
-      preLoaderRoute: typeof AuthStylistsRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/settings': {
       id: '/_auth/settings'
       path: '/settings'
@@ -263,6 +271,13 @@ declare module '@tanstack/react-router' {
       path: '/bookings'
       fullPath: '/bookings'
       preLoaderRoute: typeof AuthBookingsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/stylists/': {
+      id: '/_auth/stylists/'
+      path: '/stylists'
+      fullPath: '/stylists'
+      preLoaderRoute: typeof AuthStylistsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/settings/': {
@@ -314,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsPlansPlanIdRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
+    '/_auth/stylists/$stylistId/{-$tab}/{-$section}': {
+      id: '/_auth/stylists/$stylistId/{-$tab}/{-$section}'
+      path: '/stylists/$stylistId/{-$tab}/{-$section}'
+      fullPath: '/stylists/$stylistId/{-$tab}/{-$section}'
+      preLoaderRoute: typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125RouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
@@ -345,18 +367,21 @@ interface AuthRouteChildren {
   AuthBookingsRoute: typeof AuthBookingsRoute
   AuthCustomersRoute: typeof AuthCustomersRoute
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
-  AuthStylistsRoute: typeof AuthStylistsRoute
   AuthTransactionsRoute: typeof AuthTransactionsRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthStylistsIndexRoute: typeof AuthStylistsIndexRoute
+  AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route: typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthBookingsRoute: AuthBookingsRoute,
   AuthCustomersRoute: AuthCustomersRoute,
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
-  AuthStylistsRoute: AuthStylistsRoute,
   AuthTransactionsRoute: AuthTransactionsRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthStylistsIndexRoute: AuthStylistsIndexRoute,
+  AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route:
+    AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

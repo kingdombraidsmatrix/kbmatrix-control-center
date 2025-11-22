@@ -1,5 +1,6 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import type { SortingState } from '@tanstack/react-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
@@ -15,6 +16,8 @@ export function StylistsTable() {
     size: pageSize,
     sort: transformSorting(sorting),
   });
+
+  const navigate = useNavigate();
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -36,7 +39,15 @@ export function StylistsTable() {
         <CardTitle>All Stylists</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable table={table} columns={StylistsColumns} isLoading={isLoading} />
+        <DataTable
+          table={table}
+          columns={StylistsColumns}
+          isLoading={isLoading}
+          classNames={{ row: 'cursor-pointer' }}
+          onRowClick={(row) =>
+            navigate({ to: '/stylists/$stylistId', params: { stylistId: String(row.id) } })
+          }
+        />
       </CardContent>
     </Card>
   );

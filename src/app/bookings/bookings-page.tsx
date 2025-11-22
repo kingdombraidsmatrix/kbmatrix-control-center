@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/page-header';
-import { BookingsTable } from '@/app/bookings/components/bookings-table.tsx';
+import { BookingsTable } from '@/components/shared/bookings/bookings-table.tsx';
 
 export function BookingsPage() {
   return (
