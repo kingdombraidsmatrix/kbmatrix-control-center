@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 
 import type { ExportProps } from '@/components/export-button/types.ts';
 import { useGetExportDownloadUrl } from '@/services/export';
+import { ExportStatus } from '@/types';
 
 export function useExport({ triggerFn, filePrefix }: ExportProps) {
   const [isExporting, setIsExporting] = useState(false);
@@ -61,6 +62,10 @@ export function useExport({ triggerFn, filePrefix }: ExportProps) {
           handleDownload(exportResponse.data.downloadUrl);
           clearInterval(intervalRef.current);
           setIsExporting(false);
+        } else if (exportResponse.data.status === ExportStatus.FAILED) {
+          toast.error('Sorry, something went wrong!');
+          setIsExporting(false);
+          clearInterval(intervalRef.current);
         }
       }, 1_000);
     } catch (e) {
