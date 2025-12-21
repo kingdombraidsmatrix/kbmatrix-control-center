@@ -140,7 +140,7 @@ export const TransactionTypeBadgeConfig: Record<TransactionType, BadgeConfig> = 
   },
   [TransactionType.WITHDRAWAL]: {
     variant: 'secondary',
-    text: 'Subscription Payment',
+    text: 'Withdrawal',
   },
 };
 

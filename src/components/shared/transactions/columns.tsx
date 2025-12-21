@@ -1,8 +1,9 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Transaction } from '@/types/transactions.types.ts';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
-import { cn, formatDate, formatMoney } from '@/lib/utils.ts';
+import { formatDate, formatMoney } from '@/lib/utils.ts';
 import { Badge, BadgeContext } from '@/components/badge';
+import { TransactionUser } from '@/components/shared/transactions/transaction-user.tsx';
 
 export const TransactionsColumns: Array<ColumnDef<Transaction>> = [
   {
@@ -17,9 +18,7 @@ export const TransactionsColumns: Array<ColumnDef<Transaction>> = [
     accessorKey: 'to',
     header: 'User / Stylist',
     cell: ({ row: { original: transaction } }) => (
-      <span className={cn(transaction.user ? 'text-indigo-600' : 'text-emerald-500')}>
-        {transaction.user?.fullName || transaction.stylist?.name}
-      </span>
+      <TransactionUser user={transaction.user} stylist={transaction.stylist} />
     ),
   },
   {
