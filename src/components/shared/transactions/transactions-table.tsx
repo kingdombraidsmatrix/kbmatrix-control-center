@@ -7,6 +7,8 @@ import { DataTable } from '@/components/data-table/data-table.tsx';
 import { transformSorting } from '@/lib/utils.ts';
 import { useGetTransactions } from '@/services/transactions';
 import { TransactionsColumns } from '@/components/shared/transactions/columns.tsx';
+import { ExportButton } from '@/components/export-button';
+import { useExportTransactions } from '@/services/export';
 
 type ColumnKey = keyof Transaction | (string & 'to');
 
@@ -31,6 +33,8 @@ export function TransactionsTable({ filters = {}, title, exclude = [] }: Transac
     [exclude],
   );
 
+  const { exportTransactions } = useExportTransactions(filters);
+
   const table = useReactTable({
     data: data?.content ?? [],
     columns: TransactionsColumns,
@@ -48,7 +52,10 @@ export function TransactionsTable({ filters = {}, title, exclude = [] }: Transac
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title || 'All Transactions'}</CardTitle>
+        <div className="flex gap-4 items-center justify-between">
+          <CardTitle>{title || 'All Transactions'}</CardTitle>
+          <ExportButton triggerFn={exportTransactions} filePrefix="transactions" />
+        </div>
       </CardHeader>
       <CardContent>
         <DataTable table={table} columns={TransactionsColumns} isLoading={isLoading} />

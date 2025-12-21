@@ -7,6 +7,8 @@ import { DataTable } from '@/components/data-table/data-table.tsx';
 import { transformSorting } from '@/lib/utils.ts';
 import { BookingsColumns } from '@/components/shared/bookings/columns.tsx';
 import { useGetBookings } from '@/services/bookings';
+import { ExportButton } from '@/components/export-button';
+import { useExportBookings } from '@/services/export';
 
 interface BookingsTableProps {
   filters?: Partial<BookingsFilter>;
@@ -20,6 +22,8 @@ export function BookingsTable({ filters = {} }: BookingsTableProps) {
     sort: transformSorting(sorting),
     ...filters,
   });
+
+  const { exportBookings } = useExportBookings(filters);
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -38,7 +42,10 @@ export function BookingsTable({ filters = {} }: BookingsTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>All Bookings</CardTitle>
+        <div className="flex gap-4 items-center justify-between">
+          <CardTitle>All Bookings</CardTitle>
+          <ExportButton triggerFn={exportBookings} filePrefix="bookings" />
+        </div>
       </CardHeader>
       <CardContent>
         <DataTable table={table} columns={BookingsColumns} isLoading={isLoading} />

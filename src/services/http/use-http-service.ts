@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useApiInstance } from '@/services/http/api.ts';
+import { useMemo } from 'react';
 
 interface UseGetHttpServiceOptions<TParams, TResponse, TResponseData = TResponse>
   extends Omit<UseQueryOptions<TResponse, AxiosError, TResponseData>, 'queryFn'> {
@@ -36,19 +37,29 @@ export function useHttpQueryService<TResponse = unknown, TParams = {}, TResponse
   });
 }
 
+type OptionsBaseParams<TRequestData, TResponse> = UseOtherHttpServiceOptions &
+  Omit<UseMutationOptions<AxiosResponse<TResponse, AxiosError>, Error, TRequestData>, 'mutationFn'>;
+
 export function useHttpMutationService<TRequestData, TResponse>(
-  options: UseOtherHttpServiceOptions &
-    Omit<
-      UseMutationOptions<AxiosResponse<TResponse, AxiosError>, Error, TRequestData>,
-      'mutationFn'
-    >,
+  optionsParam:
+    | OptionsBaseParams<TRequestData, TResponse>
+    | ((data?: TRequestData | void) => OptionsBaseParams<TRequestData, TResponse>),
   config: Omit<AxiosRequestConfig<TRequestData>, 'method' | 'data'> = {},
 ) {
   const apiInstance = useApiInstance();
 
+  const options = useMemo(() => {
+    if (typeof optionsParam === 'function') {
+      return optionsParam();
+    }
+    return optionsParam;
+  }, [optionsParam]);
+
   return useMutation({
     ...options,
-    mutationFn: (data?: TRequestData | void) =>
-      apiInstance<TResponse>(options.url, { method: options.method, data, ...config }),
+    mutationFn: (data?: TRequestData | void) => {
+      const opts = typeof optionsParam === 'function' ? optionsParam(data) : optionsParam;
+      return apiInstance<TResponse>(opts.url, { method: opts.method, data, ...config });
+    },
   });
 }
