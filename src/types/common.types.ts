@@ -36,3 +36,15 @@ export interface Review {
   media: Array<Media>;
   createdAt: DateString;
 }
+
+export enum ExportStatus {
+  PENDING = 'PENDING',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+}
+
+export interface ExportResponse {
+  status: ExportStatus;
+  downloadUrl?: string;
+}

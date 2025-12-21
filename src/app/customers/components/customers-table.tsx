@@ -7,6 +7,8 @@ import { DataTable } from '@/components/data-table/data-table.tsx';
 import { transformSorting } from '@/lib/utils.ts';
 import { useGetCustomersService } from '@/services/customers';
 import { UserStatus } from '@/types';
+import { useExportUsers } from '@/services/export';
+import { ExportButton } from '@/components/export-button';
 
 export function CustomersTable() {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
@@ -17,6 +19,8 @@ export function CustomersTable() {
     sort: transformSorting(sorting),
     userStatus: [UserStatus.ACTIVE],
   });
+
+  const { exportUsers } = useExportUsers();
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -35,7 +39,10 @@ export function CustomersTable() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>All Customers</CardTitle>
+        <div className="flex gap-4 items-center justify-between">
+          <CardTitle>All Customers</CardTitle>
+          <ExportButton triggerFn={exportUsers} filePrefix="customers" />
+        </div>
       </CardHeader>
       <CardContent>
         <DataTable columns={CustomersColumns} table={table} isLoading={isLoading} />
