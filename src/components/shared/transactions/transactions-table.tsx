@@ -9,6 +9,8 @@ import { useGetTransactions } from '@/services/transactions';
 import { TransactionsColumns } from '@/components/shared/transactions/columns.tsx';
 import { ExportButton } from '@/components/export-button';
 import { useExportTransactions } from '@/services/export';
+import { Filter } from '@/components/filter';
+import { useTransactionFilterConfig } from '@/components/shared/transactions/hooks/use-transaction-filter-config.ts';
 
 type ColumnKey = keyof Transaction | (string & 'to');
 
@@ -34,6 +36,7 @@ export function TransactionsTable({ filters = {}, title, exclude = [] }: Transac
   );
 
   const { exportTransactions } = useExportTransactions(filters);
+  const filterConfig = useTransactionFilterConfig();
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -54,7 +57,10 @@ export function TransactionsTable({ filters = {}, title, exclude = [] }: Transac
       <CardHeader>
         <div className="flex gap-4 items-center justify-between">
           <CardTitle>{title || 'All Transactions'}</CardTitle>
-          <ExportButton triggerFn={exportTransactions} filePrefix="transactions" />
+          <div className="flex gap-2">
+            <Filter config={filterConfig} table={table} />
+            <ExportButton triggerFn={exportTransactions} filePrefix="transactions" />
+          </div>
         </div>
       </CardHeader>
       <CardContent>
