@@ -1,7 +1,7 @@
 import type { badgeVariants } from '@/components/ui/badge.tsx';
 import type { VariantProps } from 'class-variance-authority';
 import type { LucideIcon } from 'lucide-react';
-import type { UserStatus } from '@/types';
+import { StylistStatus, type UserStatus } from '@/types';
 import type { BookingStatus } from '@/types/bookings.types.ts';
 import type {
   TransactionFlow,
@@ -18,6 +18,7 @@ export enum BadgeContext {
   TRANSACTION_FLOW = 'TRANSACTION_FLOW',
   TRANSACTION_TYPE = 'TRANSACTION_TYPE',
   SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS',
+  STYLIST_STATUS = 'STYLIST_STATUS',
 }
 
 export interface BooleanBadge {
@@ -56,6 +57,11 @@ interface SubscriptionStatusBadge {
   value: SubscriptionStatus;
 }
 
+interface StylistStatusBadge {
+  context: BadgeContext.STYLIST_STATUS;
+  value: StylistStatus;
+}
+
 export type BadgeProps =
   | BooleanBadge
   | UserStatusBadge
@@ -63,7 +69,8 @@ export type BadgeProps =
   | TransactionStatusBadge
   | TransactionFlowBadge
   | TransactionTypeBadge
-  | SubscriptionStatusBadge;
+  | SubscriptionStatusBadge
+  | StylistStatusBadge;
 
 export interface BadgeConfig {
   variant: VariantProps<typeof badgeVariants>['variant'];

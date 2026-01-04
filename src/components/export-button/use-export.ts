@@ -24,7 +24,7 @@ export function useExport({ triggerFn, filePrefix }: ExportProps) {
       const aTag = document.createElement('a');
       aTag.download = generateFileName(downloadUrl);
       aTag.href = downloadUrl;
-      // aTag.target = '_blank';
+      aTag.target = '_blank';
       document.body.appendChild(aTag);
       aTag.click();
       setTimeout(() => {

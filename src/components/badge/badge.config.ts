@@ -1,5 +1,5 @@
 import type { BadgeConfig } from '@/components/badge/badge.type.ts';
-import { UserStatus } from '@/types';
+import { StylistStatus, UserStatus } from '@/types';
 import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
@@ -164,5 +164,24 @@ export const SubscriptionStatusBadgeConfig: Record<SubscriptionStatus, BadgeConf
   [SubscriptionStatus.CANCELLED_PENDING]: {
     variant: 'outline',
     text: 'Cancelling',
+  },
+};
+
+export const StylistStatusBadgeConfig: Record<StylistStatus, BadgeConfig> = {
+  [StylistStatus.ACTIVE]: {
+    variant: 'success',
+    text: 'Active',
+  },
+  [StylistStatus.DISABLED]: {
+    variant: 'secondary',
+    text: 'Disabled',
+  },
+  [StylistStatus.SUSPENDED]: {
+    variant: 'destructive',
+    text: 'Suspended',
+  },
+  [StylistStatus.IN_REVIEW]: {
+    variant: 'warning',
+    text: 'In Review',
   },
 };

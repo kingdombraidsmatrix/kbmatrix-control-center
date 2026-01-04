@@ -1,8 +1,8 @@
 import type { Page } from '@/types/common.types.ts';
-import type { Stylist } from '@/types';
+import type { Stylist, StylistsFilter } from '@/types';
 import { useHttpQueryService } from '@/services/http';
 
-interface UseGetStylistsServiceParams {
+interface UseGetStylistsServiceParams extends StylistsFilter {
   page?: number;
   size?: number;
   sort?: string;

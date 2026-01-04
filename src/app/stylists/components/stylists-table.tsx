@@ -1,7 +1,7 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import type { SortingState } from '@tanstack/react-table';
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
 import { StylistsColumns } from '@/app/stylists/columns.tsx';
@@ -9,26 +9,36 @@ import { useGetStylistsService } from '@/services/stylists';
 import { transformSorting } from '@/lib/utils.ts';
 import { ExportButton } from '@/components/export-button';
 import { useExportStylists } from '@/services/export/use-export-stylists.ts';
+import { Filter } from '@/components/filter';
+import { useTransformStylistsFilter } from '@/app/stylists/hooks/use-transform-stylists-filter.ts';
+import { useStylistsFilterConfig } from '@/app/stylists/hooks/use-stylists-filter-config.ts';
 
 export function StylistsTable() {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
   const [{ pageIndex, pageSize }, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+
+  const mappedFilters = useTransformStylistsFilter(columnFilters);
+
   const { data, isLoading } = useGetStylistsService({
     page: pageIndex,
     size: pageSize,
     sort: transformSorting(sorting),
+    ...mappedFilters,
   });
 
   const { exportStylists } = useExportStylists();
+  const filterConfig = useStylistsFilterConfig();
 
   const navigate = useNavigate();
 
   const table = useReactTable({
     data: data?.content ?? [],
     columns: StylistsColumns,
-    state: { sorting, pagination: { pageIndex, pageSize } },
+    state: { sorting, pagination: { pageIndex, pageSize }, columnFilters },
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     pageCount: data?.totalPages,
     rowCount: data?.totalElements,
     getCoreRowModel: getCoreRowModel(),
@@ -42,7 +52,10 @@ export function StylistsTable() {
       <CardHeader>
         <div className="flex gap-4 items-center justify-between">
           <CardTitle>All Stylists</CardTitle>
-          <ExportButton triggerFn={exportStylists} filePrefix="stylists" />
+          <div className="flex gap-2">
+            <Filter config={filterConfig} table={table} columnFiltersState={columnFilters} />
+            <ExportButton triggerFn={exportStylists} filePrefix="stylists" />
+          </div>
         </div>
       </CardHeader>
       <CardContent>
