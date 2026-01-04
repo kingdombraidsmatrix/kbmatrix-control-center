@@ -5,6 +5,7 @@ import { StarRating } from '@/components/star-rating';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatPhoneNumber } from '@/utils';
 import { CountryFlag } from '@/components/country-flag';
+import { Badge, BadgeContext } from '@/components/badge';
 
 export const StylistsColumns: Array<ColumnDef<Stylist>> = [
   {
@@ -20,6 +21,11 @@ export const StylistsColumns: Array<ColumnDef<Stylist>> = [
     accessorKey: 'contact.phoneNumber',
     header: 'Phone Number',
     accessorFn: (row) => formatPhoneNumber(row.contact.phoneNumber) || '-',
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => <Badge context={BadgeContext.STYLIST_STATUS} value={row.original.status} />,
   },
   {
     accessorKey: 'countryCode',

@@ -21,6 +21,7 @@ export function useBadgeConfig(props: BadgeProps): BadgeConfig {
       [BadgeContext.TRANSACTION_STATUS]: TransactionStatusBadgeConfig,
       [BadgeContext.TRANSACTION_FLOW]: TransactionFlowBadgeConfig,
       [BadgeContext.SUBSCRIPTION_STATUS]: SubscriptionStatusBadgeConfig,
+      [BadgeContext.STYLIST_STATUS]: SubscriptionStatusBadgeConfig,
     };
 
     const value =

@@ -1,6 +1,7 @@
 import { Dot } from 'lucide-react';
 import type { Stylist } from '@/types';
 import { Badge } from '@/components/ui/badge.tsx';
+import { Badge as AppBadge, BadgeContext } from '@/components/badge';
 import { StarRating } from '@/components/star-rating';
 import { CountryFlag } from '@/components/country-flag';
 
@@ -36,7 +37,8 @@ export function StylistHeader({ stylist }: StylistHeaderProps) {
             </p>
             <CountryFlag countryCode={stylist.countryCode} className="size-4 ml-1" />
           </div>
-          <div>
+          <div className="flex flex-wrap items-center gap-1">
+            <AppBadge context={BadgeContext.STYLIST_STATUS} value={stylist.status} />
             {stylist.deliveryTypes.map((deliveryType) => (
               <Badge key={deliveryType}>{deliveryType}</Badge>
             ))}

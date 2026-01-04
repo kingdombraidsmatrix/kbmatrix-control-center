@@ -7,6 +7,13 @@ export enum StylistOverviewTab {
   TRANSACTIONS = 'transactions',
 }
 
+export enum StylistStatus {
+  ACTIVE = 'ACTIVE',
+  DISABLED = 'DISABLED',
+  IN_REVIEW = 'IN_REVIEW',
+  SUSPENDED = 'SUSPENDED',
+}
+
 export interface Stylist {
   id: number;
   name: string;
@@ -18,7 +25,13 @@ export interface Stylist {
   logo?: Media;
   deliveryTypes: Array<DeliveryType>;
   averageRating: AverageRating;
+  status: StylistStatus;
   createdAt: string;
+}
+
+export interface StylistsFilter {
+  search?: string;
+  status?: StylistStatus;
 }
 
 export enum DeliveryType {
