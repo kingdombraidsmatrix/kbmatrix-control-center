@@ -28,5 +28,15 @@ export function useTransactionFilterConfig(): FilterConfig {
         { label: 'Withdrawal', value: 'WITHDRAWAL' },
       ],
     },
+    {
+      type: 'single-select',
+      name: 'Transaction Status',
+      columnKey: 'transactionStatus',
+      options: [
+        { label: 'Pending', value: 'PENDING' },
+        { label: 'Successful', value: 'SUCCESS' },
+        { label: 'Failed', value: 'FAILED' },
+      ],
+    },
   ];
 }

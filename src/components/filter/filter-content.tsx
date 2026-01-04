@@ -27,7 +27,7 @@ export function FilterContent({ config, table }: FilterContentProps) {
     <div className="space-y-6 px-4">
       {config.map((item, index) => {
         const column = table.getColumn(item.columnKey);
-        if (!column) return null;
+        if (!column || !column.getIsVisible()) return null;
 
         if (item.type === 'text') {
           return <FilterTextComponent key={index} column={column} {...item} />;
@@ -66,7 +66,7 @@ function FilterTextComponent({ column, name }: FilterText & ExtendedFilterItemPr
       <Input
         className="h-10"
         placeholder={name}
-        value={value}
+        value={value || ''}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
@@ -186,9 +186,13 @@ function FilterSingleSelectComponent({
 
   const onChange = useCallback(
     (itemValue: string) => {
-      column.setFilterValue(itemValue);
+      if (value === itemValue) {
+        column.setFilterValue(undefined);
+      } else {
+        column.setFilterValue(itemValue);
+      }
     },
-    [column],
+    [column, value],
   );
 
   const selectedOption = options.find((item) => item.value === value);
