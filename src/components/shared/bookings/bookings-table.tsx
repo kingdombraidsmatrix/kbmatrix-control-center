@@ -38,7 +38,19 @@ export function BookingsTable({ filters = {} }: BookingsTableProps) {
   const table = useReactTable({
     data: data?.content ?? [],
     columns: BookingsColumns,
-    state: { sorting, pagination: { pageIndex, pageSize }, columnFilters },
+    state: {
+      sorting,
+      pagination: { pageIndex, pageSize },
+      columnFilters,
+      columnVisibility: {
+        startTimeFrom: false,
+        startTimeTo: false,
+        endTimeFrom: false,
+        endTimeTo: false,
+        createdTimeFrom: false,
+        createdTimeTo: false,
+      },
+    },
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

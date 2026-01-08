@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button.tsx';
 import { cn } from '@/lib/utils.ts';
 import { Badge } from '@/components/ui/badge.tsx';
+import { FilterDateRangeComponent } from '@/components/filter/components/filter-date-range.tsx';
 
 interface FilterContentProps {
   config: FilterConfig;
@@ -26,20 +27,34 @@ export function FilterContent({ config, table }: FilterContentProps) {
   return (
     <div className="space-y-6 px-4">
       {config.map((item, index) => {
-        const column = table.getColumn(item.columnKey);
-        if (!column || !column.getIsVisible()) return null;
+        if ('columnKey' in item) {
+          const column = table.getColumn(item.columnKey);
 
-        if (item.type === 'text') {
-          return <FilterTextComponent key={index} column={column} {...item} />;
+          if (!column || !column.getIsVisible()) return null;
+
+          if (item.type === 'text') {
+            return <FilterTextComponent key={index} column={column} {...item} />;
+          }
+
+          if (item.type === 'multi-select') {
+            return <FilterMultiSelectComponent key={index} column={column} {...item} />;
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          if (item.type === 'single-select') {
+            return <FilterSingleSelectComponent key={index} column={column} {...item} />;
+          }
         }
 
-        if (item.type === 'multi-select') {
-          return <FilterMultiSelectComponent key={index} column={column} {...item} />;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (item.type === 'single-select') {
-          return <FilterSingleSelectComponent key={index} column={column} {...item} />;
+        if (item.type === 'date-range') {
+          return (
+            <FilterDateRangeComponent
+              key={index}
+              startColumn={table.getColumn(item.startColumnKey)}
+              endColumn={table.getColumn(item.endColumnKey)}
+              {...item}
+            />
+          );
         }
 
         return null;

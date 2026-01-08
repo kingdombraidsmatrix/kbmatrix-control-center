@@ -48,4 +48,34 @@ export const BookingsColumns: Array<ColumnDef<Booking>> = [
     enableSorting: true,
     cell: ({ getValue }) => formatDate(getValue() as string),
   },
+  {
+    accessorKey: 'startTimeFrom',
+    header: () => null,
+    size: 0,
+  },
+  {
+    accessorKey: 'startTimeTo',
+    header: () => null,
+    size: 0,
+  },
+  {
+    accessorKey: 'endTimeFrom',
+    header: () => null,
+    size: 0,
+  },
+  {
+    accessorKey: 'endTimeTo',
+    header: () => null,
+    size: 0,
+  },
+  {
+    accessorKey: 'createdTimeFrom',
+    header: () => null,
+    size: 0,
+  },
+  {
+    accessorKey: 'createdTimeTo',
+    header: () => null,
+    size: 0,
+  },
 ];

@@ -21,5 +21,23 @@ export function useBookingsFilterConfig(): FilterConfig {
         { label: 'No-Show Rejected', value: 'NO_SHOW_REJECTED' },
       ],
     },
+    {
+      type: 'date-range',
+      name: 'Start Time',
+      startColumnKey: 'startTimeFrom',
+      endColumnKey: 'startTimeTo',
+    },
+    {
+      type: 'date-range',
+      name: 'End Time',
+      startColumnKey: 'endTimeFrom',
+      endColumnKey: 'endTimeTo',
+    },
+    {
+      type: 'date-range',
+      name: 'Date Created',
+      startColumnKey: 'createdTimeFrom',
+      endColumnKey: 'createdTimeTo',
+    },
   ];
 }
