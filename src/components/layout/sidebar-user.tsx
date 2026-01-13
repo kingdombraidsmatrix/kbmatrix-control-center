@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu.tsx';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 import { useGetUserDetails } from '@/services/auth';
+import { Link } from '@tanstack/react-router';
 
 export function SidebarUser() {
   const { clearToken, user, setUser } = useAuthStore();
@@ -42,11 +43,15 @@ export function SidebarUser() {
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <User2 /> Profile
+          <DropdownMenuItem asChild>
+            <Link to="/profile/{-$section}" params={{ section: undefined }}>
+              <User2 /> Profile
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ShieldAlert /> Security
+          <DropdownMenuItem asChild>
+            <Link to="/profile/{-$section}" params={{ section: 'security' }}>
+              <ShieldAlert /> Security
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onClick={clearToken}>

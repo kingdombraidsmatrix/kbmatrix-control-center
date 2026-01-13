@@ -3,7 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import type { FC } from 'react';
 
 export interface StylistSettingsComponent {
-  stylist: Stylist;
+  data: Stylist;
 }
 
 export interface SettingsMenuProps {

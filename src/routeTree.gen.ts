@@ -22,6 +22,7 @@ import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_aut
 import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
 import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settings.countries'
 import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
+import { Route as AuthProfileChar123SectionChar125RouteImport } from './routes/_auth/profile.{-$section}'
 import { Route as AuthSettingsPlansIndexRouteImport } from './routes/_auth/settings.plans.index'
 import { Route as AuthSettingsPlansPlanIdRouteImport } from './routes/_auth/settings.plans.$planId'
 import { Route as AuthStylistsStylistIdChar123TabChar125Char123SectionChar125RouteImport } from './routes/_auth/stylists.$stylistId.{-$tab}.{-$section}'
@@ -92,6 +93,12 @@ const AuthSettingsConfigurationRoute =
     path: '/configuration',
     getParentRoute: () => AuthSettingsRoute,
   } as any)
+const AuthProfileChar123SectionChar125Route =
+  AuthProfileChar123SectionChar125RouteImport.update({
+    id: '/profile/{-$section}',
+    path: '/profile/{-$section}',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const AuthSettingsPlansIndexRoute = AuthSettingsPlansIndexRouteImport.update({
   id: '/plans/',
   path: '/plans/',
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/transactions': typeof AuthTransactionsRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
@@ -153,6 +162,7 @@ export interface FileRoutesById {
   '/_auth/transactions': typeof AuthTransactionsRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/_auth/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/_auth/settings/countries': typeof AuthSettingsCountriesRoute
   '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/login'
     | '/'
+    | '/profile/{-$section}'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/login'
     | '/'
+    | '/profile/{-$section}'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
@@ -206,6 +218,7 @@ export interface FileRouteTypes {
     | '/_auth/transactions'
     | '/_external/login'
     | '/_auth/'
+    | '/_auth/profile/{-$section}'
     | '/_auth/settings/configuration'
     | '/_auth/settings/countries'
     | '/_auth/settings/providers'
@@ -315,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsConfigurationRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
+    '/_auth/profile/{-$section}': {
+      id: '/_auth/profile/{-$section}'
+      path: '/profile/{-$section}'
+      fullPath: '/profile/{-$section}'
+      preLoaderRoute: typeof AuthProfileChar123SectionChar125RouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/settings/plans/': {
       id: '/_auth/settings/plans/'
       path: '/plans'
@@ -369,6 +389,7 @@ interface AuthRouteChildren {
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
   AuthTransactionsRoute: typeof AuthTransactionsRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthProfileChar123SectionChar125Route: typeof AuthProfileChar123SectionChar125Route
   AuthStylistsIndexRoute: typeof AuthStylistsIndexRoute
   AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route: typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
@@ -379,6 +400,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
   AuthTransactionsRoute: AuthTransactionsRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthProfileChar123SectionChar125Route: AuthProfileChar123SectionChar125Route,
   AuthStylistsIndexRoute: AuthStylistsIndexRoute,
   AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route:
     AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route,

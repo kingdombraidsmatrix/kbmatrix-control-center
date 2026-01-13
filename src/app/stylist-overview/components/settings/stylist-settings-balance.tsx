@@ -13,7 +13,7 @@ import {
 } from '@/services/transactions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx';
 
-export function StylistSettingsBalance({ stylist }: StylistSettingsComponent) {
+export function StylistSettingsBalance({ data: stylist }: StylistSettingsComponent) {
   return (
     <div>
       <PageHeader title="Wallet Balance" />
