@@ -1,3 +1,5 @@
+import type { DateString } from '@/types/common.types.ts';
+
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
   SUSPENDED = 'SUSPENDED',
@@ -11,6 +13,13 @@ export enum UserSignupType {
   FACEBOOK = 'FACEBOOK',
   GOOGLE = 'GOOGLE',
   APPLE = 'APPLE',
+}
+
+export enum AdminStatus {
+  ACTIVE = 'ACTIVE',
+  PENDING = 'PENDING',
+  SUSPENDED = 'SUSPENDED',
+  REJECTED = 'REJECTED',
 }
 
 export interface User {
@@ -31,4 +40,21 @@ export interface UsersOverview {
   activeUsers: number;
   inactiveUsers: number;
   allUsers: number;
+}
+
+export interface Role {
+  id: number;
+  name: string;
+  description: string;
+  permissions: Array<string>;
+  createdAt: DateString;
+}
+
+export interface AdminUser {
+  id: number;
+  email: string;
+  user?: User;
+  role: Role;
+  status: AdminStatus;
+  createdAt: DateString;
 }

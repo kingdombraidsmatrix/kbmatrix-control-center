@@ -22,6 +22,7 @@ import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_aut
 import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
 import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settings.countries'
 import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
+import { Route as AuthSettingsAdminRouteImport } from './routes/_auth/settings.admin'
 import { Route as AuthProfileChar123SectionChar125RouteImport } from './routes/_auth/profile.{-$section}'
 import { Route as AuthSettingsPlansIndexRouteImport } from './routes/_auth/settings.plans.index'
 import { Route as AuthSettingsPlansPlanIdRouteImport } from './routes/_auth/settings.plans.$planId'
@@ -93,6 +94,11 @@ const AuthSettingsConfigurationRoute =
     path: '/configuration',
     getParentRoute: () => AuthSettingsRoute,
   } as any)
+const AuthSettingsAdminRoute = AuthSettingsAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthSettingsRoute,
+} as any)
 const AuthProfileChar123SectionChar125Route =
   AuthProfileChar123SectionChar125RouteImport.update({
     id: '/profile/{-$section}',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
+  '/settings/admin': typeof AuthSettingsAdminRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
+  '/settings/admin': typeof AuthSettingsAdminRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
+  '/_auth/settings/admin': typeof AuthSettingsAdminRoute
   '/_auth/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/_auth/settings/countries': typeof AuthSettingsCountriesRoute
   '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/profile/{-$section}'
+    | '/settings/admin'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/profile/{-$section}'
+    | '/settings/admin'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/_external/login'
     | '/_auth/'
     | '/_auth/profile/{-$section}'
+    | '/_auth/settings/admin'
     | '/_auth/settings/configuration'
     | '/_auth/settings/countries'
     | '/_auth/settings/providers'
@@ -328,6 +340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsConfigurationRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
+    '/_auth/settings/admin': {
+      id: '/_auth/settings/admin'
+      path: '/admin'
+      fullPath: '/settings/admin'
+      preLoaderRoute: typeof AuthSettingsAdminRouteImport
+      parentRoute: typeof AuthSettingsRoute
+    }
     '/_auth/profile/{-$section}': {
       id: '/_auth/profile/{-$section}'
       path: '/profile/{-$section}'
@@ -360,6 +379,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthSettingsRouteChildren {
+  AuthSettingsAdminRoute: typeof AuthSettingsAdminRoute
   AuthSettingsConfigurationRoute: typeof AuthSettingsConfigurationRoute
   AuthSettingsCountriesRoute: typeof AuthSettingsCountriesRoute
   AuthSettingsProvidersRoute: typeof AuthSettingsProvidersRoute
@@ -370,6 +390,7 @@ interface AuthSettingsRouteChildren {
 }
 
 const AuthSettingsRouteChildren: AuthSettingsRouteChildren = {
+  AuthSettingsAdminRoute: AuthSettingsAdminRoute,
   AuthSettingsConfigurationRoute: AuthSettingsConfigurationRoute,
   AuthSettingsCountriesRoute: AuthSettingsCountriesRoute,
   AuthSettingsProvidersRoute: AuthSettingsProvidersRoute,
