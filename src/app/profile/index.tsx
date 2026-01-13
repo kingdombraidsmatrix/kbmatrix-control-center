@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/components/breadcrumb';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 import { SideTab } from '@/components/side-tab';
 import { profileMenuItems } from '@/app/profile/profile.constants.ts';
+import { FALLBACK_PROFILE_PICTURE } from '@/assets/constants.ts';
 
 export function ProfilePage() {
   const user = useAuthStore((state) => state.user);
@@ -30,7 +31,7 @@ export function ProfilePage() {
       <div className="flex items-center gap-3">
         <div className="size-20 overflow-hidden rounded-2xl">
           <img
-            src="https://github.com/shadcn.png"
+            src={user.image || FALLBACK_PROFILE_PICTURE}
             alt="profile image"
             className="size-full object-cover object-center"
           />

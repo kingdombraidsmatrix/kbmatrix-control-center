@@ -1,5 +1,6 @@
 import { LogOut, MoreHorizontal, ShieldAlert, User2 } from 'lucide-react';
 import { useEffect } from 'react';
+import { Link } from '@tanstack/react-router';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import {
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu.tsx';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 import { useGetUserDetails } from '@/services/auth';
-import { Link } from '@tanstack/react-router';
+import { FALLBACK_PROFILE_PICTURE } from '@/assets/constants.ts';
 
 export function SidebarUser() {
   const { clearToken, user, setUser } = useAuthStore();
@@ -27,7 +28,11 @@ export function SidebarUser() {
   return (
     <div className="flex gap-2 p-2 rounded-lg">
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" alt="Admin" />
+        <AvatarImage
+          src={user?.image || FALLBACK_PROFILE_PICTURE}
+          alt="Admin"
+          className="object-cover"
+        />
         <AvatarFallback>RA</AvatarFallback>
       </Avatar>
       <div className="flex-1">
