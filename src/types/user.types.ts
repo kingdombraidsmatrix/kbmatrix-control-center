@@ -78,3 +78,8 @@ export interface Permission {
   name: string;
   value: string;
 }
+
+export interface InviteAdminRequest {
+  email: string;
+  roleId: number;
+}
