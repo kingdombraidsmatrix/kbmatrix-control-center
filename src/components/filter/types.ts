@@ -1,12 +1,6 @@
-import type { ComponentType } from 'react';
+import type { FilterOption } from '@/components/multi-select';
 
 export type FilterType = 'multi-select' | 'single-select' | 'text' | 'date-range';
-
-interface FilterOption {
-  label: string;
-  value: string;
-  icon?: ComponentType<{ className?: string }>;
-}
 
 interface BaseFilter {
   type: FilterType;

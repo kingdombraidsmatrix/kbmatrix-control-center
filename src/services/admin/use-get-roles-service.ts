@@ -9,6 +9,6 @@ export function useGetRolesService(params: UseGetRolesServiceProps) {
   return useHttpQueryService<Page<Role>>({
     url: '/api/v1/admin/role',
     queryKey: ['roles', params],
-    params,
+    params: { ...params, sort: 'id,desc' },
   });
 }

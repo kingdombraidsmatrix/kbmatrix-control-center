@@ -26,7 +26,6 @@ export function RolesTable() {
       columns={RolesColumns}
       table={table}
       isLoading={isLoading}
-      classNames={{ row: 'cursor-pointer' }}
     />
   );
 }

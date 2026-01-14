@@ -42,6 +42,16 @@ export interface UsersOverview {
   allUsers: number;
 }
 
+export interface CreateRoleRequest {
+  name: string;
+  description: string;
+  permissions: Array<string>;
+}
+
+export interface UpdateRoleRequest extends CreateRoleRequest {
+  id?: number;
+}
+
 export interface Role {
   id: number;
   name: string;
@@ -57,4 +67,14 @@ export interface AdminUser {
   role: Role;
   status: AdminStatus;
   createdAt: DateString;
+}
+
+export interface PermissionGroup {
+  name: string;
+  permissions: Array<Permission>;
+}
+
+export interface Permission {
+  name: string;
+  value: string;
 }
