@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { z } from 'zod';
-import { Controller, useForm, useFormContext } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -17,15 +17,8 @@ import {
 import { Button } from '@/components/ui/button.tsx';
 import { Form } from '@/components/ui/form.tsx';
 import { TextInput } from '@/components/text-input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select.tsx';
-import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field.tsx';
-import { useGetRolesService, useInviteAdminService } from '@/services/admin';
+import { useInviteAdminService } from '@/services/admin';
+import { RoleField } from '@/app/admin/components/users/admin-role-field.tsx';
 
 export function InviteAdminDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -94,7 +87,7 @@ function Content({ onClose }: ContentProps) {
             placeholder="Email Address"
           />
 
-          <RoleField />
+          <RoleField label="Role" />
         </div>
         <DialogFooter>
           <DialogClose asChild>
@@ -107,45 +100,5 @@ function Content({ onClose }: ContentProps) {
         </DialogFooter>
       </form>
     </Form>
-  );
-}
-
-function RoleField() {
-  const form = useFormContext();
-  const { data, isLoading } = useGetRolesService({ page: 0, size: 100 });
-
-  return (
-    <FieldGroup>
-      <Controller
-        name="roleId"
-        defaultValue=""
-        disabled={isLoading}
-        control={form.control}
-        render={({ field, fieldState }) => (
-          <Field orientation="vertical" data-invalid={fieldState.invalid}>
-            <FieldContent>
-              <FieldLabel htmlFor="form-rhf-select-role">Role</FieldLabel>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </FieldContent>
-            <Select name={field.name} value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger
-                id="form-rhf-select-role"
-                aria-invalid={fieldState.invalid}
-                className="min-w-[120px]"
-              >
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent position="item-aligned">
-                {data?.content.map((role) => (
-                  <SelectItem key={role.id} value={role.id.toString()}>
-                    {role.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </Field>
-        )}
-      />
-    </FieldGroup>
   );
 }

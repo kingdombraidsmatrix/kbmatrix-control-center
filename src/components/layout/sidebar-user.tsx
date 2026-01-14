@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu.tsx';
 import { useAuthStore } from '@/stores/auth/auth.store.ts';
 import { useGetUserDetails } from '@/services/auth';
-import { FALLBACK_PROFILE_PICTURE } from '@/assets/constants.ts';
+import { extractInitials, getBackgroundTint } from '@/lib/utils.ts';
 
 export function SidebarUser() {
   const { clearToken, user, setUser } = useAuthStore();
@@ -28,12 +28,10 @@ export function SidebarUser() {
   return (
     <div className="flex gap-2 p-2 rounded-lg">
       <Avatar>
-        <AvatarImage
-          src={user?.image || FALLBACK_PROFILE_PICTURE}
-          alt="Admin"
-          className="object-cover"
-        />
-        <AvatarFallback>RA</AvatarFallback>
+        <AvatarImage src={user?.image} alt="Admin" className="object-cover" />
+        <AvatarFallback className={getBackgroundTint(user?.fullName || 'Admin')}>
+          {extractInitials(user?.fullName)}
+        </AvatarFallback>
       </Avatar>
       <div className="flex-1">
         <p className="text-sm truncate">{user?.fullName}</p>

@@ -83,3 +83,9 @@ export interface InviteAdminRequest {
   email: string;
   roleId: number;
 }
+
+export interface UpdateAdminRequest {
+  id: number;
+  roleId?: number;
+  status?: AdminStatus;
+}
