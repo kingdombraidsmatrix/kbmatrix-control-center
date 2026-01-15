@@ -54,3 +54,37 @@ export function handleHttpError(error: any, form?: UseFormReturn<any>) {
 export function transformSorting(sorting: SortingState) {
   return sorting.map((item) => `${item.id},${item.desc ? 'DESC' : 'ASC'}`).join(',');
 }
+
+export function extractInitials(name: string = 'User') {
+  return name
+    .split(/\s+/)
+    .map((item) => item.trim()[0])
+    .filter(Boolean)
+    .join('')
+    .toUpperCase();
+}
+
+export function getBackgroundTint(input: string): string {
+  let hash = 0;
+
+  for (let i = 0; i < input.length; i++) {
+    hash = (hash * 31 + input.charCodeAt(i)) >>> 0; // unsigned 32-bit
+  }
+
+  const index = hash % 10;
+
+  const colors = [
+    'bg-emerald-500',
+    'bg-amber-500',
+    'bg-pink-500',
+    'bg-purple-500',
+    'bg-indigo-500',
+    'bg-fuchsia-400',
+    'bg-blue-500',
+    'bg-cyan-500',
+    'bg-indigo-500',
+    'bg-lime-500',
+  ];
+
+  return colors[index];
+}

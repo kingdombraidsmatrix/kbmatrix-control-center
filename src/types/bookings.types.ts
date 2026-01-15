@@ -55,6 +55,10 @@ export interface BookingsFilter {
   serviceId?: number;
   from?: Date;
   to?: Date;
+  startFrom?: Date;
+  startTo?: Date;
+  endFrom?: Date;
+  endTo?: Date;
   statuses?: Array<BookingStatus>;
   page?: number;
   size?: number;

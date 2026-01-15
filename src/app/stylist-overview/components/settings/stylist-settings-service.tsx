@@ -1,6 +1,6 @@
 import type { StylistSettingsComponent } from '@/app/stylist-overview/types.ts';
 
-export function StylistSettingsService({ stylist }: StylistSettingsComponent) {
+export function StylistSettingsService({ data: stylist }: StylistSettingsComponent) {
   return (
     <div>
       <h4>Services & Categories</h4>

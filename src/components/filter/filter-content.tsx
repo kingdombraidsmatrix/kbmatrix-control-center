@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { Check, ChevronsUpDown, X } from 'lucide-react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import type { FilterConfig, FilterSelect, FilterText } from '@/components/filter/types.ts';
 import type { Table } from '@tanstack/table-core';
 import type { Column } from '@tanstack/react-table';
@@ -16,7 +16,8 @@ import {
 } from '@/components/ui/command.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { cn } from '@/lib/utils.ts';
-import { Badge } from '@/components/ui/badge.tsx';
+import { FilterDateRangeComponent } from '@/components/filter/components/filter-date-range.tsx';
+import { MultiSelect } from '@/components/multi-select';
 
 interface FilterContentProps {
   config: FilterConfig;
@@ -26,20 +27,34 @@ export function FilterContent({ config, table }: FilterContentProps) {
   return (
     <div className="space-y-6 px-4">
       {config.map((item, index) => {
-        const column = table.getColumn(item.columnKey);
-        if (!column || !column.getIsVisible()) return null;
+        if ('columnKey' in item) {
+          const column = table.getColumn(item.columnKey);
 
-        if (item.type === 'text') {
-          return <FilterTextComponent key={index} column={column} {...item} />;
+          if (!column || !column.getIsVisible()) return null;
+
+          if (item.type === 'text') {
+            return <FilterTextComponent key={index} column={column} {...item} />;
+          }
+
+          if (item.type === 'multi-select') {
+            return <FilterMultiSelectComponent key={index} column={column} {...item} />;
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          if (item.type === 'single-select') {
+            return <FilterSingleSelectComponent key={index} column={column} {...item} />;
+          }
         }
 
-        if (item.type === 'multi-select') {
-          return <FilterMultiSelectComponent key={index} column={column} {...item} />;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (item.type === 'single-select') {
-          return <FilterSingleSelectComponent key={index} column={column} {...item} />;
+        if (item.type === 'date-range') {
+          return (
+            <FilterDateRangeComponent
+              key={index}
+              startColumn={table.getColumn(item.startColumnKey)}
+              endColumn={table.getColumn(item.endColumnKey)}
+              {...item}
+            />
+          );
         }
 
         return null;
@@ -78,99 +93,10 @@ function FilterMultiSelectComponent({
   options,
   column,
 }: FilterSelect & ExtendedFilterItemProps) {
-  const MAX_DISPLAY_ITEMS = 2;
-
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  const values = (column.getFilterValue() as Set<string> | null) || new Set<string>();
-
-  const onChange = useCallback(
-    (itemValue: string) => {
-      if (values.has(itemValue)) {
-        values.delete(itemValue);
-        column.setFilterValue(values);
-      } else {
-        values.add(itemValue);
-        column.setFilterValue(values);
-      }
-    },
-    [values],
-  );
-
-  const selectedOptions = options
-    .filter((item) => values.has(item.value))
-    .slice(0, MAX_DISPLAY_ITEMS);
+  const values = column.getFilterValue() as Set<string> | null;
 
   return (
-    <div className="space-y-2">
-      <Label>{name}</Label>
-
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-full h-auto min-h-10"
-            ref={triggerRef}
-          >
-            <span className="flex-1 text-left flex gap-1 flex-wrap">
-              {values.size === 0 ? (
-                `Select ${name}`
-              ) : (
-                <>
-                  {selectedOptions.map((item) => (
-                    <Badge key={item.value} variant="outline">
-                      <span className="block max-w-32 truncate">{item.label}</span>
-                      <button
-                        title={`Remove ${item.label}`}
-                        className="cursor-pointer text-destructive hover:bg-destructive/10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          onChange(item.value);
-                        }}
-                      >
-                        <X />
-                      </button>
-                    </Badge>
-                  ))}
-                  {values.size > MAX_DISPLAY_ITEMS && (
-                    <Badge variant="secondary">+{values.size - MAX_DISPLAY_ITEMS}</Badge>
-                  )}
-                </>
-              )}
-            </span>
-            <ChevronsUpDown className="opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="p-0"
-          style={{ width: `${triggerRef.current?.clientWidth || 200}px` }}
-        >
-          <Command>
-            <CommandInput placeholder={`Search ${name.toLowerCase()}`} className="h-9" />
-            <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
-              <CommandGroup>
-                {options.map((option) => (
-                  <CommandItem key={option.value} value={option.value} onSelect={onChange}>
-                    {option.label}
-                    <Check
-                      className={cn(
-                        'ml-auto',
-                        values.has(option.value) ? 'opacity-100' : 'opacity-0',
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    </div>
+    <MultiSelect options={options} label={name} value={values} onChange={column.setFilterValue} />
   );
 }
 

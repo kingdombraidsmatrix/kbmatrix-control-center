@@ -1,7 +1,8 @@
 import { BadgePercent, Store, UserRoundCog, Wallet2 } from 'lucide-react';
 import type { Subscription } from '@/types/plans.ts';
 import type { ColumnDef } from '@tanstack/react-table';
-import type { SettingsMenuProps } from '@/app/stylist-overview/types.ts';
+import type { SideTabMenuItemProps } from '@/components/side-tab';
+import type { Stylist } from '@/types';
 import { StylistSettings } from '@/app/stylist-overview/types.ts';
 import { StylistSettingsSubscriptions } from '@/app/stylist-overview/components/settings/stylist-settings-subscriptions.tsx';
 import { StylistSettingsBalance } from '@/app/stylist-overview/components/settings/stylist-settings-balance.tsx';
@@ -11,36 +12,36 @@ import { DataTableColumnHeader } from '@/components/data-table/data-table-column
 import { formatDate } from '@/lib/utils.ts';
 import { Badge, BadgeContext } from '@/components/badge';
 
-export const settingsMenuItems: Record<StylistSettings, SettingsMenuProps> = {
-  [StylistSettings.SUBSCRIPTIONS]: {
+export const settingsMenuItems: Array<SideTabMenuItemProps<Stylist>> = [
+  {
     id: StylistSettings.SUBSCRIPTIONS,
     title: 'Subscriptions',
     subtitle: 'Monitor stylist subscription history',
     icon: BadgePercent,
     component: StylistSettingsSubscriptions,
   },
-  [StylistSettings.BALANCES]: {
+  {
     id: StylistSettings.BALANCES,
     title: 'Balance',
     subtitle: 'Payment methods and wallet balance',
     icon: Wallet2,
     component: StylistSettingsBalance,
   },
-  [StylistSettings.SERVICES]: {
+  {
     id: StylistSettings.SERVICES,
     title: 'Services & Categories',
     subtitle: 'Stylist services',
     icon: Store,
     component: StylistSettingsService,
   },
-  [StylistSettings.TEAM_MEMBERS]: {
+  {
     id: StylistSettings.TEAM_MEMBERS,
     title: 'Team Members',
     subtitle: 'Roles and permissions',
     icon: UserRoundCog,
     component: StylistSettingsTeam,
   },
-};
+];
 
 export const SubscriptionsColumns: Array<ColumnDef<Subscription>> = [
   {

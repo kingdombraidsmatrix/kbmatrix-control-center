@@ -1,6 +1,6 @@
 import type { StylistSettingsComponent } from '@/app/stylist-overview/types.ts';
 
-export function StylistSettingsTeam({ stylist }: StylistSettingsComponent) {
+export function StylistSettingsTeam({ data: stylist }: StylistSettingsComponent) {
   return (
     <div>
       <h4>Team Members</h4>
