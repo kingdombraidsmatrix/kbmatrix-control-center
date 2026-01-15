@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { AdminStatus, type AdminUser } from '@/types';
+import type { AdminUser } from '@/types';
+import { AdminStatus } from '@/types';
 import { Dialog, DialogContent } from '@/components/ui/dialog.tsx';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
@@ -19,14 +20,17 @@ import {
 import { RoleField } from '@/app/admin/components/users/admin-role-field.tsx';
 import { Form } from '@/components/ui/form.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
+import { useAuthStore } from '@/stores/auth/auth.store.ts';
 
 interface AdminDetailsDialogProps {
   adminUser?: AdminUser;
-  close: () => void;
+  setSelectedAdminUser: (user: AdminUser | undefined) => void;
 }
-export function AdminDetailsDialog({ adminUser, close }: AdminDetailsDialogProps) {
+export function AdminDetailsDialog({ adminUser, setSelectedAdminUser }: AdminDetailsDialogProps) {
+  const user = useAuthStore((state) => state.user);
+
   return (
-    <Dialog open={!!adminUser} onOpenChange={close}>
+    <Dialog open={!!adminUser} onOpenChange={() => setSelectedAdminUser(undefined)}>
       {adminUser && (
         <DialogContent>
           {adminUser.user ? (
@@ -55,15 +59,29 @@ export function AdminDetailsDialog({ adminUser, close }: AdminDetailsDialogProps
             </div>
           )}
 
-          <div className="space-y-8 mt-4">
-            <ChangeRole id={adminUser.id} initialRoleId={adminUser.role.id} />
+          {user?.id === adminUser.user?.id ? (
+            <div>
+              <Alert>
+                <AlertTitle>Notice</AlertTitle>
+                <AlertDescription>
+                  You cannot manage/modify your details here, ask another admin to help
+                </AlertDescription>
+              </Alert>
+            </div>
+          ) : (
+            <div className="space-y-8 mt-4">
+              <ChangeRole adminUser={adminUser} setSelectedAdminUser={setSelectedAdminUser} />
 
-            <ResendInvitation adminUser={adminUser} />
+              <ResendInvitation adminUser={adminUser} />
 
-            <ToggleEnableAdmin adminUser={adminUser} close={close} />
+              <ToggleEnableAdmin
+                adminUser={adminUser}
+                setSelectedAdminUser={setSelectedAdminUser}
+              />
 
-            <DeleteAdmin adminUser={adminUser} close={close} />
-          </div>
+              <DeleteAdmin adminUser={adminUser} setSelectedAdminUser={setSelectedAdminUser} />
+            </div>
+          )}
         </DialogContent>
       )}
     </Dialog>
@@ -72,8 +90,9 @@ export function AdminDetailsDialog({ adminUser, close }: AdminDetailsDialogProps
 
 interface SectionProps {
   adminUser: AdminUser;
-  close: () => void;
+  setSelectedAdminUser: (user: AdminUser | undefined) => void;
 }
+
 function ResendInvitation({ adminUser }: Pick<SectionProps, 'adminUser'>) {
   const { mutateAsync, isPending } = useInviteAdminService();
 
@@ -115,11 +134,7 @@ function ResendInvitation({ adminUser }: Pick<SectionProps, 'adminUser'>) {
   );
 }
 
-interface ChangeRoleProps {
-  id: number;
-  initialRoleId: number;
-}
-function ChangeRole({ id, initialRoleId }: ChangeRoleProps) {
+function ChangeRole({ adminUser, setSelectedAdminUser }: SectionProps) {
   const { mutateAsync, isPending } = useUpdateAdminService();
   const queryClient = useQueryClient();
 
@@ -134,17 +149,18 @@ function ChangeRole({ id, initialRoleId }: ChangeRoleProps) {
     resolver: zodResolver(formSchema),
     mode: 'all',
     defaultValues: {
-      roleId: initialRoleId.toString(),
-      id,
+      roleId: adminUser.role.id.toString(),
+      id: adminUser.id,
     },
   });
 
   const onSubmit = useCallback(
     (values: FormType) => {
       mutateAsync({ id: values.id, roleId: Number(values.roleId) })
-        .then(() => {
+        .then((response) => {
           queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
           toast.success('Role updated successfully');
+          setSelectedAdminUser(response.data);
           form.reset(values);
         })
         .catch((err) => {
@@ -171,17 +187,17 @@ function ChangeRole({ id, initialRoleId }: ChangeRoleProps) {
   );
 }
 
-function ToggleEnableAdmin({ adminUser, close }: SectionProps) {
+function ToggleEnableAdmin({ adminUser, setSelectedAdminUser }: SectionProps) {
   const { mutateAsync, isPending } = useUpdateAdminService();
   const queryClient = useQueryClient();
 
   const handleClick = useCallback(
     (value: AdminStatus) => {
       mutateAsync({ id: adminUser.id, status: value })
-        .then(() => {
+        .then((response) => {
           queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
           toast.success('Status updated successfully');
-          close();
+          setSelectedAdminUser(response.data);
         })
         .catch((err) => {
           toast.error(
@@ -231,7 +247,7 @@ function ToggleEnableAdmin({ adminUser, close }: SectionProps) {
   return null;
 }
 
-function DeleteAdmin({ adminUser, close }: SectionProps) {
+function DeleteAdmin({ adminUser, setSelectedAdminUser }: SectionProps) {
   const { mutateAsync, isPending } = useDeleteAdminService(adminUser.id);
 
   const queryClient = useQueryClient();
@@ -241,7 +257,7 @@ function DeleteAdmin({ adminUser, close }: SectionProps) {
       .then(() => {
         toast.success('Admin deleted successfully');
         queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
-        close();
+        setSelectedAdminUser(undefined);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message || 'Unable to delete admin, an error occurred');

@@ -36,7 +36,7 @@ export function AdminUsersTable() {
       />
       <AdminDetailsDialog
         adminUser={selectedAdminUser}
-        close={() => setSelectedAdminUser(undefined)}
+        setSelectedAdminUser={setSelectedAdminUser}
       />
     </>
   );
