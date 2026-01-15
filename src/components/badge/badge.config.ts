@@ -1,5 +1,5 @@
 import type { BadgeConfig } from '@/components/badge/badge.type.ts';
-import { StylistStatus, UserStatus } from '@/types';
+import { AdminStatus, StylistStatus, UserStatus } from '@/types';
 import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
@@ -183,5 +183,24 @@ export const StylistStatusBadgeConfig: Record<StylistStatus, BadgeConfig> = {
   [StylistStatus.IN_REVIEW]: {
     variant: 'warning',
     text: 'In Review',
+  },
+};
+
+export const AdminStatusBadgeConfig: Record<AdminStatus, BadgeConfig> = {
+  [AdminStatus.ACTIVE]: {
+    variant: 'success',
+    text: 'Active',
+  },
+  [AdminStatus.PENDING]: {
+    variant: 'secondary',
+    text: 'Pending',
+  },
+  [AdminStatus.SUSPENDED]: {
+    variant: 'destructive',
+    text: 'Suspended',
+  },
+  [AdminStatus.REJECTED]: {
+    variant: 'destructive',
+    text: 'Rejected',
   },
 };

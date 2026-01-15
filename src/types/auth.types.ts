@@ -19,3 +19,8 @@ export interface LoginResponse {
   refreshToken?: string;
   type: TokenType;
 }
+
+export interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+}

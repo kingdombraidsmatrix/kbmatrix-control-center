@@ -1,4 +1,4 @@
-import { BadgePercent, Bolt, Earth, Layers2, ListChecks } from 'lucide-react';
+import { BadgePercent, Bolt, Earth, Layers2, ListChecks, ShieldUser } from 'lucide-react';
 import type { SettingsMenu } from '@/app/settings/settings.types.ts';
 
 export const settingsMenuItems: Array<SettingsMenu> = [
@@ -35,5 +35,12 @@ export const settingsMenuItems: Array<SettingsMenu> = [
     subtitle: 'Manage global service categories available for all users and stylists',
     icon: ListChecks,
     path: '/settings/service-categories',
+  },
+  {
+    key: 'administrators',
+    title: 'Administrators',
+    subtitle: 'Manage administrators and their roles',
+    icon: ShieldUser,
+    path: '/settings/admin',
   },
 ];

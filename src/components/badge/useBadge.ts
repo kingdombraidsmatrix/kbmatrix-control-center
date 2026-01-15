@@ -2,8 +2,10 @@ import { useMemo } from 'react';
 import type { BadgeConfig, BadgeProps, BooleanBadge } from '@/components/badge/badge.type.ts';
 import { BadgeContext } from '@/components/badge/badge.type.ts';
 import {
+  AdminStatusBadgeConfig,
   BookingStatusBadgeConfig,
   BooleanBadgeConfig,
+  StylistStatusBadgeConfig,
   SubscriptionStatusBadgeConfig,
   TransactionFlowBadgeConfig,
   TransactionStatusBadgeConfig,
@@ -21,7 +23,8 @@ export function useBadgeConfig(props: BadgeProps): BadgeConfig {
       [BadgeContext.TRANSACTION_STATUS]: TransactionStatusBadgeConfig,
       [BadgeContext.TRANSACTION_FLOW]: TransactionFlowBadgeConfig,
       [BadgeContext.SUBSCRIPTION_STATUS]: SubscriptionStatusBadgeConfig,
-      [BadgeContext.STYLIST_STATUS]: SubscriptionStatusBadgeConfig,
+      [BadgeContext.STYLIST_STATUS]: StylistStatusBadgeConfig,
+      [BadgeContext.ADMIN_STATUS]: AdminStatusBadgeConfig,
     };
 
     const value =

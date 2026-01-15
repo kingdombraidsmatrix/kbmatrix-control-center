@@ -27,7 +27,7 @@ export function StylistsTable() {
     ...mappedFilters,
   });
 
-  const { exportStylists } = useExportStylists();
+  const { exportStylists } = useExportStylists(mappedFilters);
   const filterConfig = useStylistsFilterConfig();
 
   const navigate = useNavigate();

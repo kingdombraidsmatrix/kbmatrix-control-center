@@ -16,7 +16,7 @@ import { Card, CardContent } from '@/components/ui/card.tsx';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx';
 import { formatDate, formatMoney } from '@/lib/utils.ts';
 
-export function StylistSettingsSubscriptions({ stylist }: StylistSettingsComponent) {
+export function StylistSettingsSubscriptions({ data: stylist }: StylistSettingsComponent) {
   return (
     <div>
       <PageHeader title="Subscriptions" />
