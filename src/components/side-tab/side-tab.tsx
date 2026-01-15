@@ -11,7 +11,7 @@ export function SideTab<TData>({ items, activeTab, data, pageId }: SideTabProps<
   const activeComponent = useMemo(() => {
     const activeItem = items.find((item) => item.id === resolvedActiveTab);
     if (activeItem) {
-      return <activeItem.component data={data} />;
+      return <activeItem.component data={data as TData} />;
     }
     return null;
   }, [items, activeTab, data]);

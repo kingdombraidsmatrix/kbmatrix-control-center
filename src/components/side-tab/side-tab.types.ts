@@ -13,5 +13,5 @@ export interface SideTabMenuItemProps<TData = void> {
   title: string;
   subtitle: string;
   icon: LucideIcon;
-  component: FC<{ data?: TData }>;
+  component: FC<{ data: TData }>;
 }
