@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as ExternalLoginRouteImport } from './routes/_external/login'
+import { Route as ExternalJoinRouteImport } from './routes/_external/join'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth/transactions'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
@@ -40,6 +41,11 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
 const ExternalLoginRoute = ExternalLoginRouteImport.update({
   id: '/_external/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExternalJoinRoute = ExternalJoinRouteImport.update({
+  id: '/_external/join',
+  path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/customers': typeof AuthCustomersRoute
   '/settings': typeof AuthSettingsRouteWithChildren
   '/transactions': typeof AuthTransactionsRoute
+  '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/bookings': typeof AuthBookingsRoute
   '/customers': typeof AuthCustomersRoute
   '/transactions': typeof AuthTransactionsRoute
+  '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/_auth/customers': typeof AuthCustomersRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
   '/_auth/transactions': typeof AuthTransactionsRoute
+  '/_external/join': typeof ExternalJoinRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/settings'
     | '/transactions'
+    | '/join'
     | '/login'
     | '/'
     | '/profile/{-$section}'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/customers'
     | '/transactions'
+    | '/join'
     | '/login'
     | '/'
     | '/profile/{-$section}'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/_auth/customers'
     | '/_auth/settings'
     | '/_auth/transactions'
+    | '/_external/join'
     | '/_external/login'
     | '/_auth/'
     | '/_auth/profile/{-$section}'
@@ -244,6 +256,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
+  ExternalJoinRoute: typeof ExternalJoinRoute
   ExternalLoginRoute: typeof ExternalLoginRoute
 }
 
@@ -268,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof ExternalLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_external/join': {
+      id: '/_external/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof ExternalJoinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/transactions': {
@@ -431,6 +451,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
+  ExternalJoinRoute: ExternalJoinRoute,
   ExternalLoginRoute: ExternalLoginRoute,
 }
 export const routeTree = rootRouteImport

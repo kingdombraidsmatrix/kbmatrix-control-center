@@ -6,3 +6,4 @@ export * from './use-get-permissions-service';
 export * from './use-invite-admin-service';
 export * from './use-update-admin-service';
 export * from './use-delete-admin-service';
+export * from './use-signup-service';

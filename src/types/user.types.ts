@@ -89,3 +89,15 @@ export interface UpdateAdminRequest {
   roleId?: number;
   status?: AdminStatus;
 }
+
+export interface JoinAdminRequest {
+  email: string;
+  phoneNumber: string;
+  password?: string;
+  fullName: string;
+  thirdPartyToken?: string;
+  signupType: UserSignupType;
+  userType: 'CUSTOMER';
+  countryId: number;
+  token: string;
+}
