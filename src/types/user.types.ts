@@ -42,6 +42,11 @@ export interface UsersOverview {
   allUsers: number;
 }
 
+export interface CustomersFilter {
+  search?: string;
+  status?: UserStatus;
+}
+
 export interface CreateRoleRequest {
   name: string;
   description: string;
