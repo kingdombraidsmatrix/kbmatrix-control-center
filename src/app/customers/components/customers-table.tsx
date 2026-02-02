@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
-// import { useNavigate } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { Filter } from '@/components/filter';
 import { CustomersColumns } from '@/app/customers/columns.tsx';
@@ -23,20 +22,19 @@ export function CustomersTable() {
 
   const mappedFilters = useTransformCustomersFilter(columnFilters);
 
+  console.log(mappedFilters);
+
   const serviceParams = {
     page: pageIndex,
     size: pageSize,
     sort: transformSorting(sorting),
-    ...(mappedFilters.search ? { search: mappedFilters.search } : {}),
-    ...(mappedFilters.status ? { userStatus: [mappedFilters.status] } : {}),
+    ...mappedFilters,
   };
 
   const { data, isLoading } = useGetCustomersService(serviceParams);
 
   const { exportUsers } = useExportUsers();
   const filterConfig = useCustomersFilterConfig();
-
-  // const navigate = useNavigate();
 
   const table = useReactTable({
     data: data?.content ?? [],
@@ -69,10 +67,6 @@ export function CustomersTable() {
         table={table} 
         isLoading={isLoading} 
         classNames={{ row: 'cursor-pointer' }}
-      //   onRowClick={(row) => 
-      //     navigate({ 
-      //       to: '/customers/$customerId/{-$tab}/{-$section}', params: { customerId: String(row.id)},
-      // })}
         />
       </CardContent>
     </Card>

@@ -8,14 +8,15 @@ export function useCustomersFilterConfig(): FilterConfig {
       columnKey: 'name',
     },
     {
-      type: 'single-select',
+      type: 'multi-select',
       name: 'Status',
       columnKey: 'status',
       options: [
         { label: 'Active', value: 'ACTIVE' },
-        { label: 'Disabled', value: 'DISABLED' },
-        { label: 'In Review', value: 'IN_REVIEW' },
         { label: 'Suspended', value: 'SUSPENDED' },
+        { label: 'In Review', value: 'IN_REVIEW' },
+        { label: 'Scheduled for Deletion', value: 'SCHEDULED_FOR_DELETION' },
+        { label: 'Deleted', value: 'DELETED' },
       ],
     },
   ];

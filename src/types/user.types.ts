@@ -44,7 +44,7 @@ export interface UsersOverview {
 
 export interface CustomersFilter {
   search?: string;
-  status?: UserStatus;
+  userStatus?: Array<UserStatus>;
 }
 
 export interface CreateRoleRequest {

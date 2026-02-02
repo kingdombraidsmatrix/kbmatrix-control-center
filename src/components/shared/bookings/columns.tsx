@@ -17,7 +17,7 @@ export const BookingsColumns: Array<ColumnDef<Booking>> = [
   {
     accessorKey: 'stylist',
     header: 'Stylist',
-    accessorFn: (row) => row.items[0]?.service.stylist.name,
+    accessorFn: (row) => row.items[0]?.service?.stylist.name || '-',
     enableSorting: false,
   },
   {
