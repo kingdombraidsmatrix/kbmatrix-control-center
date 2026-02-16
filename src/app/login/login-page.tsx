@@ -4,6 +4,9 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useCallback } from 'react';
 import { AlertCircle, Loader2 } from 'lucide-react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
+import { Icon } from '@iconify/react';
 import type { LoginRequest } from '@/types/auth.types.ts';
 import type { AxiosError } from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
@@ -24,6 +27,7 @@ export function LoginPage() {
   const formSchema = z.object({
     login: z.string().min(1, { message: 'Username is required' }),
     password: z.string().min(1, { message: 'Password is required' }),
+    signupType: z.enum([UserSignupType.PASSWORD]),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,12 +35,27 @@ export function LoginPage() {
     defaultValues: {
       login: '',
       password: '',
+      signupType: UserSignupType.PASSWORD,
     },
+  });
+
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      handleSubmit({
+        signupType: UserSignupType.GOOGLE,
+        thirdPartyToken: codeResponse.access_token,
+      });
+    },
+    onError: () => {
+      toast.error('Unable to login with Google');
+    },
+    flow: 'implicit',
   });
 
   const handleSubmit = useCallback(
     (values: LoginRequest) => {
-      mutateAsync({ ...values, userType: 'CUSTOMER', signupType: UserSignupType.PASSWORD })
+      mutateAsync({ ...values, userType: 'CUSTOMER' })
         .then((response) => {
           setToken({ authToken: response.data.token, refreshToken: response.data.refreshToken });
           navigate({ to: '/', replace: true });
@@ -59,6 +78,20 @@ export function LoginPage() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">Login to manage KB Matrix</p>
+
+          <div className="mt-6">
+            <Button
+              onClick={() => loginWithGoogle()}
+              size="lg"
+              variant="outline"
+              className="w-full"
+              type="button"
+              disabled={isPending}
+            >
+              <Icon icon="logos:google-icon" width="256" height="262" />
+              Sign in with Google
+            </Button>
+          </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-6 my-10 text-left">
