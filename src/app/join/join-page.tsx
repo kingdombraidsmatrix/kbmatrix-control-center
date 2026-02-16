@@ -4,6 +4,10 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
+import { Icon } from '@iconify/react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
+import type { FormEventHandler } from 'react';
 import type { AxiosError } from 'axios';
 import { Button } from '@/components/ui/button.tsx';
 import { TextInput } from '@/components/text-input';
@@ -27,27 +31,31 @@ export function JoinPage() {
     email: z.string().email(),
     token: z.string(),
     phoneNumber: z.string().min(1, 'Phone number is required'),
-    password: z.string().min(6, 'Password is required'),
     fullName: z.string().min(1, 'Full Name is required'),
     countryId: z.coerce.number(),
+    signupType: z.nativeEnum(UserSignupType),
+    password: z.string().optional(),
+    thirdPartyToken: z.string().optional(),
   });
 
   type FormType = z.infer<typeof formSchema>;
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
+    mode: 'all',
     defaultValues: {
       email,
       token,
       phoneNumber: '',
       password: '',
       fullName: '',
+      signupType: UserSignupType.PASSWORD,
     },
   });
 
   const onSubmit = useCallback(
     (values: FormType) => {
-      mutateAsync({ ...values, signupType: UserSignupType.PASSWORD, userType: 'CUSTOMER' })
+      mutateAsync({ ...values, userType: 'CUSTOMER' })
         .then((response) => {
           setToken({ authToken: response.data.token, refreshToken: response.data.refreshToken });
           navigate({ to: '/', replace: true });
@@ -57,6 +65,52 @@ export function JoinPage() {
         });
     },
     [mutateAsync, setToken, navigate],
+  );
+
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      try {
+        const values = form.getValues();
+        onSubmit({
+          ...values,
+          password: '',
+          thirdPartyToken: codeResponse.access_token,
+          signupType: UserSignupType.GOOGLE,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    onError: () => {
+      toast.error('Unable to join with Google');
+    },
+    flow: 'implicit',
+  });
+
+  const handleGoogleJoinClick = useCallback(async () => {
+    try {
+      form.clearErrors();
+      const valid = await form.trigger();
+      if (valid) {
+        loginWithGoogle();
+      }
+    } catch (e) {}
+  }, [loginWithGoogle, form]);
+
+  const handlePasswordJoinClick: FormEventHandler<HTMLFormElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      const password = form.getValues('password');
+      if (!password || password.length < 6) {
+        form.setError('password', {
+          message: 'Password must be at least 6 characters',
+          type: 'minLength',
+        });
+        return;
+      }
+      form.handleSubmit(onSubmit)(e);
+    },
+    [form, onSubmit],
   );
 
   return (
@@ -74,7 +128,7 @@ export function JoinPage() {
           </p>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6 my-10 text-left">
+            <form onSubmit={handlePasswordJoinClick} className="grid gap-6 my-10 text-left">
               {!!error && (
                 <Alert variant="destructive">
                   <AlertCircle />
@@ -123,7 +177,18 @@ export function JoinPage() {
                 disabled={isPending || !form.formState.isValid || !form.formState.isDirty}
               >
                 {isPending && <Loader2 className="animate-spin" />}
-                Login
+                Join with Password
+              </Button>
+              <Button
+                onClick={handleGoogleJoinClick}
+                size="lg"
+                variant="outline"
+                className="w-full"
+                disabled={isPending}
+                type="button"
+              >
+                <Icon icon="logos:google-icon" width="256" height="262" />
+                Join with Google
               </Button>
             </form>
           </Form>

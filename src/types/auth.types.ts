@@ -1,11 +1,22 @@
 import type { UserSignupType } from '@/types/user.types.ts';
 
-export interface LoginRequest {
-  login: string;
-  password: string;
+interface BaseLoginRequest {
   signupType?: UserSignupType;
   userType?: 'CUSTOMER';
 }
+
+export interface PasswordLoginRequest extends BaseLoginRequest {
+  signupType: UserSignupType.PASSWORD;
+  login: string;
+  password: string;
+}
+
+export interface ThirdPartyLoginRequest extends BaseLoginRequest {
+  signupType: Exclude<UserSignupType, UserSignupType.PASSWORD>;
+  thirdPartyToken: string;
+}
+
+export type LoginRequest = PasswordLoginRequest | ThirdPartyLoginRequest;
 
 export enum TokenType {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
