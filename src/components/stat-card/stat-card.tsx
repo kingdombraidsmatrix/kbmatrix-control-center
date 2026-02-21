@@ -32,10 +32,28 @@ interface StatCardProps extends VariantProps<typeof statCardVariants> {
   subtitle?: string;
   value?: number;
   isLoading?: boolean;
+  onClick?: () => void;
+  isActive?: boolean;
 }
-export function StatCard({ color, title, subtitle, value, isLoading, icon: Icon }: StatCardProps) {
+export function StatCard({
+  color,
+  title,
+  subtitle,
+  value,
+  isLoading,
+  icon: Icon,
+  onClick,
+  isActive,
+}: StatCardProps) {
   return (
-    <Card className="gap-0 flex-row px-6 shadow-none">
+    <Card
+      className={cn(
+        'gap-0 flex-row px-6 shadow-none transition',
+        !!onClick && 'hover:bg-background hover:border-zinc-400 cursor-pointer',
+        isActive && 'ring-4 ring-offset-0 ring-primary/30 bg-primary/10 hover:bg-primary/10 text-primary',
+      )}
+      onClick={onClick}
+    >
       <div className="flex-1">
         <CardHeader className="p-0 gap-0">
           <CardTitle className="text-sm">{title}</CardTitle>
