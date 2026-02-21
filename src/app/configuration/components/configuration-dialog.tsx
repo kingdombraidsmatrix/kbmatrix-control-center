@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { Loader2, Save } from 'lucide-react';
-import { type Settings, SettingsType, type UpdateSettingsRequest } from '@/types';
+import type {Settings, UpdateSettingsRequest} from '@/types';
 import {
   Dialog,
   DialogClose,
@@ -16,7 +16,10 @@ import {
 import { Button } from '@/components/ui/button.tsx';
 import { Badge } from '@/components/ui/badge.tsx';
 import { Form } from '@/components/ui/form.tsx';
-import { ConfigurationField } from '@/app/configuration/components/configuration.constants.ts';
+import {
+  ConfigurationField,
+  ConfigurationValidation,
+} from '@/app/configuration/components/configuration.constants.ts';
 import { useUpdateSettings } from '@/services/settings/use-update-settings.ts';
 
 interface ConfigurationDialogProps {
@@ -40,7 +43,7 @@ function Content({ data, onClose }: ContentProps) {
 
   const formSchema = z.object({
     key: z.string().min(1, 'Configuration key is required'),
-    value: data.type === SettingsType.STRING ? z.string() : z.coerce.number(),
+    value: ConfigurationValidation[data.type],
   });
 
   const form = useForm({
