@@ -18,11 +18,17 @@ export function FeeDynamicInput({ form, name }: DynamicInputProps) {
   const { watch, setValue } = form;
   const selectedType: FeeType = watch(`${name}.feeType` as any);
   const capped: boolean = watch(`${name}.capped` as any);
+  const currencyCode = watch(`${name}.currencyCode` as any);
 
-  const { selectedCurrency, isLoading } = useSelectedCurrency(form);
+  const { selectedCurrency, isLoading } = useSelectedCurrency(form, currencyCode);
+
+  console.log(selectedCurrency);
+  console.log(currencyCode)
 
   useEffect(() => {
-    setValue(`${name}.currencyCode` as any, selectedCurrency?.code);
+    if (selectedCurrency) {
+      setValue(`${name}.currencyCode` as any, selectedCurrency.code);
+    }
   }, [selectedCurrency, setValue]);
 
   useEffect(() => {

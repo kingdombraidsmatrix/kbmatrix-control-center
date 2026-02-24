@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { Fragment } from 'react';
 import type { BreadcrumbItem } from '@/components/breadcrumb/types.ts';
 import {
   BreadcrumbItem as BreadcrumbItemComponent,
@@ -17,7 +18,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
     <ShadBreadcrumb>
       <BreadcrumbList>
         {[{ title: 'Dashboard', url: '/' }, ...items].map((item, index) => (
-          <>
+          <Fragment key={index}>
             <BreadcrumbItemComponent key={index}>
               {item.url ? (
                 <BreadcrumbLink asChild>
@@ -28,7 +29,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
               )}
             </BreadcrumbItemComponent>
             {index < items.length && <BreadcrumbSeparator key={`${index}-separator`} />}
-          </>
+          </Fragment>
         ))}
       </BreadcrumbList>
     </ShadBreadcrumb>
