@@ -7,11 +7,13 @@ interface UseGetCountriesFilter {
   page?: number;
   size?: number;
   sort?: string;
+  enabled?: boolean;
 }
-export function useGetCountries(filter: UseGetCountriesFilter = {}) {
+export function useGetCountries({ enabled = true, ...filter }: UseGetCountriesFilter = {}) {
   return useHttpQueryService<Page<Country>>({
     url: '/api/v1/geo/country',
     params: filter,
     queryKey: ['countries', filter],
+    enabled
   });
 }

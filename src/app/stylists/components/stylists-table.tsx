@@ -1,7 +1,7 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { DataTable } from '@/components/data-table/data-table.tsx';
 import { StylistsColumns } from '@/app/stylists/columns.tsx';
@@ -12,9 +12,12 @@ import { useExportStylists } from '@/services/export/use-export-stylists.ts';
 import { Filter } from '@/components/filter';
 import { useTransformStylistsFilter } from '@/app/stylists/hooks/use-transform-stylists-filter.ts';
 import { useStylistsFilterConfig } from '@/app/stylists/hooks/use-stylists-filter-config.ts';
+import { useColumnFilters } from '@/hooks/use-column-filters.ts';
 
 export function StylistsTable() {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const { columnFilters, setColumnFilters } = useColumnFilters({
+    urlSync: true,
+  });
   const [sorting, setSorting] = useState<SortingState>([{ id: 'createdAt', desc: true }]);
   const [{ pageIndex, pageSize }, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 

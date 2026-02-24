@@ -6,7 +6,7 @@ export function CustomersOverview() {
   const { data, isLoading } = useGetCustomersOverview();
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-5 gap-4">
       <StatCard
         title="New Customers"
         subtitle="This Month"

@@ -70,4 +70,5 @@ export interface StylistsOverview {
   activeStylists: number;
   inactiveStylists: number;
   allStylists: number;
+  inReviewStylists: number;
 }
