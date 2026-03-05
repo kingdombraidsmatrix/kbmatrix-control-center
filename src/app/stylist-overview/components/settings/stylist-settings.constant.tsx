@@ -6,7 +6,7 @@ import type { Stylist } from '@/types';
 import { StylistSettings } from '@/app/stylist-overview/types.ts';
 import { StylistSettingsSubscriptions } from '@/app/stylist-overview/components/settings/stylist-settings-subscriptions.tsx';
 import { StylistSettingsBalance } from '@/app/stylist-overview/components/settings/stylist-settings-balance.tsx';
-import { StylistSettingsService } from '@/app/stylist-overview/components/settings/stylist-settings-service.tsx';
+import { StylistSettingsService } from '@/app/stylist-overview/components/settings/services';
 import { StylistSettingsTeam } from '@/app/stylist-overview/components/settings/stylist-settings-team.tsx';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatDate } from '@/lib/utils.ts';

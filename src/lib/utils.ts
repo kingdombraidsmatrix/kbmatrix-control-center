@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import pluralize from 'pluralize';
 import type { ClassValue } from 'clsx';
 import type { UseFormReturn } from 'react-hook-form';
 import type { SortingState } from '@tanstack/react-table';
@@ -33,6 +34,16 @@ export function formatDate(date: Date | string) {
 
 export function formatDateISO(date: Date | string) {
   return format(new Date(date), 'yyyy-MM-dd');
+}
+
+export function formatDuration(duration: number) {
+  const hrs = Math.floor(duration / 60);
+  const mins = duration % 60;
+
+  const hrString = hrs > 0 ? `${hrs} ${pluralize('hr', hrs)}` : null;
+  const minString = mins > 0 ? `${mins} ${pluralize('min', mins)}` : null;
+
+  return [hrString, minString].filter(Boolean).join(', ');
 }
 
 export function handleHttpError(error: any, form?: UseFormReturn<any>) {
