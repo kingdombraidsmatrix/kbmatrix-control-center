@@ -20,7 +20,11 @@ export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
           <CardContent>
             <div className="space-y-1">
               <a
-                href="https://maps.google.com"
+                href={
+                  stylist.contact.address
+                    ? `https://www.google.com/maps/place/${stylist.contact.address.latitude},${stylist.contact.address.longitude}`
+                    : ''
+                }
                 target="_blank"
                 className={cn(
                   'flex items-center p-4 gap-6 bg-muted rounded-md border border-transparent hover:border-primary/30',
