@@ -3,7 +3,7 @@ import type { Transaction } from '@/types/transactions.types.ts';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatDate, formatMoney } from '@/lib/utils.ts';
 import { Badge, BadgeContext } from '@/components/badge';
-import { TransactionUser } from '@/components/shared/transactions/transaction-user.tsx';
+import { UserColumn } from '@/components/shared/user-column.tsx';
 
 export const TransactionsColumns: Array<ColumnDef<Transaction>> = [
   {
@@ -18,7 +18,7 @@ export const TransactionsColumns: Array<ColumnDef<Transaction>> = [
     accessorKey: 'to',
     header: 'User / Stylist',
     cell: ({ row: { original: transaction } }) => (
-      <TransactionUser user={transaction.user} stylist={transaction.stylist} />
+      <UserColumn user={transaction.user} stylist={transaction.stylist} />
     ),
   },
   {

@@ -3,6 +3,7 @@ import type { Booking } from '@/types/bookings.types.ts';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatDate, formatMoney } from '@/lib/utils.ts';
 import { Badge, BadgeContext } from '@/components/badge';
+import { UserColumn } from '@/components/shared/user-column.tsx';
 
 export const BookingsColumns: Array<ColumnDef<Booking>> = [
   {
@@ -12,12 +13,12 @@ export const BookingsColumns: Array<ColumnDef<Booking>> = [
   {
     accessorKey: 'user',
     header: 'Customer',
-    accessorFn: (row) => row.user.fullName,
+    cell: ({ row }) => <UserColumn user={row.original.user} />,
   },
   {
     accessorKey: 'stylist',
     header: 'Stylist',
-    accessorFn: (row) => row.items[0]?.service?.stylist.name || '-',
+    cell: ({ row }) => <UserColumn stylist={row.original.items[0]?.service?.stylist} />,
     enableSorting: false,
   },
   {
