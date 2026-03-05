@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge.tsx';
 import { Badge as AppBadge, BadgeContext } from '@/components/badge';
 import { StarRating } from '@/components/star-rating';
 import { CountryFlag } from '@/components/country-flag';
+import { ChangeStylishStatus } from '@/app/stylist-overview/components/change-stylist-status.tsx';
 
 interface StylistHeaderProps {
   stylist: Stylist;
@@ -43,6 +44,9 @@ export function StylistHeader({ stylist }: StylistHeaderProps) {
               <Badge key={deliveryType}>{deliveryType}</Badge>
             ))}
           </div>
+        </div>
+        <div className="p-4">
+          <ChangeStylishStatus stylistId={stylist.id} currentStatus={stylist.status} />
         </div>
       </div>
     </div>
