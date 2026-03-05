@@ -22,7 +22,7 @@ export function StylistDetailsTab({ stylist }: StylistDetailsTabProps) {
               <a
                 href={
                   stylist.contact.address
-                    ? `https://www.google.com/maps/place/${stylist.contact.address.latitude},${stylist.contact.address.longitude}`
+                    ? `https://www.google.com/maps/place/${stylist.contact.address.longitude},${stylist.contact.address.latitude}`
                     : ''
                 }
                 target="_blank"
