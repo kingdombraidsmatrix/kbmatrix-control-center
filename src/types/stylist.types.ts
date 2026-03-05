@@ -72,3 +72,8 @@ export interface StylistsOverview {
   allStylists: number;
   inReviewStylists: number;
 }
+
+export interface UpdateStylistStatusRequest {
+  status: StylistStatus;
+  note?: string;
+}

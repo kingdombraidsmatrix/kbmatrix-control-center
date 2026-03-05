@@ -6,6 +6,8 @@ interface UseGetCustomersServiceParams {
   page?: number;
   size?: number;
   sort?: string;
+  stylistId?: number;
+  includeGlobal?: boolean;
 }
 export function useGetServiceCategories(params: UseGetCustomersServiceParams) {
   return useHttpQueryService<Page<ServiceCategory>>({

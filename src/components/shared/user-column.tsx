@@ -6,7 +6,7 @@ interface TransactionUserProps {
   user?: User;
   stylist?: Stylist;
 }
-export function TransactionUser({ user, stylist }: TransactionUserProps) {
+export function UserColumn({ user, stylist }: TransactionUserProps) {
   if (user) {
     return (
       <p className="flex items-center gap-1 text-sm line-clamp-1">
