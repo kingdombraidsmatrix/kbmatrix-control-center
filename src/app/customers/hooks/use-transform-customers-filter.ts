@@ -10,7 +10,8 @@ export function useTransformCustomersFilter(filters: ColumnFiltersState) {
     const mappedFilters: Partial<CustomersFilter> = {};
 
     for (const filter of debouncedFilters) {
-      switch (filter.id) {case 'status':
+      switch (filter.id) {
+        case 'status':
           mappedFilters.userStatus = Array.from(filter.value as Set<UserStatus>);
           break;
       }

@@ -15,7 +15,9 @@ import { Route as ExternalLoginRouteImport } from './routes/_external/login'
 import { Route as ExternalJoinRouteImport } from './routes/_external/join'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth/transactions'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
+import { Route as AuthReferralsRouteImport } from './routes/_auth/referrals'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
+import { Route as AuthCouponsRouteImport } from './routes/_auth/coupons'
 import { Route as AuthBookingsRouteImport } from './routes/_auth/bookings'
 import { Route as AuthStylistsIndexRouteImport } from './routes/_auth/stylists.index'
 import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
@@ -58,9 +60,19 @@ const AuthSettingsRoute = AuthSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthReferralsRoute = AuthReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthCustomersRoute = AuthCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCouponsRoute = AuthCouponsRouteImport.update({
+  id: '/coupons',
+  path: '/coupons',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthBookingsRoute = AuthBookingsRouteImport.update({
@@ -132,7 +144,9 @@ const AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route =
 
 export interface FileRoutesByFullPath {
   '/bookings': typeof AuthBookingsRoute
+  '/coupons': typeof AuthCouponsRoute
   '/customers': typeof AuthCustomersRoute
+  '/referrals': typeof AuthReferralsRoute
   '/settings': typeof AuthSettingsRouteWithChildren
   '/transactions': typeof AuthTransactionsRoute
   '/join': typeof ExternalJoinRoute
@@ -152,7 +166,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/bookings': typeof AuthBookingsRoute
+  '/coupons': typeof AuthCouponsRoute
   '/customers': typeof AuthCustomersRoute
+  '/referrals': typeof AuthReferralsRoute
   '/transactions': typeof AuthTransactionsRoute
   '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
@@ -173,7 +189,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/bookings': typeof AuthBookingsRoute
+  '/_auth/coupons': typeof AuthCouponsRoute
   '/_auth/customers': typeof AuthCustomersRoute
+  '/_auth/referrals': typeof AuthReferralsRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
   '/_auth/transactions': typeof AuthTransactionsRoute
   '/_external/join': typeof ExternalJoinRoute
@@ -195,7 +213,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/bookings'
+    | '/coupons'
     | '/customers'
+    | '/referrals'
     | '/settings'
     | '/transactions'
     | '/join'
@@ -215,7 +235,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/bookings'
+    | '/coupons'
     | '/customers'
+    | '/referrals'
     | '/transactions'
     | '/join'
     | '/login'
@@ -235,7 +257,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_auth/bookings'
+    | '/_auth/coupons'
     | '/_auth/customers'
+    | '/_auth/referrals'
     | '/_auth/settings'
     | '/_auth/transactions'
     | '/_external/join'
@@ -304,11 +328,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/referrals': {
+      id: '/_auth/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof AuthReferralsRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/customers': {
       id: '/_auth/customers'
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof AuthCustomersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/coupons': {
+      id: '/_auth/coupons'
+      path: '/coupons'
+      fullPath: '/coupons'
+      preLoaderRoute: typeof AuthCouponsRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/bookings': {
@@ -426,7 +464,9 @@ const AuthSettingsRouteWithChildren = AuthSettingsRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthBookingsRoute: typeof AuthBookingsRoute
+  AuthCouponsRoute: typeof AuthCouponsRoute
   AuthCustomersRoute: typeof AuthCustomersRoute
+  AuthReferralsRoute: typeof AuthReferralsRoute
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
   AuthTransactionsRoute: typeof AuthTransactionsRoute
   AuthIndexRoute: typeof AuthIndexRoute
@@ -437,7 +477,9 @@ interface AuthRouteChildren {
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthBookingsRoute: AuthBookingsRoute,
+  AuthCouponsRoute: AuthCouponsRoute,
   AuthCustomersRoute: AuthCustomersRoute,
+  AuthReferralsRoute: AuthReferralsRoute,
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
   AuthTransactionsRoute: AuthTransactionsRoute,
   AuthIndexRoute: AuthIndexRoute,

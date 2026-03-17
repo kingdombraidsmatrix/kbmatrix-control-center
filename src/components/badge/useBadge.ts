@@ -5,6 +5,7 @@ import {
   AdminStatusBadgeConfig,
   BookingStatusBadgeConfig,
   BooleanBadgeConfig,
+  CouponStatusBadgeConfig,
   StylistStatusBadgeConfig,
   SubscriptionStatusBadgeConfig,
   TransactionFlowBadgeConfig,
@@ -25,6 +26,7 @@ export function useBadgeConfig(props: BadgeProps): BadgeConfig {
       [BadgeContext.SUBSCRIPTION_STATUS]: SubscriptionStatusBadgeConfig,
       [BadgeContext.STYLIST_STATUS]: StylistStatusBadgeConfig,
       [BadgeContext.ADMIN_STATUS]: AdminStatusBadgeConfig,
+      [BadgeContext.COUPON_STATUS]: CouponStatusBadgeConfig,
     };
 
     const value =

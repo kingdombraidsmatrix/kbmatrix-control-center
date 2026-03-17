@@ -3,6 +3,7 @@ import { AdminStatus, StylistStatus, UserStatus } from '@/types';
 import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
+import { CouponStatus } from '@/types/coupons.ts';
 
 export const BooleanBadgeConfig = (
   valueLabel?: [string, string],
@@ -202,5 +203,20 @@ export const AdminStatusBadgeConfig: Record<AdminStatus, BadgeConfig> = {
   [AdminStatus.REJECTED]: {
     variant: 'destructive',
     text: 'Rejected',
+  },
+};
+
+export const CouponStatusBadgeConfig: Record<CouponStatus, BadgeConfig> = {
+  [CouponStatus.ACTIVE]: {
+    variant: 'success',
+    text: 'Active',
+  },
+  [CouponStatus.INACTIVE]: {
+    variant: 'secondary',
+    text: 'Inactive',
+  },
+  [CouponStatus.EXPIRED]: {
+    variant: 'destructive',
+    text: 'Expired',
   },
 };
