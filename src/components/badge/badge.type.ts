@@ -9,6 +9,7 @@ import type {
   TransactionType,
 } from '@/types/transactions.types.ts';
 import type { SubscriptionStatus } from '@/types/plans.ts';
+import { type CouponStatus, CouponUsageStatus } from '@/types/coupons.ts';
 
 export enum BadgeContext {
   BOOLEAN = 'BOOLEAN',
@@ -20,6 +21,8 @@ export enum BadgeContext {
   SUBSCRIPTION_STATUS = 'SUBSCRIPTION_STATUS',
   STYLIST_STATUS = 'STYLIST_STATUS',
   ADMIN_STATUS = 'ADMIN_STATUS',
+  COUPON_STATUS = 'COUPON_STATUS',
+  COUPON_USAGE_STATUS = 'COUPON_USAGE_STATUS',
 }
 
 export interface BooleanBadge {
@@ -68,6 +71,16 @@ interface AdminStatusBadge {
   value: AdminStatus;
 }
 
+interface CouponStatusBadge {
+  context: BadgeContext.COUPON_STATUS;
+  value: CouponStatus;
+}
+
+interface CouponUsageStatusBadge {
+  context: BadgeContext.COUPON_USAGE_STATUS;
+  value: CouponUsageStatus;
+}
+
 export type BadgeProps =
   | BooleanBadge
   | UserStatusBadge
@@ -77,7 +90,9 @@ export type BadgeProps =
   | TransactionTypeBadge
   | SubscriptionStatusBadge
   | StylistStatusBadge
-  | AdminStatusBadge;
+  | AdminStatusBadge
+  | CouponStatusBadge
+  | CouponUsageStatusBadge;
 
 export interface BadgeConfig {
   variant: VariantProps<typeof badgeVariants>['variant'];

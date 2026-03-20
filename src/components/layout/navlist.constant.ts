@@ -3,6 +3,8 @@ import {
   Briefcase,
   ChartBarBig,
   LayoutDashboard,
+  Megaphone,
+  Percent,
   Settings,
   Users2,
 } from 'lucide-react';
@@ -38,6 +40,18 @@ export const NavList: Array<NavItem> = [
     path: '/transactions',
     icon: ChartBarBig,
     title: 'Transactions',
+  },
+  {
+    key: 'coupons',
+    path: '/coupons',
+    icon: Percent,
+    title: 'Coupons',
+  },
+  {
+    key: 'crm',
+    path: '/crm',
+    icon: Megaphone,
+    title: 'CRM',
   },
   {
     key: 'settings',

@@ -1,6 +1,6 @@
 import type { Page } from '@/types/common.types.ts';
 import type { Stylist, StylistsFilter } from '@/types';
-import { useHttpQueryService } from '@/services/http';
+import { useHttpMutationService, useHttpQueryService } from '@/services/http';
 
 interface UseGetStylistsServiceParams extends StylistsFilter {
   page?: number;
@@ -12,5 +12,12 @@ export function useGetStylistsService(params: UseGetStylistsServiceParams) {
     url: '/api/v1/stylist',
     queryKey: ['stylists', params],
     params,
+  });
+}
+
+export function useGetStylistsWithMutationService() {
+  return useHttpMutationService<StylistsFilter, Page<Stylist>>({
+    url: '/api/v1/stylist',
+    method: 'GET',
   });
 }

@@ -11,9 +11,12 @@ export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs));
 }
 
-export function formatNumber(value: number | string) {
+export function formatNumber(
+  value: number | string,
+  notation: Intl.NumberFormatOptions['notation'] = 'compact',
+) {
   return Intl.NumberFormat('en-US', {
-    notation: 'compact',
+    notation,
     minimumFractionDigits: 0,
     maximumFractionDigits: 1,
   }).format(Number(value));
