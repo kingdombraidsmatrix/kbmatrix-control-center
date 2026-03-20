@@ -11,6 +11,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/data-table/data-table-pagination.tsx';
+import { cn } from '@/lib/utils.ts';
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
@@ -56,7 +57,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   id={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className={classNames?.row}
+                  className={cn(!!onRowClick && 'cursor-pointer', classNames?.row)}
                   onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
