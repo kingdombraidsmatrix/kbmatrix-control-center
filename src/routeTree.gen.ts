@@ -17,6 +17,7 @@ import { Route as AuthTransactionsRouteImport } from './routes/_auth/transaction
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthReferralsRouteImport } from './routes/_auth/referrals'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
+import { Route as AuthCrmRouteImport } from './routes/_auth/crm'
 import { Route as AuthBookingsRouteImport } from './routes/_auth/bookings'
 import { Route as AuthStylistsIndexRouteImport } from './routes/_auth/stylists.index'
 import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
@@ -69,6 +70,11 @@ const AuthReferralsRoute = AuthReferralsRouteImport.update({
 const AuthCustomersRoute = AuthCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCrmRoute = AuthCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthBookingsRoute = AuthBookingsRouteImport.update({
@@ -150,6 +156,7 @@ const AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route =
 
 export interface FileRoutesByFullPath {
   '/bookings': typeof AuthBookingsRoute
+  '/crm': typeof AuthCrmRoute
   '/customers': typeof AuthCustomersRoute
   '/referrals': typeof AuthReferralsRoute
   '/settings': typeof AuthSettingsRouteWithChildren
@@ -173,6 +180,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/bookings': typeof AuthBookingsRoute
+  '/crm': typeof AuthCrmRoute
   '/customers': typeof AuthCustomersRoute
   '/referrals': typeof AuthReferralsRoute
   '/transactions': typeof AuthTransactionsRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/bookings': typeof AuthBookingsRoute
+  '/_auth/crm': typeof AuthCrmRoute
   '/_auth/customers': typeof AuthCustomersRoute
   '/_auth/referrals': typeof AuthReferralsRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/bookings'
+    | '/crm'
     | '/customers'
     | '/referrals'
     | '/settings'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/bookings'
+    | '/crm'
     | '/customers'
     | '/referrals'
     | '/transactions'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_auth/bookings'
+    | '/_auth/crm'
     | '/_auth/customers'
     | '/_auth/referrals'
     | '/_auth/settings'
@@ -352,6 +364,13 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof AuthCustomersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/crm': {
+      id: '/_auth/crm'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof AuthCrmRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/bookings': {
@@ -483,6 +502,7 @@ const AuthSettingsRouteWithChildren = AuthSettingsRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthBookingsRoute: typeof AuthBookingsRoute
+  AuthCrmRoute: typeof AuthCrmRoute
   AuthCustomersRoute: typeof AuthCustomersRoute
   AuthReferralsRoute: typeof AuthReferralsRoute
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
@@ -497,6 +517,7 @@ interface AuthRouteChildren {
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthBookingsRoute: AuthBookingsRoute,
+  AuthCrmRoute: AuthCrmRoute,
   AuthCustomersRoute: AuthCustomersRoute,
   AuthReferralsRoute: AuthReferralsRoute,
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
