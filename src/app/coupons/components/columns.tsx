@@ -1,12 +1,12 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { Coupon } from '@/types/coupons.ts';
+import type { CouponTrimmed } from '@/types/coupons.ts';
 import { CouponDiscountType } from '@/types/coupons.ts';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header.tsx';
 import { formatDate, formatMoney } from '@/lib/utils.ts';
 import { BadgeContext, Badge as CustomBadge } from '@/components/badge';
 import { Badge } from '@/components/ui/badge.tsx';
 
-export const CouponColumns: Array<ColumnDef<Coupon>> = [
+export const CouponColumns: Array<ColumnDef<CouponTrimmed>> = [
   {
     accessorKey: 'code',
     header: 'Code',

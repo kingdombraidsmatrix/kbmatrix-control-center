@@ -1,5 +1,5 @@
 import type { Page } from '@/types';
-import type { Coupon } from '@/types/coupons.ts';
+import type { CouponTrimmed } from '@/types/coupons.ts';
 import { useHttpQueryService } from '@/services/http';
 
 export interface UseGetCouponsServiceParams {
@@ -9,7 +9,7 @@ export interface UseGetCouponsServiceParams {
   sort?: string;
 }
 export function useGetCouponsService(params: UseGetCouponsServiceParams = {}) {
-  return useHttpQueryService<Page<Coupon>>({
+  return useHttpQueryService<Page<CouponTrimmed>>({
     url: '/api/v1/coupon',
     queryKey: ['coupons', params],
     params,

@@ -3,7 +3,7 @@ import { AdminStatus, StylistStatus, UserStatus } from '@/types';
 import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
-import { CouponStatus } from '@/types/coupons.ts';
+import { CouponStatus, CouponUsageStatus } from '@/types/coupons.ts';
 
 export const BooleanBadgeConfig = (
   valueLabel?: [string, string],
@@ -218,5 +218,24 @@ export const CouponStatusBadgeConfig: Record<CouponStatus, BadgeConfig> = {
   [CouponStatus.EXPIRED]: {
     variant: 'destructive',
     text: 'Expired',
+  },
+};
+
+export const CouponUsageStatusBadgeConfig: Record<CouponUsageStatus, BadgeConfig> = {
+  [CouponUsageStatus.APPLIED]: {
+    variant: 'success',
+    text: 'Active',
+  },
+  [CouponUsageStatus.RESERVED]: {
+    variant: 'warning',
+    text: 'Reserved',
+  },
+  [CouponUsageStatus.CANCELLED]: {
+    variant: 'destructive',
+    text: 'Cancelled',
+  },
+  [CouponUsageStatus.REFUNDED]: {
+    variant: 'destructive',
+    text: 'Refunded',
   },
 };

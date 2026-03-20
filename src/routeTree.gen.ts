@@ -17,16 +17,17 @@ import { Route as AuthTransactionsRouteImport } from './routes/_auth/transaction
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as AuthReferralsRouteImport } from './routes/_auth/referrals'
 import { Route as AuthCustomersRouteImport } from './routes/_auth/customers'
-import { Route as AuthCouponsRouteImport } from './routes/_auth/coupons'
 import { Route as AuthBookingsRouteImport } from './routes/_auth/bookings'
 import { Route as AuthStylistsIndexRouteImport } from './routes/_auth/stylists.index'
 import { Route as AuthSettingsIndexRouteImport } from './routes/_auth/settings.index'
+import { Route as AuthCouponsIndexRouteImport } from './routes/_auth/coupons.index'
 import { Route as AuthSettingsServiceCategoriesRouteImport } from './routes/_auth/settings.service-categories'
 import { Route as AuthSettingsProvidersRouteImport } from './routes/_auth/settings.providers'
 import { Route as AuthSettingsCountriesRouteImport } from './routes/_auth/settings.countries'
 import { Route as AuthSettingsConfigurationRouteImport } from './routes/_auth/settings.configuration'
 import { Route as AuthSettingsAdminRouteImport } from './routes/_auth/settings.admin'
 import { Route as AuthProfileChar123SectionChar125RouteImport } from './routes/_auth/profile.{-$section}'
+import { Route as AuthCouponsCouponIdRouteImport } from './routes/_auth/coupons.$couponId'
 import { Route as AuthSettingsPlansIndexRouteImport } from './routes/_auth/settings.plans.index'
 import { Route as AuthSettingsPlansPlanIdRouteImport } from './routes/_auth/settings.plans.$planId'
 import { Route as AuthStylistsStylistIdChar123TabChar125Char123SectionChar125RouteImport } from './routes/_auth/stylists.$stylistId.{-$tab}.{-$section}'
@@ -70,11 +71,6 @@ const AuthCustomersRoute = AuthCustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthCouponsRoute = AuthCouponsRouteImport.update({
-  id: '/coupons',
-  path: '/coupons',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthBookingsRoute = AuthBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
@@ -89,6 +85,11 @@ const AuthSettingsIndexRoute = AuthSettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthSettingsRoute,
+} as any)
+const AuthCouponsIndexRoute = AuthCouponsIndexRouteImport.update({
+  id: '/coupons/',
+  path: '/coupons/',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AuthSettingsServiceCategoriesRoute =
   AuthSettingsServiceCategoriesRouteImport.update({
@@ -123,6 +124,11 @@ const AuthProfileChar123SectionChar125Route =
     path: '/profile/{-$section}',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthCouponsCouponIdRoute = AuthCouponsCouponIdRouteImport.update({
+  id: '/coupons/$couponId',
+  path: '/coupons/$couponId',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthSettingsPlansIndexRoute = AuthSettingsPlansIndexRouteImport.update({
   id: '/plans/',
   path: '/plans/',
@@ -144,7 +150,6 @@ const AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route =
 
 export interface FileRoutesByFullPath {
   '/bookings': typeof AuthBookingsRoute
-  '/coupons': typeof AuthCouponsRoute
   '/customers': typeof AuthCustomersRoute
   '/referrals': typeof AuthReferralsRoute
   '/settings': typeof AuthSettingsRouteWithChildren
@@ -152,12 +157,14 @@ export interface FileRoutesByFullPath {
   '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/coupons/$couponId': typeof AuthCouponsCouponIdRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/settings/admin': typeof AuthSettingsAdminRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/coupons': typeof AuthCouponsIndexRoute
   '/settings/': typeof AuthSettingsIndexRoute
   '/stylists': typeof AuthStylistsIndexRoute
   '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
@@ -166,19 +173,20 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/bookings': typeof AuthBookingsRoute
-  '/coupons': typeof AuthCouponsRoute
   '/customers': typeof AuthCustomersRoute
   '/referrals': typeof AuthReferralsRoute
   '/transactions': typeof AuthTransactionsRoute
   '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
   '/': typeof AuthIndexRoute
+  '/coupons/$couponId': typeof AuthCouponsCouponIdRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/settings/admin': typeof AuthSettingsAdminRoute
   '/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/coupons': typeof AuthCouponsIndexRoute
   '/settings': typeof AuthSettingsIndexRoute
   '/stylists': typeof AuthStylistsIndexRoute
   '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
@@ -189,7 +197,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/bookings': typeof AuthBookingsRoute
-  '/_auth/coupons': typeof AuthCouponsRoute
   '/_auth/customers': typeof AuthCustomersRoute
   '/_auth/referrals': typeof AuthReferralsRoute
   '/_auth/settings': typeof AuthSettingsRouteWithChildren
@@ -197,12 +204,14 @@ export interface FileRoutesById {
   '/_external/join': typeof ExternalJoinRoute
   '/_external/login': typeof ExternalLoginRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/coupons/$couponId': typeof AuthCouponsCouponIdRoute
   '/_auth/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/_auth/settings/admin': typeof AuthSettingsAdminRoute
   '/_auth/settings/configuration': typeof AuthSettingsConfigurationRoute
   '/_auth/settings/countries': typeof AuthSettingsCountriesRoute
   '/_auth/settings/providers': typeof AuthSettingsProvidersRoute
   '/_auth/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
+  '/_auth/coupons/': typeof AuthCouponsIndexRoute
   '/_auth/settings/': typeof AuthSettingsIndexRoute
   '/_auth/stylists/': typeof AuthStylistsIndexRoute
   '/_auth/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
@@ -213,7 +222,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/bookings'
-    | '/coupons'
     | '/customers'
     | '/referrals'
     | '/settings'
@@ -221,12 +229,14 @@ export interface FileRouteTypes {
     | '/join'
     | '/login'
     | '/'
+    | '/coupons/$couponId'
     | '/profile/{-$section}'
     | '/settings/admin'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
     | '/settings/service-categories'
+    | '/coupons'
     | '/settings/'
     | '/stylists'
     | '/settings/plans/$planId'
@@ -235,19 +245,20 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/bookings'
-    | '/coupons'
     | '/customers'
     | '/referrals'
     | '/transactions'
     | '/join'
     | '/login'
     | '/'
+    | '/coupons/$couponId'
     | '/profile/{-$section}'
     | '/settings/admin'
     | '/settings/configuration'
     | '/settings/countries'
     | '/settings/providers'
     | '/settings/service-categories'
+    | '/coupons'
     | '/settings'
     | '/stylists'
     | '/settings/plans/$planId'
@@ -257,7 +268,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_auth'
     | '/_auth/bookings'
-    | '/_auth/coupons'
     | '/_auth/customers'
     | '/_auth/referrals'
     | '/_auth/settings'
@@ -265,12 +275,14 @@ export interface FileRouteTypes {
     | '/_external/join'
     | '/_external/login'
     | '/_auth/'
+    | '/_auth/coupons/$couponId'
     | '/_auth/profile/{-$section}'
     | '/_auth/settings/admin'
     | '/_auth/settings/configuration'
     | '/_auth/settings/countries'
     | '/_auth/settings/providers'
     | '/_auth/settings/service-categories'
+    | '/_auth/coupons/'
     | '/_auth/settings/'
     | '/_auth/stylists/'
     | '/_auth/settings/plans/$planId'
@@ -342,13 +354,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCustomersRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/coupons': {
-      id: '/_auth/coupons'
-      path: '/coupons'
-      fullPath: '/coupons'
-      preLoaderRoute: typeof AuthCouponsRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/bookings': {
       id: '/_auth/bookings'
       path: '/bookings'
@@ -369,6 +374,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof AuthSettingsIndexRouteImport
       parentRoute: typeof AuthSettingsRoute
+    }
+    '/_auth/coupons/': {
+      id: '/_auth/coupons/'
+      path: '/coupons'
+      fullPath: '/coupons'
+      preLoaderRoute: typeof AuthCouponsIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/settings/service-categories': {
       id: '/_auth/settings/service-categories'
@@ -410,6 +422,13 @@ declare module '@tanstack/react-router' {
       path: '/profile/{-$section}'
       fullPath: '/profile/{-$section}'
       preLoaderRoute: typeof AuthProfileChar123SectionChar125RouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/coupons/$couponId': {
+      id: '/_auth/coupons/$couponId'
+      path: '/coupons/$couponId'
+      fullPath: '/coupons/$couponId'
+      preLoaderRoute: typeof AuthCouponsCouponIdRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/settings/plans/': {
@@ -464,26 +483,28 @@ const AuthSettingsRouteWithChildren = AuthSettingsRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthBookingsRoute: typeof AuthBookingsRoute
-  AuthCouponsRoute: typeof AuthCouponsRoute
   AuthCustomersRoute: typeof AuthCustomersRoute
   AuthReferralsRoute: typeof AuthReferralsRoute
   AuthSettingsRoute: typeof AuthSettingsRouteWithChildren
   AuthTransactionsRoute: typeof AuthTransactionsRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthCouponsCouponIdRoute: typeof AuthCouponsCouponIdRoute
   AuthProfileChar123SectionChar125Route: typeof AuthProfileChar123SectionChar125Route
+  AuthCouponsIndexRoute: typeof AuthCouponsIndexRoute
   AuthStylistsIndexRoute: typeof AuthStylistsIndexRoute
   AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route: typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthBookingsRoute: AuthBookingsRoute,
-  AuthCouponsRoute: AuthCouponsRoute,
   AuthCustomersRoute: AuthCustomersRoute,
   AuthReferralsRoute: AuthReferralsRoute,
   AuthSettingsRoute: AuthSettingsRouteWithChildren,
   AuthTransactionsRoute: AuthTransactionsRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthCouponsCouponIdRoute: AuthCouponsCouponIdRoute,
   AuthProfileChar123SectionChar125Route: AuthProfileChar123SectionChar125Route,
+  AuthCouponsIndexRoute: AuthCouponsIndexRoute,
   AuthStylistsIndexRoute: AuthStylistsIndexRoute,
   AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route:
     AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route,
