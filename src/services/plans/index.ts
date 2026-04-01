@@ -6,3 +6,4 @@ export * from './use-toggle-plan-activation';
 export * from './use-update-plan-service';
 export * from './use-get-subscriptions';
 export * from './use-get-current-subscription';
+export * from './use-manage-subscription';
