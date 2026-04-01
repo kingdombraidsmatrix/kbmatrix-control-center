@@ -15,6 +15,7 @@ import { TransactionType } from '@/types/transactions.types.ts';
 import { Card, CardContent } from '@/components/ui/card.tsx';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx';
 import { formatDate, formatMoney } from '@/lib/utils.ts';
+import { ManageSubscription } from '@/app/stylist-overview/components/settings/manage-subscription.tsx';
 
 export function StylistSettingsSubscriptions({ data: stylist }: StylistSettingsComponent) {
   return (
@@ -25,6 +26,7 @@ export function StylistSettingsSubscriptions({ data: stylist }: StylistSettingsC
         <Card>
           <CardContent className="space-y-6">
             <CurrentSubscriptionSection stylist={stylist} />
+            <ManageSubscription stylist={stylist} />
             <SubscriptionHistory stylist={stylist} />
           </CardContent>
         </Card>

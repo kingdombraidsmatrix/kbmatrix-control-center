@@ -116,3 +116,13 @@ export interface Subscription {
   billingFrequency: BillingFrequency;
   updatedAt: DateString;
 }
+
+export interface ManageSubscriptionRequest {
+  stylistId: number;
+  planId: number;
+  enforceImmediately: boolean;
+  chargeStylist: boolean;
+  billingFrequency: BillingFrequency;
+  startDate: Date;
+  endDate: Date;
+}
