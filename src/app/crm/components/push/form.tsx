@@ -1,9 +1,10 @@
 import { useForm, useFormContext } from 'react-hook-form';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodIssueCode, z } from 'zod';
-import { SendHorizonal } from 'lucide-react';
+import { ChevronDownIcon, SendHorizonal } from 'lucide-react';
 import { toast } from 'sonner';
+import { isBefore, startOfToday } from 'date-fns';
 import {
   DialogClose,
   DialogDescription,
@@ -18,7 +19,11 @@ import { CustomerSelect } from '@/components/shared/customer-select';
 import { StylistSelect } from '@/components/shared/stylist-select';
 import { FieldError } from '@/components/ui/field.tsx';
 import { useCrmPushNotificationService } from '@/services/crm/use-crm-push-notification-service.ts';
-import { handleHttpError } from '@/lib/utils.ts';
+import { formatDate, handleHttpError } from '@/lib/utils.ts';
+import { Label } from '@/components/ui/label.tsx';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
+import { Calendar } from '@/components/ui/calendar.tsx';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area.tsx';
 
 const formSchema = z
   .object({
@@ -33,6 +38,8 @@ const formSchema = z
     userIds: z.set(z.number()).default(new Set<number>()).optional(),
     stylistIds: z.set(z.number()).default(new Set<number>()).optional(),
     target: z.any().optional(),
+    scheduled: z.boolean().default(false).optional(),
+    scheduledTime: z.date().min(new Date(), 'Cannot be scheduled for past time').optional(),
   })
   .superRefine((data, context) => {
     if (!data.allUsers && !data.allStylists && !data.userIds?.size && !data.stylistIds?.size) {
@@ -63,6 +70,7 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
       allStylists: false,
       userIds: new Set(),
       stylistIds: new Set(),
+      scheduled: false,
     },
   });
 
@@ -76,6 +84,8 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
         allUsers: values.allUsers,
         userIds: values.userIds?.size ? Array.from(values.userIds) : undefined,
         stylistIds: values.stylistIds?.size ? Array.from(values.stylistIds) : undefined,
+        scheduled: values.scheduled,
+        scheduledTime: values.scheduledTime,
       })
         .then(() => {
           toast.success('Push notification scheduled successfully.');
@@ -130,6 +140,15 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
                 <StylistSelect control={form.control} name="stylistIds" className="mt-2" />
               </div>
             </div>
+
+            <div>
+              <h6 className="font-semibold mb-2">Delivery</h6>
+
+              <div className="grid gap-2">
+                <CheckboxInput control={form.control} name="scheduled" label="Send later" />
+                <ScheduledTimeField />
+              </div>
+            </div>
           </div>
           <DialogFooter className="mt-auto">
             <DialogClose asChild>
@@ -157,6 +176,151 @@ function NotificationDemo() {
       <p className="text-sm font-semibold">{title || 'Title'}</p>
       <p className="text-sm font-semibold">{subtitle || 'Subtitle'}</p>
       <p className="text-sm">{body || 'Body'}</p>
+    </div>
+  );
+}
+
+function ScheduledTimeField() {
+  const [open, setOpen] = useState(false);
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<FormType>();
+
+  const [scheduled, selectedTime] = watch(['scheduled', 'scheduledTime']);
+
+  const handleChange = useCallback(
+    (newDate: Date | undefined) => {
+      setValue('scheduledTime', newDate, {
+        shouldTouch: true,
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    },
+    [setValue],
+  );
+
+  useEffect(() => {
+    if (!scheduled) {
+      handleChange(undefined);
+    }
+  }, [scheduled, handleChange]);
+
+  const hours = useMemo(() => [12, ...Array.from({ length: 11 }, (_, i) => i + 1)], []);
+
+  const handleTimeChange = useCallback(
+    (type: 'hour' | 'minute' | 'ampm', value: string) => {
+      if (selectedTime) {
+        const newDate = new Date(selectedTime);
+        if (type === 'hour') {
+          newDate.setHours((parseInt(value) % 12) + (newDate.getHours() >= 12 ? 12 : 0));
+        } else if (type === 'minute') {
+          newDate.setMinutes(parseInt(value));
+        } else {
+          const currentHours = newDate.getHours();
+          newDate.setHours(value === 'PM' ? currentHours + 12 : currentHours - 12);
+        }
+        handleChange(newDate);
+      }
+    },
+    [handleChange, selectedTime],
+  );
+
+  const formattedDate = useMemo(
+    () => (selectedTime ? formatDate(selectedTime) : undefined),
+    [selectedTime],
+  );
+
+  return (
+    <div className="space-y-2">
+      <Label>Scheduled Time</Label>
+
+      <Popover open={open} onOpenChange={setOpen} modal>
+        <PopoverTrigger disabled={!scheduled} asChild>
+          <Button variant="outline" id="date" className="w-full h-10 justify-between font-normal">
+            {formattedDate || 'Select date and time'}
+            <ChevronDownIcon />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+          <div className="flex">
+            <Calendar
+              mode="single"
+              selected={selectedTime}
+              onSelect={handleChange}
+              numberOfMonths={1}
+              className="border-r"
+              disabled={(date) => isBefore(date, startOfToday())}
+              required
+            />
+            <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+              <ScrollArea className="w-64 sm:w-auto">
+                <div className="flex sm:flex-col p-2">
+                  {hours.reverse().map((hour) => (
+                    <Button
+                      key={hour}
+                      size="icon"
+                      variant={
+                        selectedTime && selectedTime.getHours() % 12 === hour % 12
+                          ? 'default'
+                          : 'ghost'
+                      }
+                      className="sm:w-full shrink-0 aspect-square"
+                      onClick={() => handleTimeChange('hour', hour.toString())}
+                    >
+                      {hour.toString().padStart(2, '0')}
+                    </Button>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" className="sm:hidden" />
+              </ScrollArea>
+              <ScrollArea className="w-64 sm:w-auto">
+                <div className="flex sm:flex-col p-2">
+                  {Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
+                    <Button
+                      key={minute}
+                      size="icon"
+                      variant={
+                        selectedTime && selectedTime.getMinutes() === minute ? 'default' : 'ghost'
+                      }
+                      className="sm:w-full shrink-0 aspect-square"
+                      onClick={() => handleTimeChange('minute', minute.toString())}
+                    >
+                      {minute.toString().padStart(2, '0')}
+                    </Button>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" className="sm:hidden" />
+              </ScrollArea>
+              <ScrollArea className="">
+                <div className="flex sm:flex-col p-2">
+                  {['AM', 'PM'].map((ampm) => (
+                    <Button
+                      key={ampm}
+                      size="icon"
+                      variant={
+                        selectedTime &&
+                        ((ampm === 'AM' && selectedTime.getHours() < 12) ||
+                          (ampm === 'PM' && selectedTime.getHours() >= 12))
+                          ? 'default'
+                          : 'ghost'
+                      }
+                      className="sm:w-full shrink-0 aspect-square"
+                      onClick={() => handleTimeChange('ampm', ampm)}
+                    >
+                      {ampm}
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+      {errors.scheduledTime && (
+        <p className="text-destructive text-sm">{errors.scheduledTime.message}</p>
+      )}
     </div>
   );
 }
