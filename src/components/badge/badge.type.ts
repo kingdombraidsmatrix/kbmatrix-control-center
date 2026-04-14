@@ -1,7 +1,7 @@
 import type { badgeVariants } from '@/components/ui/badge.tsx';
 import type { VariantProps } from 'class-variance-authority';
 import type { LucideIcon } from 'lucide-react';
-import { AdminStatus, StylistStatus, type UserStatus } from '@/types';
+import type { AdminStatus, StylistStatus, UserStatus } from '@/types';
 import type { BookingStatus } from '@/types/bookings.types.ts';
 import type {
   TransactionFlow,
@@ -9,7 +9,8 @@ import type {
   TransactionType,
 } from '@/types/transactions.types.ts';
 import type { SubscriptionStatus } from '@/types/plans.ts';
-import { type CouponStatus, CouponUsageStatus } from '@/types/coupons.ts';
+import type { CouponStatus, CouponUsageStatus } from '@/types/coupons.ts';
+import type { BroadcastPushStatus } from '@/types/crm.ts';
 
 export enum BadgeContext {
   BOOLEAN = 'BOOLEAN',
@@ -23,6 +24,7 @@ export enum BadgeContext {
   ADMIN_STATUS = 'ADMIN_STATUS',
   COUPON_STATUS = 'COUPON_STATUS',
   COUPON_USAGE_STATUS = 'COUPON_USAGE_STATUS',
+  BROADCAST_PUSH_STATUS = 'BROADCAST_PUSH_STATUS',
 }
 
 export interface BooleanBadge {
@@ -81,6 +83,11 @@ interface CouponUsageStatusBadge {
   value: CouponUsageStatus;
 }
 
+interface BroadcastPushStatusBadge {
+  context: BadgeContext.BROADCAST_PUSH_STATUS;
+  value: BroadcastPushStatus;
+}
+
 export type BadgeProps =
   | BooleanBadge
   | UserStatusBadge
@@ -92,7 +99,8 @@ export type BadgeProps =
   | StylistStatusBadge
   | AdminStatusBadge
   | CouponStatusBadge
-  | CouponUsageStatusBadge;
+  | CouponUsageStatusBadge
+  | BroadcastPushStatusBadge;
 
 export interface BadgeConfig {
   variant: VariantProps<typeof badgeVariants>['variant'];

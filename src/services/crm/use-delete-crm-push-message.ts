@@ -1,15 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query';
-import type { BroadcastPush, CrmPushRequest } from '@/types/crm.ts';
 import { useHttpMutationService } from '@/services/http';
 
-export function useCrmPushNotificationService() {
+export function useDeleteCrmPushMessage() {
   const queryClient = useQueryClient();
 
-  return useHttpMutationService<CrmPushRequest, BroadcastPush>({
-    url: '/api/v1/crm/broadcast/push',
-    method: 'POST',
+  return useHttpMutationService<number, string>((id) => ({
+    url: `/api/v1/crm/broadcast/push/${id}`,
+    method: 'DELETE',
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['crmPushMessages'] });
     },
-  });
+  }));
 }

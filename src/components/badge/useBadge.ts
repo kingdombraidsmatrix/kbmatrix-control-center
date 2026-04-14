@@ -5,6 +5,7 @@ import {
   AdminStatusBadgeConfig,
   BookingStatusBadgeConfig,
   BooleanBadgeConfig,
+  BroadcastPushStatusBadgeConfig,
   CouponStatusBadgeConfig,
   CouponUsageStatusBadgeConfig,
   StylistStatusBadgeConfig,
@@ -29,6 +30,7 @@ export function useBadgeConfig(props: BadgeProps): BadgeConfig {
       [BadgeContext.ADMIN_STATUS]: AdminStatusBadgeConfig,
       [BadgeContext.COUPON_STATUS]: CouponStatusBadgeConfig,
       [BadgeContext.COUPON_USAGE_STATUS]: CouponUsageStatusBadgeConfig,
+      [BadgeContext.BROADCAST_PUSH_STATUS]: BroadcastPushStatusBadgeConfig,
     };
 
     const value =
