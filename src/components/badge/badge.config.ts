@@ -4,6 +4,7 @@ import { BookingStatus } from '@/types/bookings.types';
 import { TransactionFlow, TransactionStatus, TransactionType } from '@/types/transactions.types.ts';
 import { SubscriptionStatus } from '@/types/plans.ts';
 import { CouponStatus, CouponUsageStatus } from '@/types/coupons.ts';
+import { BroadcastPushStatus } from '@/types/crm.ts';
 
 export const BooleanBadgeConfig = (
   valueLabel?: [string, string],
@@ -237,5 +238,20 @@ export const CouponUsageStatusBadgeConfig: Record<CouponUsageStatus, BadgeConfig
   [CouponUsageStatus.REFUNDED]: {
     variant: 'destructive',
     text: 'Refunded',
+  },
+};
+
+export const BroadcastPushStatusBadgeConfig: Record<BroadcastPushStatus, BadgeConfig> = {
+  [BroadcastPushStatus.PENDING]: {
+    variant: 'secondary',
+    text: 'Pending',
+  },
+  [BroadcastPushStatus.SENT]: {
+    variant: 'success',
+    text: 'Sent',
+  },
+  [BroadcastPushStatus.CANCELLED]: {
+    variant: 'destructive',
+    text: 'Cancelled',
   },
 };

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { Control } from 'react-hook-form';
+import type { Option } from '@/components/text-input';
 import { MultiSelect } from '@/components/text-input';
 import { useGetCustomerWithMutationService } from '@/services/customers';
 
@@ -7,8 +8,14 @@ interface CustomerSelectProps {
   name: string;
   control: Control<any, any, any>;
   className?: string;
+  defaultSelectedOptions?: Map<string | number, Option>;
 }
-export function CustomerSelect({ name, control, className }: CustomerSelectProps) {
+export function CustomerSelect({
+  name,
+  control,
+  className,
+  defaultSelectedOptions,
+}: CustomerSelectProps) {
   const { mutateAsync } = useGetCustomerWithMutationService();
 
   const onSearch = useCallback(
@@ -27,6 +34,7 @@ export function CustomerSelect({ name, control, className }: CustomerSelectProps
       className={className}
       label="Select Customers"
       placeholder="Select Customers"
+      defaultSelectedOptions={defaultSelectedOptions}
     />
   );
 }
