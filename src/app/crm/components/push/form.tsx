@@ -2,7 +2,7 @@ import { useForm, useFormContext } from 'react-hook-form';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodIssueCode, z } from 'zod';
-import { ChevronDownIcon, SendHorizonal } from 'lucide-react';
+import { AlarmClock, ChevronDownIcon, Loader2, SendHorizonal } from 'lucide-react';
 import { toast } from 'sonner';
 import { isBefore, startOfToday } from 'date-fns';
 import {
@@ -24,6 +24,8 @@ import { Label } from '@/components/ui/label.tsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
 import { Calendar } from '@/components/ui/calendar.tsx';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area.tsx';
+import { useGetCrmPushMessage, useUpdateCrmPushMessage } from '@/services/crm';
+import { useCrmStore } from '@/app/crm/store/crm-store.ts';
 
 const formSchema = z
   .object({
@@ -49,15 +51,24 @@ const formSchema = z
         message: 'At least one target group is required',
       });
     }
+    if (data.scheduled && !data.scheduledTime) {
+      context.addIssue({
+        path: ['scheduledTime'],
+        code: ZodIssueCode.custom,
+        message: 'Scheduled time is required',
+      });
+    }
   });
 
 type FormType = z.infer<typeof formSchema>;
 
-interface PushNotificationFormProps {
-  close: () => void;
-}
-export function PushNotificationForm({ close }: PushNotificationFormProps) {
-  const { mutateAsync } = useCrmPushNotificationService();
+export function PushNotificationForm() {
+  const { closePushModal: close, selectedMessageId, action } = useCrmStore();
+
+  const { data: selectedMessage, isLoading } = useGetCrmPushMessage(selectedMessageId);
+
+  const { mutateAsync: createMessage } = useCrmPushNotificationService();
+  const { mutateAsync: updateMessage } = useUpdateCrmPushMessage();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -74,9 +85,11 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
     },
   });
 
+  const { reset } = form;
+
   const onSubmit = useCallback(
-    (values: FormType) => {
-      mutateAsync({
+    async (values: FormType) => {
+      const data = {
         title: values.title,
         subtitle: values.subtitle,
         body: values.body,
@@ -86,14 +99,69 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
         stylistIds: values.stylistIds?.size ? Array.from(values.stylistIds) : undefined,
         scheduled: values.scheduled,
         scheduledTime: values.scheduledTime,
-      })
-        .then(() => {
+      };
+
+      try {
+        if (selectedMessageId && action === 'edit') {
+          await updateMessage({
+            id: selectedMessageId,
+            ...data,
+          });
+          toast.success('Push notification updated successfully.');
+        } else {
+          await createMessage(data);
           toast.success('Push notification scheduled successfully.');
-          close();
-        })
-        .catch((error) => handleHttpError(error, form));
+        }
+        close();
+      } catch (e) {
+        handleHttpError(e, form);
+      }
     },
-    [form, mutateAsync],
+    [form, createMessage, updateMessage, close],
+  );
+
+  useEffect(() => {
+    if (selectedMessage) {
+      reset({
+        title: selectedMessage.title,
+        subtitle: selectedMessage.subtitle,
+        body: selectedMessage.body,
+        allUsers: selectedMessage.allUsers,
+        allStylists: selectedMessage.allStylists,
+        userIds: new Set(selectedMessage.users.map((user) => user.id)),
+        stylistIds: new Set(selectedMessage.stylists.map((stylist) => stylist.id)),
+        scheduled: selectedMessage.scheduled,
+        scheduledTime: selectedMessage.scheduledTime
+          ? new Date(selectedMessage.scheduledTime)
+          : undefined,
+      });
+    }
+  }, [selectedMessage, reset]);
+
+  const defaultSelectedUsers = useMemo(
+    () =>
+      selectedMessage?.users
+        ? new Map(
+            selectedMessage.users.map((user) => [
+              user.id,
+              { label: user.fullName, value: user.id },
+            ]),
+          )
+        : undefined,
+    [selectedMessage],
+  );
+
+  const defaultSelectedStylists = useMemo(
+    () =>
+      selectedMessage?.stylists
+        ? new Map(
+            selectedMessage.stylists.map((stylist) => [
+              stylist.id,
+              { label: stylist.name, value: stylist.id },
+            ]),
+          )
+        : undefined,
+    [selectedMessage],
   );
 
   return (
@@ -102,9 +170,15 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
         <div className="col-span-2 bg-[url(/images/ios-wallpaper.jpeg)] bg-cover bg-no-repeat bg-center min-h-[40rem] p-6 relative">
           <NotificationDemo />
         </div>
-        <div className="col-span-3 p-6 pl-0 flex flex-col gap-6">
+        <div className="col-span-3 p-6 pl-0 flex flex-col gap-6 relative">
+          {isLoading && (
+            <div className="absolute inset-0 size-full z-10 bg-white/80 flex items-center justify-center top-0 left-0 backdrop-blur-xs gap-2">
+              <Loader2 className="animate-spin size-6" />
+              <p className="text-sm">Loading...</p>
+            </div>
+          )}
           <DialogHeader>
-            <DialogTitle>Push Notifications</DialogTitle>
+            <DialogTitle>{action === 'edit' && 'Edit '} Push Notifications</DialogTitle>
             <DialogDescription>Send broadcast push notifications to users</DialogDescription>
           </DialogHeader>
           <div className="grid gap-6">
@@ -135,9 +209,19 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
 
                 <CheckboxInput control={form.control} name="allStylists" label="All Stylists" />
 
-                <CustomerSelect control={form.control} name="userIds" className="mt-2" />
+                <CustomerSelect
+                  control={form.control}
+                  name="userIds"
+                  className="mt-2"
+                  defaultSelectedOptions={defaultSelectedUsers}
+                />
 
-                <StylistSelect control={form.control} name="stylistIds" className="mt-2" />
+                <StylistSelect
+                  control={form.control}
+                  name="stylistIds"
+                  className="mt-2"
+                  defaultSelectedOptions={defaultSelectedStylists}
+                />
               </div>
             </div>
 
@@ -156,9 +240,7 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">
-              Send <SendHorizonal />
-            </Button>
+            <SubmitButton />
           </DialogFooter>
         </div>
       </form>
@@ -166,6 +248,24 @@ export function PushNotificationForm({ close }: PushNotificationFormProps) {
   );
 }
 
+function SubmitButton() {
+  const {
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext<FormType>();
+
+  const isScheduled = watch('scheduled');
+
+  return (
+    <Button type="submit" disabled={isSubmitting}>
+      {isScheduled ? (
+        <>Schedule {isSubmitting ? <Loader2 className="animate-spin" /> : <AlarmClock />}</>
+      ) : (
+        <>Send now {isSubmitting ? <Loader2 className="animate-spin" /> : <SendHorizonal />}</>
+      )}
+    </Button>
+  );
+}
 function NotificationDemo() {
   const { watch } = useFormContext<FormType>();
   const [title, subtitle, body] = watch(['title', 'subtitle', 'body']);

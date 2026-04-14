@@ -4,6 +4,7 @@ import type { BroadcastPushListItem } from '@/types/crm.ts';
 import { formatDate, formatNumber } from '@/lib/utils.ts';
 import { BadgeContext, Badge as CustomBadge } from '@/components/badge';
 import { Badge } from '@/components/ui/badge.tsx';
+import { PushNotificationActionCell } from '@/app/crm/components/push/action-cell.tsx';
 
 export const PushNotificationColumns: Array<ColumnDef<BroadcastPushListItem>> = [
   {
@@ -58,6 +59,6 @@ export const PushNotificationColumns: Array<ColumnDef<BroadcastPushListItem>> = 
   {
     accessorKey: 'actions',
     header: () => null,
-    cell: () => null,
+    cell: ({ row }) => <PushNotificationActionCell row={row.original} />,
   },
 ];

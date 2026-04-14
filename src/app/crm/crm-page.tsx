@@ -2,6 +2,7 @@ import { PageHeader } from '@/components/page-header';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { PushNotificationCRM } from '@/app/crm/components/push';
 import { PushNotificationCRMTable } from '@/app/crm/components/push/table.tsx';
+import { PushNotificationCRMModal } from '@/app/crm/components/push/dialog.tsx';
 
 export function CrmPage() {
   return (
@@ -14,6 +15,8 @@ export function CrmPage() {
       </div>
 
       <PushNotificationCRMTable />
+
+      <PushNotificationCRMModal />
     </div>
   );
 }

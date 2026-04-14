@@ -11,6 +11,6 @@ export function useGetCrmPushMessages(params: Partial<UseGetCrmPushMessagesParam
   return useHttpQueryService<Page<BroadcastPushListItem>>({
     url: '/api/v1/crm/broadcast/push',
     queryKey: ['crmPushMessages', params],
-    params,
+    params: { sort: 'createdAt,desc', ...params },
   });
 }

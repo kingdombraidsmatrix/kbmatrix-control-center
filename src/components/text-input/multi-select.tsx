@@ -24,12 +24,20 @@ export interface Option {
 interface MultiSelectProps {
   control: Control<any, any, any>;
   onSearch: (query: string) => Promise<Array<Option>>;
+  defaultSelectedOptions?: Map<string | number, Option>;
   name: string;
   label?: string;
   placeholder?: string;
   className?: string;
 }
-export function MultiSelect({ onSearch, name, label, placeholder, className }: MultiSelectProps) {
+export function MultiSelect({
+  onSearch,
+  name,
+  label,
+  placeholder,
+  className,
+  defaultSelectedOptions,
+}: MultiSelectProps) {
   const { setValue } = useFormContext();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -53,36 +61,50 @@ export function MultiSelect({ onSearch, name, label, placeholder, className }: M
   }, [onSearch, debouncedQuery]);
 
   useEffect(() => {
-    const computeSize = () => {
-      if (inputRef.current) {
-        setInputSize(inputRef.current.clientWidth);
-      }
-    };
+    const observeTarget = inputRef.current;
+    if (!observeTarget) return;
 
-    window.addEventListener('resize', computeSize);
-    computeSize();
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        setInputSize(entry.contentRect.width);
+      });
+    });
+
+    resizeObserver.observe(observeTarget);
 
     return () => {
-      window.removeEventListener('resize', computeSize);
+      resizeObserver.unobserve(observeTarget);
+      resizeObserver.disconnect();
     };
   }, []);
 
   useEffect(() => {
-    const values = selectedOptions.keys();
-    setValue(name, new Set(values), { shouldTouch: true, shouldValidate: true, shouldDirty: true });
-  }, [selectedOptions, setValue]);
+    console.log('Initializing...', defaultSelectedOptions);
+    if (defaultSelectedOptions) {
+      setSelectedOptions(defaultSelectedOptions);
+      setValue(name, new Set(defaultSelectedOptions.keys()));
+    }
+  }, [defaultSelectedOptions, name, setValue]);
 
-  const handleSelect = useCallback((option: Option) => {
-    setSelectedOptions((prev) => {
-      const newMap = new Map(prev);
-      if (newMap.has(option.value)) {
-        newMap.delete(option.value);
-      } else {
-        newMap.set(option.value, option);
-      }
-      return newMap;
-    });
-  }, []);
+  const handleSelect = useCallback(
+    (option: Option) => {
+      setSelectedOptions((prev) => {
+        const newMap = new Map(prev);
+        if (newMap.has(option.value)) {
+          newMap.delete(option.value);
+        } else {
+          newMap.set(option.value, option);
+        }
+        setValue(name, new Set(newMap.keys()), {
+          shouldTouch: true,
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        return newMap;
+      });
+    },
+    [setValue],
+  );
 
   return (
     <div className={cn('grid gap-2', className)}>
