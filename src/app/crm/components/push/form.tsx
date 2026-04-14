@@ -181,59 +181,61 @@ export function PushNotificationForm() {
             <DialogTitle>{action === 'edit' && 'Edit '} Push Notifications</DialogTitle>
             <DialogDescription>Send broadcast push notifications to users</DialogDescription>
           </DialogHeader>
-          <div className="grid gap-6">
-            <TextInput control={form.control} name="title" label="Title" placeholder="Title" />
+          <ScrollArea className="max-h-[calc(100svh_-_14rem)]">
+            <div className="grid gap-6">
+              <TextInput control={form.control} name="title" label="Title" placeholder="Title" />
 
-            <TextInput
-              control={form.control}
-              name="subtitle"
-              label="Subtitle"
-              placeholder="Subtitle"
-            />
-
-            <Textarea control={form.control} name="body" label="Body" placeholder="Body" />
-
-            <div>
-              <h6 className="font-semibold mb-2">Targeting</h6>
-
-              <FormField
-                name="target"
+              <TextInput
                 control={form.control}
-                render={({ fieldState }) => (
-                  <FieldError errors={[fieldState.error]} className="mb-4" />
-                )}
+                name="subtitle"
+                label="Subtitle"
+                placeholder="Subtitle"
               />
 
-              <div className="grid gap-2">
-                <CheckboxInput control={form.control} name="allUsers" label="All Customers" />
+              <Textarea control={form.control} name="body" label="Body" placeholder="Body" />
 
-                <CheckboxInput control={form.control} name="allStylists" label="All Stylists" />
+              <div>
+                <h6 className="font-semibold mb-2">Targeting</h6>
 
-                <CustomerSelect
+                <FormField
+                  name="target"
                   control={form.control}
-                  name="userIds"
-                  className="mt-2"
-                  defaultSelectedOptions={defaultSelectedUsers}
+                  render={({ fieldState }) => (
+                    <FieldError errors={[fieldState.error]} className="mb-4" />
+                  )}
                 />
 
-                <StylistSelect
-                  control={form.control}
-                  name="stylistIds"
-                  className="mt-2"
-                  defaultSelectedOptions={defaultSelectedStylists}
-                />
+                <div className="grid gap-2">
+                  <CheckboxInput control={form.control} name="allUsers" label="All Customers" />
+
+                  <CheckboxInput control={form.control} name="allStylists" label="All Stylists" />
+
+                  <CustomerSelect
+                    control={form.control}
+                    name="userIds"
+                    className="mt-2"
+                    defaultSelectedOptions={defaultSelectedUsers}
+                  />
+
+                  <StylistSelect
+                    control={form.control}
+                    name="stylistIds"
+                    className="mt-2"
+                    defaultSelectedOptions={defaultSelectedStylists}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h6 className="font-semibold mb-2">Delivery</h6>
+
+                <div className="grid gap-2">
+                  <CheckboxInput control={form.control} name="scheduled" label="Send later" />
+                  <ScheduledTimeField />
+                </div>
               </div>
             </div>
-
-            <div>
-              <h6 className="font-semibold mb-2">Delivery</h6>
-
-              <div className="grid gap-2">
-                <CheckboxInput control={form.control} name="scheduled" label="Send later" />
-                <ScheduledTimeField />
-              </div>
-            </div>
-          </div>
+          </ScrollArea>
           <DialogFooter className="mt-auto">
             <DialogClose asChild>
               <Button type="button" variant="outline">

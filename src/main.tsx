@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx';
 
@@ -9,7 +10,7 @@ import { routeTree } from './routeTree.gen';
 
 import './styles.css';
 import reportWebVitals from './reportWebVitals.ts';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ConfirmPrompt } from '@/components/confirm-prompt';
 
 // Create a new router instance
 
@@ -41,6 +42,7 @@ if (rootElement && !rootElement.innerHTML) {
       <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLE_CLIENT_ID}>
           <RouterProvider router={router} />
+          <ConfirmPrompt />
         </GoogleOAuthProvider>
       </TanStackQueryProvider.Provider>
     </StrictMode>,

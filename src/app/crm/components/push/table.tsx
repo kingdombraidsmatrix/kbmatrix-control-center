@@ -18,6 +18,7 @@ export function PushNotificationCRMTable() {
     rowCount: data?.totalElements,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    getRowId: (originalRow) => originalRow.id.toString(),
   });
 
   return (
