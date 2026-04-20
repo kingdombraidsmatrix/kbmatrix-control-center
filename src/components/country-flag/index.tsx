@@ -10,6 +10,7 @@ export function CountryFlag({ countryCode, className }: CountryFlagProps) {
       src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
       className={cn('size-6 object-cover object-center overflow-hidden rounded-full', className)}
       alt={countryCode}
+      title={countryCode}
     />
   );
 }

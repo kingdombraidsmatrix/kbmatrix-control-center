@@ -155,6 +155,7 @@ const AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route =
   )
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthIndexRoute
   '/bookings': typeof AuthBookingsRoute
   '/crm': typeof AuthCrmRoute
   '/customers': typeof AuthCustomersRoute
@@ -163,7 +164,6 @@ export interface FileRoutesByFullPath {
   '/transactions': typeof AuthTransactionsRoute
   '/join': typeof ExternalJoinRoute
   '/login': typeof ExternalLoginRoute
-  '/': typeof AuthIndexRoute
   '/coupons/$couponId': typeof AuthCouponsCouponIdRoute
   '/profile/{-$section}': typeof AuthProfileChar123SectionChar125Route
   '/settings/admin': typeof AuthSettingsAdminRoute
@@ -171,11 +171,11 @@ export interface FileRoutesByFullPath {
   '/settings/countries': typeof AuthSettingsCountriesRoute
   '/settings/providers': typeof AuthSettingsProvidersRoute
   '/settings/service-categories': typeof AuthSettingsServiceCategoriesRoute
-  '/coupons': typeof AuthCouponsIndexRoute
+  '/coupons/': typeof AuthCouponsIndexRoute
   '/settings/': typeof AuthSettingsIndexRoute
-  '/stylists': typeof AuthStylistsIndexRoute
+  '/stylists/': typeof AuthStylistsIndexRoute
   '/settings/plans/$planId': typeof AuthSettingsPlansPlanIdRoute
-  '/settings/plans': typeof AuthSettingsPlansIndexRoute
+  '/settings/plans/': typeof AuthSettingsPlansIndexRoute
   '/stylists/$stylistId/{-$tab}/{-$section}': typeof AuthStylistsStylistIdChar123TabChar125Char123SectionChar125Route
 }
 export interface FileRoutesByTo {
@@ -230,6 +230,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/bookings'
     | '/crm'
     | '/customers'
@@ -238,7 +239,6 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/join'
     | '/login'
-    | '/'
     | '/coupons/$couponId'
     | '/profile/{-$section}'
     | '/settings/admin'
@@ -246,11 +246,11 @@ export interface FileRouteTypes {
     | '/settings/countries'
     | '/settings/providers'
     | '/settings/service-categories'
-    | '/coupons'
+    | '/coupons/'
     | '/settings/'
-    | '/stylists'
+    | '/stylists/'
     | '/settings/plans/$planId'
-    | '/settings/plans'
+    | '/settings/plans/'
     | '/stylists/$stylistId/{-$tab}/{-$section}'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -313,7 +313,7 @@ declare module '@tanstack/react-router' {
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -383,7 +383,7 @@ declare module '@tanstack/react-router' {
     '/_auth/stylists/': {
       id: '/_auth/stylists/'
       path: '/stylists'
-      fullPath: '/stylists'
+      fullPath: '/stylists/'
       preLoaderRoute: typeof AuthStylistsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
@@ -397,7 +397,7 @@ declare module '@tanstack/react-router' {
     '/_auth/coupons/': {
       id: '/_auth/coupons/'
       path: '/coupons'
-      fullPath: '/coupons'
+      fullPath: '/coupons/'
       preLoaderRoute: typeof AuthCouponsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
@@ -453,7 +453,7 @@ declare module '@tanstack/react-router' {
     '/_auth/settings/plans/': {
       id: '/_auth/settings/plans/'
       path: '/plans'
-      fullPath: '/settings/plans'
+      fullPath: '/settings/plans/'
       preLoaderRoute: typeof AuthSettingsPlansIndexRouteImport
       parentRoute: typeof AuthSettingsRoute
     }
