@@ -26,6 +26,8 @@ export interface User {
   id: number;
   fullName: string;
   email: string;
+  phoneNumber: string;
+  countryCode: string;
   login: string;
   image: string;
   enabled: boolean;
