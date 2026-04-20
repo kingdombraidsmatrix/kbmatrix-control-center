@@ -14,6 +14,10 @@ export function useTransformCustomersFilter(filters: ColumnFiltersState) {
         case 'status':
           mappedFilters.userStatus = Array.from(filter.value as Set<UserStatus>);
           break;
+
+        case 'fullName':
+          mappedFilters.search = filter.value as string;
+          break;
       }
     }
 

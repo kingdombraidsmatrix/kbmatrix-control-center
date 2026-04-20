@@ -5,7 +5,7 @@ export function useCustomersFilterConfig(): FilterConfig {
     {
       type: 'text',
       name: 'Search',
-      columnKey: 'name',
+      columnKey: 'fullName',
     },
     {
       type: 'multi-select',
